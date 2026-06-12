@@ -1,4 +1,5 @@
-#hydrogen-cation-energy-chart {
+#hydrogen-cation-energy-chart,
+#hydrogen-cation-probability-chart {
     width: 100%;
     max-width: 600px;
     aspect-ratio: 1 / 1;
@@ -36,6 +37,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: max-content;
+    justify-content: center;
 }
 
 .input_row {

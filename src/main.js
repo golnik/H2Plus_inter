@@ -126,6 +126,6 @@ config = {
 };
 
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout, config);
-Plotly.react('hydrogen-cation-probability-chart', [{ x: probability_x }, { x: probability_x }]);
+Plotly.react('hydrogen-cation-probability-chart', [{ x: probability_x }, { x: probability_x }], {}, config);
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
 update_radius(energy_minimum.solution[0]);
