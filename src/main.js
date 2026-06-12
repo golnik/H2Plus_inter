@@ -9,6 +9,11 @@ bonding_energy_y = [];
 antibonding_energy_y = [];
 bonding_probability_y = [];
 antibonding_probability_y = [];
+probability_x = [];
+
+for (let i = 0; i <= 1000; i++) {
+    probability_x.push(-5 + i * 0.01);
+}
 
 for (let i = 0; i <= 1000; i++) {
     radius.push(0.1 + 0.0059 * i);
@@ -22,23 +27,22 @@ function bonding_energy(radius) {
 function antibonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius)) * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius) - (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius)) / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
 }
-// function orbitalWaveFunction(distance) {
-//     return Math.exp(-distance/(2*bohr_radius))/Math.sqrt(Math.PI*bohr_radius**3)
-// }
-// function orbitalOverlap(radius) {
-//     return (1+Math.exp(-radius/bohr_radius)*(1+radius/bohr_radius+(1/3)*(radius/bohr_radius)**2))
-// }
+
 function bonding_probability(radius, distance) {
-    waveFunction1 = Math.exp(-distance/(bohr_radius))/Math.sqrt(Math.PI*bohr_radius**3);
-    waveFunction2 = Math.exp(-(radius-distance)/(bohr_radius))/Math.sqrt(Math.PI*bohr_radius**3);
-    orbitalOverlap = (1+Math.exp(-radius/bohr_radius)*(1+radius/bohr_radius+(1/3)*(radius/bohr_radius)**2));
-    return ((waveFunction1+waveFunction2)/Math.sqrt(2*(1+orbitalOverlap)))**2
+    let p = radius
+    const waveFunction1 = Math.exp(-Math.abs(distance + p / 2)) / Math.sqrt(Math.PI);
+    const waveFunction2 = Math.exp(-Math.abs(p / 2 - distance)) / Math.sqrt(Math.PI);
+    const orbitalOverlap = Math.exp(-p) * (1 + p + (p ** 2) / 3);
+    const normalize = 1 / Math.sqrt(2 * (1 + orbitalOverlap));
+    return (normalize * (waveFunction1 + waveFunction2)) ** 2
 }
 function antibonding_probability(radius, distance) {
-    waveFunction1 = Math.exp(-distance)/Math.sqrt(Math.PI*bohr_radius**3);
-    waveFunction2 = Math.exp(-(radius-distance))/Math.sqrt(Math.PI*bohr_radius**3);
-    orbitalOverlap = (1+Math.exp(-radius)*(1+radius+(1/3)*(radius)**2));
-    return (waveFunction1/Math.sqrt(2*(1-orbitalOverlap))-waveFunction2/Math.sqrt(2*(1-orbitalOverlap)))**2;
+    let p = radius
+    const waveFunction1 = Math.exp(-Math.abs((distance + p / 2))) / Math.sqrt(Math.PI);
+    const waveFunction2 = Math.exp(-Math.abs((p / 2 - distance))) / Math.sqrt(Math.PI);
+    const orbitalOverlap = Math.exp(-p) * (1 + p + (p ** 2) / 3);
+    const normalize = 1 / Math.sqrt(2 * (1 - orbitalOverlap));
+    return (normalize * (waveFunction1 - waveFunction2)) ** 2;
 }
 
 function update_radius(newRadius) {
@@ -60,9 +64,14 @@ function update_radius(newRadius) {
         'shapes[0].x0': newRadius,
         'shapes[0].x1': newRadius
     });
-    for(let i=-500; i<=500; i++) {
-        bonding_probability_y.push()
+    const bonding_probability_y = probability_x.map(distance => bonding_probability(newRadius, distance));
+    const antibonding_probability_y = probability_x.map(distance => antibonding_probability(newRadius, distance));
+    let integral = 0
+    for (let i = 0; i < probability_x.length; i++) {
+        integral += 0.01 * bonding_probability(newRadius, probability_x[i]);
     }
+    console.log(integral)
+    Plotly.restyle('hydrogen-cation-probability-chart', { y: [bonding_probability_y, antibonding_probability_y] }, [0, 1]);
 }
 
 
@@ -112,9 +121,11 @@ layout = {
 };
 
 config = {
-    responsive: true
+    responsive: true,
+    // displayModeBar: false
 };
 
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout, config);
+Plotly.react('hydrogen-cation-probability-chart', [{ x: probability_x }, { x: probability_x }]);
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
 update_radius(energy_minimum.solution[0]);

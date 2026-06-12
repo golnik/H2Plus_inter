@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,17 +12,19 @@
 
 <body>
     <div class="horizontal_align_container">
-        <div class="graph_and_slider">
+        <div class="graph_container">
             <div id="hydrogen-cation-energy-chart"></div>
             <div class="radius_slider_container">
                 <!-- <label for="radius">Radius:</label> -->
-                <input id="radius" type="range" min="0" max="6" step="0.01" oninput="update_radius(this.value)">
+                <input id="radius" type="range" min="0" max="6" step="0.01"
+                    oninput="update_radius(parseFloat(this.value))">
             </div>
         </div>
         <div class="vertical_align_container">
             <div class="input_row">
                 <label for="radius_text">Radius:</label>
-                <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"  step="any" oninput="update_radius(this.value)">
+                <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
+                    step="any" oninput="update_radius(parseFloat(this.value))">
                 <span>a<sub>0</sub></span>
             </div>
             <div class="input_row">
@@ -40,9 +43,13 @@
                 <span>eV</span>
             </div>
         </div>
+        <div class="graph_container">
+            <div id="hydrogen-cation-probability-chart"></div>
+        </div>
     </div>
     <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js" defer></script>
     <script src="src/main.js" defer></script>
 </body>
+
 </html>

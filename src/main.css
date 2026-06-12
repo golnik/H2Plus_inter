@@ -3,18 +3,20 @@
     max-width: 600px;
     aspect-ratio: 1 / 1;
 }
+
 #radius {
     width: 100%;
     max-width: 440px;
 }
 
-.graph_and_slider {
+.graph_container {
     width: 100%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .radius_slider_container {
     width: 100%;
     max-width: 600px;
@@ -22,23 +24,27 @@
     justify-content: center;
     align-items: center;
 }
+
 .horizontal_align_container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
 }
+
 .vertical_align_container {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
 .input_row {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 8px;
 }
+
 .hide-arrows::-webkit-outer-spin-button,
 .hide-arrows::-webkit-inner-spin-button {
     -webkit-appearance: none;
