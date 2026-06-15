@@ -8,15 +8,17 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="src/main.css">
+    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
 </head>
 
 <body>
     <div class="horizontal_align_container">
         <div class="graph_container">
-            <div id="hydrogen-cation-energy-chart"></div>
+            <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart" style="aspect-ratio: 1 / 1;"></div>
             <div class="radius_slider_container">
                 <!-- <label for="radius">Radius:</label> -->
-                <input id="radius" type="range" min="0" max="6" step="0.01"
+                <input id="radius" type="range" min="1" max="6" step="0.01"
                     oninput="update_radius(parseFloat(this.value))">
             </div>
         </div>
@@ -44,12 +46,12 @@
             </div>
         </div>
         <div class="graph_container">
-            <div id="hydrogen-cation-bond-probability-chart"></div>
-            <div id="hydrogen-cation-antibond-probability-chart"></div>
+            <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"
+                style="aspect-ratio: 4/3; max-height: 50vh;"></div>
+            <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"
+                style="aspect-ratio: 4/3; max-height: 50vh;"></div>
         </div>
     </div>
-    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js" defer></script>
     <script src="src/main.js" defer></script>
 </body>
 
