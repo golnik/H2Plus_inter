@@ -40,18 +40,23 @@
                         forever.</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart" style="aspect-ratio: 1 / 1;"></div>
+            <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart"></div>
             <div class="radius_slider_container">
                 <!-- <label for="radius">Radius:</label> -->
                 <input id="radius" type="range" min="1" max="6" step="0.01"
-                    oninput="update_radius(parseFloat(this.value))">
+                    oninput="update_graphs(parseFloat(this.value))">
             </div>
         </div>
         <div class="vertical_align_container static e_dynamic">
+            <div class="input_row e_dynamic">
+                <label for="time_text">Time:</label>
+                <input id="time_text" class="" style="width: 40px;" type="number" min="0" step="0.01" value="0" oninput="update_graphs(parseFloat(document.getElementById('radius_text').value))">
+                <span>fs</span>
+            </div>
             <div class="input_row">
                 <label for="radius_text">Radius:</label>
                 <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
-                    step="any" oninput="update_radius(parseFloat(this.value))">
+                    step="any" oninput="update_graphs(parseFloat(this.value))">
                 <span>a<sub>0</sub></span>
             </div>
             <div class="input_row">
@@ -69,12 +74,7 @@
                 <output id="energy_diff"></output>
                 <span>eV</span>
             </div>
-            <button onclick="update_radius(energy_minimum.solution[0])">Default/Minimum</button>
-        </div>
-        <div class="e_dynamic">
-            <label for="time_text">Time:</label>
-            <input id="time_text" class="" style="width: 40px;" type="number" min="0.1" max="6" step="0.1" oninput="">
-            <span>as</span>
+            <button onclick="document.getElementById('time_text').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
         <div class="graph_container e_dynamic">
             <div class="title_row">
@@ -83,6 +83,8 @@
                 <div class="info_box" id="eDynamic-info" style="display: none;"></div>
             </div>
             <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+            <input id="c1" type="range" min="0" max="1" step="0.01" oninput="document.getElementById('c2').value = 1-this.value; update_graphs(parseFloat(radiusTextInput.value));">
+            <input id="c2" type="range" min="0" max="1" step="0.01" oninput="document.getElementById('c1').value = 1-this.value; update_graphs(parseFloat(radiusTextInput.value));">
         </div>
         <div class="graph_container static">
             <div class="title_row">
@@ -98,8 +100,7 @@
                         interference and that they will bond.</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"
-                style="aspect-ratio: 4/3; max-height: 50vh;"></div>
+            <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"></div>
             <div class="title_row">
                 <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
@@ -113,8 +114,7 @@
                         interference and that they will not bond.</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"
-                style="aspect-ratio: 4/3; max-height: 50vh;"></div>
+            <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"></div>
         </div>
     </div>
     <script src="src/main.js" defer></script>

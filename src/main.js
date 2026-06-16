@@ -14,20 +14,14 @@ let antibonding_probability_y = [];
 let probability_x = [];
 
 for (let i of choices) { document.querySelectorAll('.' + i).forEach(element => { element.style.display = 'none'; }); }
-document.querySelectorAll('.static').forEach(element => { element.style.display = 'revert'; });
+document.querySelectorAll('.static').forEach(element => { element.style.display = 'flex'; });
 
 document.querySelectorAll('input[name="selection"]').forEach((radio) => {
     radio.addEventListener('change', function () {
-        for (let i of choices) {
-            document.querySelectorAll('.' + i).forEach(element => {
-                element.style.display = 'none';
-            });
-        }
-        document.querySelectorAll('.' + this.value).forEach(element => {
-            element.style.display = 'revert';
-        });
+        for (let i of choices) {document.querySelectorAll('.' + i).forEach(element => {element.style.display = 'none';});}
+        document.querySelectorAll('.' + this.value).forEach(element => {element.style.display = 'flex';});
         screen = this.value;
-        update_radius(radiusSliderInput.value);
+        update_graphs(parseFloat(radiusTextInput.value));
     });
 });
 
@@ -71,15 +65,28 @@ function probability_Curve(radius, distance) {
     }
     return [(waveFunction1 + waveFunction2 + sum) / normalizeBond, (waveFunction1 + waveFunction2 - sum) / normalizeAnti];
 }
-function eDynamics_probability_Curve(radius, distance, time, c) {
-    const p = radius
-    let A, B = probability_Curve(radius, distance);
-    const zplus = Math.abs(distance + p / 2);
-    const zminus = Math.abs(p / 2 - distance);
-    return c[0] ** 2 * A + c[1] ** 2 * B + c[0] * c[1] * (4 * Math.PI * Math.exp(-zplus - zminus) * (zplus * zminus + zplus + zminus + 1)) * (Math.cos(time * (bonding_energy(radius * bohr_radius) - antibonding_energy(radius * bohr_radius))) + Math.cos(time * (antibonding_energy(radius * bohr_radius) - bonding_energy(radius * bohr_radius))));
+
+function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(0.5),Math.sqrt(0.5)]) {
+    const E1 = bonding_energy(radius * bohr_radius); 
+    const E2 = antibonding_energy(radius * bohr_radius);
+    const waveFunction1 = 0.5 * Math.exp(-2 * Math.abs(distance + radius / 2)) * (1 + 2 * Math.abs(distance + radius / 2));
+    const waveFunction2 = 0.5 * Math.exp(-2 * Math.abs(radius / 2 - distance)) * (1 + 2 * Math.abs(radius / 2 - distance));
+    const overlapIntegral = Math.exp(-radius) * (1 + radius + (radius ** 2) / 3);
+    const normalizeBond = Math.sqrt(2 + 2 * overlapIntegral);
+    const normalizeAnti = Math.sqrt(2 - 2 * overlapIntegral);
+    let sum = 0
+    for (let i = 0; i < 15; i += 0.05) {
+        const A = Math.sqrt(i ** 2 + (Math.abs(distance + radius / 2)) ** 2);
+        const B = Math.sqrt(i ** 2 + (Math.abs(radius / 2 - distance)) ** 2);
+        sum += 4 * i * Math.exp(-(A + B)) * 0.05;
+    }
+    const pBond = c[0] ** 2 * (waveFunction1 + waveFunction2 + sum) / normalizeBond;
+    const pAnti = c[1] ** 2 * (waveFunction1 + waveFunction2 - sum) / normalizeAnti;
+    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond) * Math.cos((time * (E1 - E2)) / 0.6582119569);
+    return pBond + pAnti + pCross;
 }
 
-function update_radius(newRadius) {
+function update_graphs(newRadius) {
     if (newRadius <= 0 || isNaN(newRadius)) {
         return;
     }
@@ -99,31 +106,33 @@ function update_radius(newRadius) {
         bonding_probability_y = []
         antibonding_probability_y = []
         for (const distance of probability_x) {
-            const [bondingProb, antibondingProb] = probability_Curve(newRadius, distance).slice(-2);
+            const [bondingProb, antibondingProb] = probability_Curve(newRadius, distance);
             bonding_probability_y.push(bondingProb);
             antibonding_probability_y.push(antibondingProb);
         }
         Plotly.restyle('hydrogen-cation-bond-probability-chart', { y: [bonding_probability_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
         Plotly.restyle('hydrogen-cation-antibond-probability-chart', { y: [antibonding_probability_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
-    if (screen == 'e_dynamic') {
+    else if (screen == 'e_dynamic') {
         if (radiusTextInput.value !== newRadius) {
             radiusTextInput.value = newRadius;
         }
         if (radiusSliderInput.value !== newRadius) {
             radiusSliderInput.value = newRadius;
         }
-        let bondingEnergy = bonding_energy(newRadius * bohr_radius);
-        let antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
+        const bondingEnergy = bonding_energy(newRadius * bohr_radius);
+        const antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
         document.getElementById('bonding_text').value = bondingEnergy.toFixed(3);
         document.getElementById('antibonding_text').value = antibondingEnergy.toFixed(3);
         document.getElementById('energy_diff').value = (antibondingEnergy - bondingEnergy).toFixed(3);
-        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
+        const c1 = Math.sqrt(document.getElementById('c1').value);
+        const c2 = Math.sqrt(document.getElementById('c2').value);
         electron_dynamics_y = []
         for (const distance of probability_x) {
-            electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [0.5, 0.5]))
+            electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]))
         }
-        Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
+        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
+        Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
 }
 
@@ -194,6 +203,6 @@ const config = {
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config);
 Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config);
-Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }])
+Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config)
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
-update_radius(energy_minimum.solution[0]);
+update_graphs(energy_minimum.solution[0]);
