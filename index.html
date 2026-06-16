@@ -8,13 +8,38 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="src/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
 </head>
 
 <body>
+    <div class="navbar">
+        <input id="rStatic" type="radio" name="selection" value="static" checked>
+        <label for="rStatic">Static</label>
+        <input id="re_dynamic" type="radio" name="selection" value="e_dynamic">
+        <label for="re_dynamic">Electron Dynamics</label>
+        <input id="rn_dynamic" type="radio" name="selection" value="n_dynamic">
+        <label for="rn_dynamic">Nuclear Dynamics</label>
+        <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
+        <label for="ren_dynamic">Electon+Nuclear Dynamics</label>
+    </div>
     <div class="horizontal_align_container">
-        <div class="graph_container">
+        <div class="graph_container static e_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
+                <div class="info_box" id="energy-info" style="display: none;">
+                    <p>This plot shows the energy difference of the ground state and the energy to have the two protons
+                        some radius apart.</p>
+                    <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
+                        radius R<sub>0</sub> it will settle as the molecule always wants to go to the lowest energy
+                        level.</p>
+                    <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
+                        there is no radius at which it will settle and instead that they will want to continue to drift
+                        forever.</p>
+                </div>
+            </div>
             <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart" style="aspect-ratio: 1 / 1;"></div>
             <div class="radius_slider_container">
                 <!-- <label for="radius">Radius:</label> -->
@@ -22,7 +47,7 @@
                     oninput="update_radius(parseFloat(this.value))">
             </div>
         </div>
-        <div class="vertical_align_container">
+        <div class="vertical_align_container static e_dynamic">
             <div class="input_row">
                 <label for="radius_text">Radius:</label>
                 <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
@@ -44,10 +69,50 @@
                 <output id="energy_diff"></output>
                 <span>eV</span>
             </div>
+            <button onclick="update_radius(energy_minimum.solution[0])">Default/Minimum</button>
         </div>
-        <div class="graph_container">
+        <div class="e_dynamic">
+            <label for="time_text">Time:</label>
+            <input id="time_text" class="" style="width: 40px;" type="number" min="0.1" max="6" step="0.1" oninput="">
+            <span>as</span>
+        </div>
+        <div class="graph_container e_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Title</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
+                <div class="info_box" id="eDynamic-info" style="display: none;"></div>
+            </div>
+            <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+        </div>
+        <div class="graph_container static">
+            <div class="title_row">
+                <figcaption class="graph_title">Electron Probability Curve for Bonding System</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
+                <div class="info_box" id="bondProb-info" style="display: none;">
+                    <p>This plot shows the probability that the electron will be in a particular space for a bonding
+                        system where the two orbitals of the nuclei/protons constructively interfere.</p>
+                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                    <p>The blue graph represents the probability that the electron will be in that slice of space given
+                        respect to the nuclei/protons (red dots) for the bonding system. We can see that there is some
+                        probability that the electron will be inbetween the two nulei 'showing' the constructive
+                        interference and that they will bond.</p>
+                </div>
+            </div>
             <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"
                 style="aspect-ratio: 4/3; max-height: 50vh;"></div>
+            <div class="title_row">
+                <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
+                <div class="info_box" id="antiBondProb-info" style="display: none;">
+                    <p>This plot shows the probability that the electron will be in a particular space for an
+                        antibonding system where the two orbitals of the nuclei/protons destructively interfere.</p>
+                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                    <p>The orange graph represents the probability that the electron will be in that slice of space
+                        given respect to the nuclei/protons (red dots) for the antibonding system. We can see that there
+                        is 0 probability that the electron will be inbetween the two nulei 'showing' the destructive
+                        interference and that they will not bond.</p>
+                </div>
+            </div>
             <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"
                 style="aspect-ratio: 4/3; max-height: 50vh;"></div>
         </div>

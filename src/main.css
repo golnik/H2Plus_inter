@@ -1,3 +1,21 @@
+body {
+    padding-top: 60px;
+}
+
+.navbar {
+    position: absolute;
+    /*absolute or fixed?*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+    z-index: 2;
+    background-color: antiquewhite;
+}
+
 .hydrogen-cation-chart {
     width: 100%;
     max-width: 600px;
@@ -41,14 +59,49 @@
 }
 
 .input_row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.title_row {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    position: relative !important;
 }
 
 .hide-arrows::-webkit-outer-spin-button,
 .hide-arrows::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+.graph_title {
+    text-align: center !important;
+    font-size: 20px !important;
+    position: relative !important;
+}
+
+.info_icon {
+    opacity: 0.5;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.info_icon:hover {
+    opacity: 1;
+}
+
+.info_box {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 50%;
+    background-color: beige;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0px 5px;
+    z-index: 1;
 }
