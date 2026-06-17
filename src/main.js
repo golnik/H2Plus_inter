@@ -220,8 +220,8 @@ const config = {
 
 
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout_energy, config);
-Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config);
-Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config);
-Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' } }], layout_prob, config)
+Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
+Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
+Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config)
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
 update_graphs(energy_minimum.solution[0]);
