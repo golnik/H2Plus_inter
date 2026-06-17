@@ -5,6 +5,7 @@ const electron_charge = 1.60217663e-19;
 const choices = ['static', 'e_dynamic', 'n_dynamic', 'en_dynamic'];
 let screen = 'static';
 let radius = [];
+let iterate_time;
 const radiusTextInput = document.getElementById('radius_text');
 const radiusSliderInput = document.getElementById('radius');
 let bonding_energy_y = [];
@@ -18,10 +19,11 @@ document.querySelectorAll('.static').forEach(element => { element.style.display 
 
 document.querySelectorAll('input[name="selection"]').forEach((radio) => {
     radio.addEventListener('change', function () {
-        for (let i of choices) {document.querySelectorAll('.' + i).forEach(element => {element.style.display = 'none';});}
-        document.querySelectorAll('.' + this.value).forEach(element => {element.style.display = 'flex';});
+        for (let i of choices) { document.querySelectorAll('.' + i).forEach(element => { element.style.display = 'none'; }); }
+        document.querySelectorAll('.' + this.value).forEach(element => { element.style.display = 'flex'; });
         screen = this.value;
-        update_graphs(parseFloat(radiusTextInput.value));
+        stopTime();
+        update_graphs();
     });
 });
 
@@ -50,6 +52,21 @@ function antibonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius)) * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius) - (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius)) / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
 }
 
+function startTime() {
+    iterate_time = setInterval(() => {
+        const time = parseFloat(document.getElementById('time_text').value);
+        document.getElementById('time_text').value = time + 0.01;
+        update_graphs();
+    }, 50);
+}
+
+function stopTime() {
+    if (iterate_time) {
+        clearInterval(iterate_time);
+    }
+    return;
+}
+
 function probability_Curve(radius, distance) {
     const p = radius
     const waveFunction1 = 0.5 * Math.exp(-2 * Math.abs(distance + p / 2)) * (1 + 2 * Math.abs(distance + p / 2));
@@ -66,8 +83,8 @@ function probability_Curve(radius, distance) {
     return [(waveFunction1 + waveFunction2 + sum) / normalizeBond, (waveFunction1 + waveFunction2 - sum) / normalizeAnti];
 }
 
-function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(0.5),Math.sqrt(0.5)]) {
-    const E1 = bonding_energy(radius * bohr_radius); 
+function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(0.5), Math.sqrt(0.5)]) {
+    const E1 = bonding_energy(radius * bohr_radius);
     const E2 = antibonding_energy(radius * bohr_radius);
     const waveFunction1 = 0.5 * Math.exp(-2 * Math.abs(distance + radius / 2)) * (1 + 2 * Math.abs(distance + radius / 2));
     const waveFunction2 = 0.5 * Math.exp(-2 * Math.abs(radius / 2 - distance)) * (1 + 2 * Math.abs(radius / 2 - distance));
@@ -86,7 +103,7 @@ function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(
     return pBond + pAnti + pCross;
 }
 
-function update_graphs(newRadius) {
+function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     if (newRadius <= 0 || isNaN(newRadius)) {
         return;
     }
@@ -125,6 +142,8 @@ function update_graphs(newRadius) {
         document.getElementById('bonding_text').value = bondingEnergy.toFixed(3);
         document.getElementById('antibonding_text').value = antibondingEnergy.toFixed(3);
         document.getElementById('energy_diff').value = (antibondingEnergy - bondingEnergy).toFixed(3);
+        document.getElementById('c1Text').value = document.getElementById('c1').value
+        document.getElementById('c2Text').value = document.getElementById('c2').value
         const c1 = Math.sqrt(document.getElementById('c1').value);
         const c2 = Math.sqrt(document.getElementById('c2').value);
         electron_dynamics_y = []
