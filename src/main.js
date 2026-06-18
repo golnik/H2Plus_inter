@@ -53,6 +53,7 @@ function antibonding_energy(radius) {
 }
 
 function startTime() {
+    if(iterate_time) return;
     iterate_time = setInterval(() => {
         const time = parseFloat(document.getElementById('time_text').value);
         document.getElementById('time_text').value = time + 0.01;
@@ -63,6 +64,11 @@ function startTime() {
 function stopTime() {
     if (iterate_time) {
         clearInterval(iterate_time);
+        iterate_time = undefined;
+    } else {
+        document.getElementById('time_text').value=0;
+        document.getElementById('time_slider').value=0;
+        update_graphs();
     }
     return;
 }
@@ -150,6 +156,11 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         for (const distance of probability_x) {
             electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]))
         }
+        sum=0
+        for(let i of electron_dynamics_y) {
+            sum += i*0.05;
+        }
+        console.log(sum);
         Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
@@ -222,6 +233,6 @@ const config = {
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
 Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' } }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
-Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config)
+Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], {...layout_prob, yaxis:{range:[0,0.8]}}, config)
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
 update_graphs(energy_minimum.solution[0]);

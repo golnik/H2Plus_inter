@@ -25,7 +25,7 @@
         <label for="ren_dynamic">Electon+Nuclear Dynamics</label>
     </div>
     <div class="horizontal_align_container">
-        <div class="graph_container static e_dynamic">
+        <div class="graph_container static e_dynamic n_dynamic">
             <div class="title_row">
                 <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
@@ -41,29 +41,18 @@
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart"></div>
-            <div class="radius_slider_container">
-                <!-- <label for="radius">Radius:</label> -->
+            <div class="radius_slider_container static e_dynamic">
+                <div class="input_row">
+                    <label for="radius_text">Radius:</label>
+                    <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
+                        step="any" oninput="update_graphs(parseFloat(this.value))">
+                    <span>a<sub>0</sub></span>
+                </div>
                 <input id="radius" type="range" min="1" max="6" step="0.01"
                     oninput="update_graphs(parseFloat(this.value))">
             </div>
         </div>
         <div class="vertical_align_container static e_dynamic">
-            <div class="input_row e_dynamic">
-                <label for="time_text">Time:</label>
-                <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
-                    oninput="update_graphs();">
-                <span>fs</span>
-            </div>
-            <div class="input_row e_dynamic">
-                <button onclick="startTime()">Play</button>
-                <button onclick="stopTime()">Stop</button>
-            </div>
-            <div class="input_row">
-                <label for="radius_text">Radius:</label>
-                <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
-                    step="any" oninput="update_graphs(parseFloat(this.value))">
-                <span>a<sub>0</sub></span>
-            </div>
             <div class="input_row">
                 <span>E<sup>g</sup> - E<sub>1s</sub>:</span>
                 <output id="bonding_text"></output>
@@ -80,7 +69,7 @@
                 <span>eV</span>
             </div>
             <button
-                onclick="document.getElementById('time_text').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
+                onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
         <div class="graph_container e_dynamic">
             <div class="title_row">
@@ -111,6 +100,21 @@
                     oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
                 <output id="c2Text"></output>
             </div>
+            <div style="background-color: beige; border-radius: 5px; border: 1px solid black;">
+                <div class="input_row">
+                    <label for="time_text">Time:</label>
+                    <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
+                        oninput="update_graphs();">
+                    <span>fs</span>
+                    <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
+                        oninput="document.getElementById('time_text').value = this.value; update_graphs()">
+                </div>
+                <div class="input_row">
+                    <button onclick="startTime()">Play</button>
+                    <button onclick="stopTime()">Stop</button>
+                </div>
+            </div>
+
         </div>
         <div class="graph_container static">
             <div class="title_row">
