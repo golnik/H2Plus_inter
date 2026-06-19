@@ -214,13 +214,13 @@ const layout_prob = {
         title: { text: 'R/a<sub>0</sub>' }
     },
     yaxis: {
-        range: [0,0.4],
+        range: [-0.015,0.4],
         title: { text: 'Probability of Electron' }
     },
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }
 };
 
-layout_edynamics_prob = {...layout_prob, yaxis:{...layout_prob.yaxis, range:[0,0.75]}}
+layout_edynamics_prob = {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.015,0.75]}}
 
 const config = {
     responsive: true,
