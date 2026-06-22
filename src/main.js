@@ -1,3 +1,14 @@
+let nDynamics_bonding_data;
+let nDynamics_antibonding_data;
+
+fetch('nDynamics_bonding.json').then(response => response.json()).then(data => {
+    nDynamics_bonding_data = data;
+    Plotly.react('hydrogen-cation-nuclear-dynamics-chart', [{x: nDynamics_bonding_data.wave_data.x}]);
+});
+fetch('nDynamics_antibonding.json').then(response => response.json()).then(data => {
+    nDynamics_antibonding_data = data 
+    });
+
 const epsilon = 8.8541878e-12;
 const h_ground_energy = -13.6;
 const bohr_radius = 5.291772e-11;
@@ -53,10 +64,10 @@ function antibonding_energy(radius) {
 }
 
 function startTime() {
-    if(iterate_time) return;
+    if (iterate_time) return;
     iterate_time = setInterval(() => {
         const time = parseFloat(document.getElementById('time_text').value);
-        document.getElementById('time_text').value = time + 0.01;
+        document.getElementById('time_text').value = (time + 0.01).toFixed(2);
         update_graphs();
     }, 50);
 }
@@ -66,8 +77,8 @@ function stopTime() {
         clearInterval(iterate_time);
         iterate_time = undefined;
     } else {
-        document.getElementById('time_text').value=0;
-        document.getElementById('time_slider').value=0;
+        document.getElementById('time_text').value = 0;
+        document.getElementById('time_slider').value = 0;
         update_graphs();
     }
     return;
@@ -159,6 +170,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
+    else if (screen == 'n_dynamic') {
+        Plotly.restyle('hydrogen-cation-nuclear-dynamics-chart', {y: [nDynamics_bonding_data.wave_data.y[parseFloat(document.getElementById('time_text').value).toFixed(2)]]}, [0])
+    }
 }
 
 
@@ -214,13 +228,13 @@ const layout_prob = {
         title: { text: 'R/a<sub>0</sub>' }
     },
     yaxis: {
-        range: [-0.015,0.4],
+        range: [-0.015, 0.4],
         title: { text: 'Probability of Electron' }
     },
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }
 };
 
-layout_edynamics_prob = {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.015,0.75]}}
+layout_edynamics_prob = { ...layout_prob, yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] } }
 
 const config = {
     responsive: true,
@@ -229,8 +243,8 @@ const config = {
 
 
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout_energy, config);
-Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 }, name:'|<i>\u03C8</i><sub>B</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
-Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' }, name:'|<i>\u03C8</i><sub>A</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_prob, config);
-Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x, name:'|<i>\u03C8</i>(R,t)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name:'proton' }], layout_edynamics_prob, config)
+Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 }, name: '|<i>\u03C8</i><sub>B</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
+Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' }, name: '|<i>\u03C8</i><sub>A</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
+Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x, name: '|<i>\u03C8</i>(R,t)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_edynamics_prob, config)
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
 update_graphs(energy_minimum.solution[0]);

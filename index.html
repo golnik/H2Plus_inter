@@ -22,7 +22,7 @@
         <input id="rn_dynamic" type="radio" name="selection" value="n_dynamic">
         <label for="rn_dynamic">Nuclear Dynamics</label>
         <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
-        <label for="ren_dynamic">Electon+Nuclear Dynamics</label>
+        <label for="ren_dynamic">Full Quantum Dynamics</label>
     </div>
     <div class="horizontal_align_container">
         <div class="graph_container static e_dynamic n_dynamic">
@@ -80,36 +80,42 @@
             <button
                 onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
-        <div class="graph_container e_dynamic">
-            <div class="title_row">
-                <figcaption class="graph_title">Electron Probability Curve</figcaption>
-                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
-                <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
-                    <p>This plot shows the probability that the electron will be in a particular space for a
-                        system in superposition between the bonding and antibding states.</p>
-                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state and c2
-                        is the antibonding state.</p>
-                    <p>The graph shows the probability that the electron will be in that slice of space given
-                        respect to the nuclei/protons (red dots), the superposition in bonding and antibonding state,
-                        and time. We can see that as you change the superposition state to be either 100% or 100%
-                        antibonding that it will represent each of the respective graphs regardless of time.</p>
+        <div class="e_dynamic n_dynamic" style="display: flex; flex-direction: column;">
+            <div class="graph_container e_dynamic" style="max-height: fit-content;">
+                <div class="title_row">
+                    <figcaption class="graph_title">Electron Probability Curve</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
+                    <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
+                        <p>This plot shows the probability that the electron will be in a particular space for a
+                            system in superposition between the bonding and antibding states.</p>
+                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                        <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state
+                            and c2
+                            is the antibonding state.</p>
+                        <p>The graph shows the probability that the electron will be in that slice of space given
+                            respect to the nuclei/protons (red dots), the superposition in bonding and antibonding
+                            state,
+                            and time. We can see that as you change the superposition state to be either 100% or 100%
+                            antibonding that it will represent each of the respective graphs regardless of time.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+                <div class="input_row">
+                    <span>c1 (bond):</span>
+                    <input id="c1" type="range" min="0" max="1" step="0.01"
+                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
+                    <output id="c1Text"></output>
+                </div>
+                <div class="input_row">
+                    <span>c2 (anti):</span>
+                    <input id="c2" type="range" min="0" max="1" step="0.01"
+                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
+                    <output id="c2Text"></output>
                 </div>
             </div>
-            <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
-            <div class="input_row">
-                <span>c1 (bond):</span>
-                <input id="c1" type="range" min="0" max="1" step="0.01"
-                    oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
-                <output id="c1Text"></output>
-            </div>
-            <div class="input_row">
-                <span>c2 (anti):</span>
-                <input id="c2" type="range" min="0" max="1" step="0.01"
-                    oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
-                <output id="c2Text"></output>
-            </div>
-            <div style="background-color: beige; border-radius: 5px; border: 1px solid black;">
+            <div id="hydrogen-cation-nuclear-dynamics-chart" class="hydrogen-cation-chart n_dynamic"></div>
+            <div
+                style="background-color: beige; border-radius: 5px; border: 1px solid black; display: flex; flex-direction: column; width: max-content;">
                 <div class="input_row">
                     <label for="time_text">Time:</label>
                     <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
@@ -123,7 +129,6 @@
                     <button onclick="stopTime()">Stop</button>
                 </div>
             </div>
-
         </div>
         <div class="graph_container static">
             <div class="title_row">
