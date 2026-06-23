@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
+    <title>H₂⁺ Interactive</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="src/main.css">
@@ -63,22 +63,38 @@
             </div>
         </div>
 
+        <div class="graph_container en_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Title</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
+                <div class="info_box" id="energy-info" style="display: none;">
+                    <p>Description</p>
+                </div>
+            </div>
+            <div id="fullDynamics-probability-chart" , class="hydrogen-cation-chart"></div>
+        </div>
+
         <div class="graph_container n_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
+                <figcaption class="graph_title">Bonding/Antibonding Energy + Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
-                <div class="info_box" id="nDynamicsMain-info" style="display: none;">
+                <div class="info_box" id="nDynamicsMain-info" style="display: none; left: 25%; width:75%">
                     <p>This plot shows the energy difference of the ground state and the energy to have the two protons
-                        some radius apart and the wave function of the nuclei.</p>
+                        some radius apart and the probability density of the nuclei.</p>
                     <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
                         radius R<sub>0</sub> there is a minimum energy which it would like to settle to. The Green curve
-                        with the blue shaded region represents the desity distribution of the radius between the nuclei
+                        with the blue shaded region represents the probability desity of the radius between the nuclei
                         with respect to time</p>
                     <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
                         there is no radius at which it will settle and instead that they will want to continue to drift
-                        forever. The Red curve with the orange shaded region represent the density distribution of the
-                        radius between nuclei with repect to time.</p>
-                    <p>As you increase time the density graphs will go from the initial position 1.4441 bohr to the expected values.</p>
+                        forever. The Red curve with the orange shaded region represents the probability density of the
+                        radius between the nuclei with repect to time.</p>
+                    <p>As you increase time the density graphs will go from the initial position 1.4441 bohr to the
+                        forever increase the radius. For the antibonding state this is easy to see as the graph will
+                        forever be decreasing so the lowest energy point is infinity. For the bonding state hoever
+                        though there is an energy dip, because the energy in the system at 1.4441 bohr is greater than 0
+                        it will go down into the dip and then forever try to reach an energy greater than 0 causing it
+                        to also disassociate</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
@@ -103,9 +119,37 @@
             <button
                 onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
-        <div class="e_dynamic n_dynamic" style="display: flex; flex-direction: column;">
-            <div class="graph_container e_dynamic" style="max-height: fit-content;">
+        <div class="e_dynamic n_dynamic en_dynamic" style="display: flex; flex-direction: column;">
+            <div class="graph_container n_dynamic" style="max-height: fit-content;">
                 <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Radius</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
+                    <div class="info_box" id="nDynamicsPos-info" style="display: none; left:0%; width:100%;">
+                        <p>This shows the expected nuclear radius of the two graphs with respect to time. The blue graph
+                            (lower) representing the bonding system and the orange graph (upper) representing the anti
+                            bonding system. As time increases both curves increase in radius due to the disassociation
+                            as explained in the probability density graph.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Momentum</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
+                    <div class="info_box" id="nDynamicsMom-info" style="display: none; left:0%; width:100%;">
+                        <p>This shows the expected nuclear momentum of the two graphs with respect to time. The blue
+                            graph (lower) representing the bonding system and the orange graph (upper) representing the
+                            anti bonding system. As time increases the orange curve spikes up then levels out due to the
+                            intial steep slope of the energy curve then leveling off like the energy curve.</p>
+                        <p> The blue curve starts by increasing as it moves along the steep curve then after it reaches
+                            the minimum it will start to slow down to a point as the slope of the energy curve levels
+                            off as well</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
+
+            </div>
+            <div class="graph_container" style="max-height: fit-content;">
+                <div class="title_row e_dynamic">
                     <figcaption class="graph_title">Electron Probability Curve</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                     <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
@@ -123,38 +167,19 @@
                             antibonding that it will represent each of the respective graphs regardless of time.</p>
                     </div>
                 </div>
-                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart e_dynamic"></div>
                 <div class="input_row">
                     <span>c1 (bond):</span>
                     <input id="c1" type="range" min="0" max="1" step="0.01"
                         oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
-                    <output id="c1Text"></output>
+                    <output id="c1Text" style="width: 31px;"></output>
                 </div>
                 <div class="input_row">
                     <span>c2 (anti):</span>
                     <input id="c2" type="range" min="0" max="1" step="0.01"
                         oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
-                    <output id="c2Text"></output>
+                    <output id="c2Text" style="width: 31px;"></output>
                 </div>
-            </div>
-            <div class="graph_container n_dynamic" style="max-height: fit-content;">
-                <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Radius</figcaption>
-                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
-                    <div class="info_box" id="nDynamicsPos-info" style="display: none;">
-                        <p></p>
-                    </div>
-                </div>
-                <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
-                <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Momentum</figcaption>
-                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
-                    <div class="info_box" id="nDynamicsMom-info" style="display: none;">
-                        <p></p>
-                    </div>
-                </div>
-                <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
-
             </div>
             <div
                 style="background-color: beige; border-radius: 5px; border: 1px solid black; display: flex; flex-direction: column; width: max-content;">
