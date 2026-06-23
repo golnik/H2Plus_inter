@@ -88,6 +88,10 @@
     margin: 0;
 }
 
+.hide-arrows {
+    -moz-appearance: textfield;
+}
+
 .graph_title {
     text-align: center;
     font-size: 20px;

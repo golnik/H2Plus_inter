@@ -25,7 +25,8 @@
         <label for="ren_dynamic">Full Quantum Dynamics</label>
     </div>
     <div class="horizontal_align_container">
-        <div class="graph_container static e_dynamic n_dynamic">
+
+        <div class="graph_container static e_dynamic">
             <div class="title_row">
                 <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
@@ -41,7 +42,7 @@
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart"></div>
-            <div class="radius_slider_container static e_dynamic">
+            <div class="radius_slider_container">
                 <div class="input_row">
                     <label for="radius_text">Radius:</label>
                     <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
@@ -61,6 +62,28 @@
                 </datalist>
             </div>
         </div>
+
+        <div class="graph_container n_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
+                <div class="info_box" id="nDynamicsMain-info" style="display: none;">
+                    <p>This plot shows the energy difference of the ground state and the energy to have the two protons
+                        some radius apart and the wave function of the nuclei.</p>
+                    <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
+                        radius R<sub>0</sub> there is a minimum energy which it would like to settle to. The Green curve
+                        with the blue shaded region represents the desity distribution of the radius between the nuclei
+                        with respect to time</p>
+                    <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
+                        there is no radius at which it will settle and instead that they will want to continue to drift
+                        forever. The Red curve with the orange shaded region represent the density distribution of the
+                        radius between nuclei with repect to time.</p>
+                    <p>As you increase time the density graphs will go from the initial position 1.4441 bohr to the expected values.</p>
+                </div>
+            </div>
+            <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
+        </div>
+
         <div class="vertical_align_container static e_dynamic">
             <div class="input_row">
                 <span>E<sup>g</sup> - E<sub>1s</sub>:</span>
@@ -95,7 +118,8 @@
                         <p>The graph shows the probability that the electron will be in that slice of space given
                             respect to the nuclei/protons (red dots), the superposition in bonding and antibonding
                             state,
-                            and time. We can see that as you change the superposition state to be either 100% or 100%
+                            and time. We can see that as you change the superposition state to be either 100% bonding or
+                            100%
                             antibonding that it will represent each of the respective graphs regardless of time.</p>
                     </div>
                 </div>
@@ -113,7 +137,25 @@
                     <output id="c2Text"></output>
                 </div>
             </div>
-            <div id="hydrogen-cation-nuclear-dynamics-chart" class="hydrogen-cation-chart n_dynamic"></div>
+            <div class="graph_container n_dynamic" style="max-height: fit-content;">
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Radius</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
+                    <div class="info_box" id="nDynamicsPos-info" style="display: none;">
+                        <p></p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Momentum</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
+                    <div class="info_box" id="nDynamicsMom-info" style="display: none;">
+                        <p></p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
+
+            </div>
             <div
                 style="background-color: beige; border-radius: 5px; border: 1px solid black; display: flex; flex-direction: column; width: max-content;">
                 <div class="input_row">
