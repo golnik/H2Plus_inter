@@ -1,17 +1,17 @@
 let nDynamics_bonding_data;
 let nDynamics_antibonding_data;
+let nOverlap_Data;
 
-fetch('nDynamics_bonding.json').then(response => response.json()).then(data => {
-    nDynamics_bonding_data = data;
+fetch('qdata.json').then(response => response.json()).then(data => {
+    nDynamics_bonding_data = data.nDynamics_bonding;
+    nDynamics_antibonding_data = data.nDynamics_antibonding;
+    nOverlap_Data = data.overlap_data;
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [bonding_energy_graph, antibonding_energy_graph, {x: nDynamics_bonding_data.wave_data.x, name:'Probability Density (Bonding)', fill: 'tozeroy', fillcolor: 'rgba(31, 119, 180, 0.3)'}, {x: nDynamics_bonding_data.wave_data.x, name:'Probability Density (Antibonding)', fill: 'tozeroy', fillcolor: 'rgba(255, 127, 14, 0.3)'}], {...layout_energy, xaxis:{...layout_energy.xaxis, range:[0.5,25]}, yaxis: {...layout_energy.yaxis, range:[-2,4]}, shapes:{}}, config);
-
-});
-fetch('nDynamics_antibonding.json').then(response => response.json()).then(data => {
-    nDynamics_antibonding_data = data;
     Plotly.react('hydrogen-cation-nuclear-position-chart', [{x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name:'Bonding Radius'}, {x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name:'Antionding Radius'}], layout_nPosition, config);
     Plotly.react('hydrogen-cation-nuclear-momentum-chart', [{x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name:'Bonding Momentum'}, {x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name:'Antibonding Momentum'}], layout_nMomentum, config);
     Plotly.react('fullDynamics-probability-chart', [{x: nuclear_x, name:'Total Probability'}, {x: nuclear_x, name:'Bonding Probability'}, {x: nuclear_x, name:'Antibonding Probability'}, {x: nuclear_x, name:'Overlap Bond+Antibond'}, {y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Bonding proton'}, {y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Antibonding proton'}], {...layout_prob, showlegend:true,yaxis:{title: { text: 'Probability of Electron' }}}, config);
-    });
+    Plotly.react('nuclear-overlap-chart', [{x:nOverlap_Data.time, y:nOverlap_Data.real, name:'Real Part'}, {x:nOverlap_Data.time, y:nOverlap_Data.imag, name:'Image Part'}], {xaxis: {range:[0,10]}, shapes: [{type: 'line',line: { color: 'black', dash: 'dash' }, x0: radiusSliderInput.value, y0: -3, x1: radiusSliderInput.value, y1: 3}], margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }}, config);
+});
 
 const epsilon = 8.8541878e-12;
 const h_ground_energy = -13.6;
@@ -177,7 +177,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         document.getElementById('bonding_text').value = bondingEnergy.toFixed(3);
         document.getElementById('antibonding_text').value = antibondingEnergy.toFixed(3);
         document.getElementById('energy_diff').value = (antibondingEnergy - bondingEnergy).toFixed(3);
-        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
+        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius, 'shapes[0].y0':bondingEnergy, 'shapes[0].y1':antibondingEnergy });
+        Plotly.restyle('hydrogen-cation-energy-chart', {x: [radius,radius,[newRadius,newRadius, newRadius]], y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy,antibondingEnergy, (bondingEnergy+antibondingEnergy)/2]], text:['Heyo!','Cool Code Yeah?',['E<sup>g</sup> - E<sub>1s</sub>(R): '+bondingEnergy.toFixed(3),'E<sup>u</sup> - E<sub>1s</sub>(R): '+antibondingEnergy.toFixed(3),'E<sup>u</sup>-E<sup>g</sup>: '+(antibondingEnergy - bondingEnergy).toFixed(3)]]}, [0,1,2]);
         bonding_probability_y = []
         antibonding_probability_y = []
         for (const distance of probability_x) {
@@ -242,6 +243,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const bondRadius = nDynamics_bonding_data.wave_data.x[nDynamics_bonding_data.wave_data.y[time].indexOf(Math.max(...nDynamics_bonding_data.wave_data.y[time]))];
         const antiRadius = nDynamics_antibonding_data.wave_data.x[nDynamics_antibonding_data.wave_data.y[time].indexOf(Math.max(...nDynamics_antibonding_data.wave_data.y[time]))];
         Plotly.restyle('fullDynamics-probability-chart', {y:[fullDynamics_probability_y, fullDynamicsP1_prob_y, fullDynamicsP2_prob_y, fullDynamicsP3_prob_y, [0,0],[0,0]], x:[nuclear_x,nuclear_x,nuclear_x,nuclear_x,[-bondRadius/2,bondRadius/2],[-antiRadius/2,antiRadius/2]]}, [0,1,2,3,4,5]);
+        Plotly.relayout('nuclear-overlap-chart', {'shapes[0].x0':time, 'shapes[0].x1':time});
     }
 }
 
@@ -257,6 +259,14 @@ const antibonding_energy_graph = {
     y: antibonding_energy_y,
     name: 'E<sup>u</sup> - E<sub>1s</sub>',
 };
+
+const points_energy_graph = {
+    type: 'scatter',
+    mode: 'markers+text',
+    text: ['E<sup>g</sup> - E<sub>1s</sub>(R): ', 'E<sup>u</sup> - E<sub>1s</sub>: ', 'E<sup>u</sup>-E<sup>g</sup>: '],
+    textposition: ['bottom left','top left','left'],
+    marker: {size: 10, color: [-1,'#ff7f0e', 'green']}
+}
 
 const layout_energy = {
     autosize: true,
@@ -344,11 +354,10 @@ layout_edynamics_prob = { ...layout_prob, yaxis: { ...layout_prob.yaxis, range: 
 
 const config = {
     responsive: true,
-    displayModeBar: false
 };
 
 
-Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph], layout_energy, config);
+Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph, points_energy_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 }, name: '|<i>\u03C8</i><sub>B</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
 Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' }, name: '|<i>\u03C8</i><sub>A</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
 Plotly.react('hydrogen-cation-electron-dynamics-chart', [{ x: probability_x, name: '|<i>\u03C8</i>(R,t)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_edynamics_prob, config)

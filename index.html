@@ -67,7 +67,7 @@
             <div class="title_row">
                 <figcaption class="graph_title">Electron Probability Curve</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-info')"></i>
-                <div class="info_box" id="fullDynamics-info" style="display: none;">
+                <div class="info_box" id="fullDynamics-info" style="display: none; left: 0%; width: 100%;">
                     <p>This plot shows the probability that the electron will be in a particular space for a
                         system in superposition between the bonding and antibding states of the nuclei with respect to
                         time.</p>
@@ -76,13 +76,14 @@
                     <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state and c2
                         is the antibonding state.</p>
                     <p>The orange graph shows the bonding probability part of the total probability chart. The green
-                        shows the antibonding probability part of the total probability chart. Finally the red graph
+                        shows the antibonding probability part of the total probability chart. The red graph
                         shows the overlap of the bonding and antibonding orbitals of the H<sub>2</sub><sup>+</sup>
                         molecule in superposition.</p>
                     <p>We can observe how the probability chart changes in time when it is in superposition seeing how
                         initially it acts like the electron dynamics chart, then as the orbitals move apart and the
                         overlap disapears it is composed of the individual wave functions of the bonding and antibonding
-                        states added together. We can see how the nuclear motion is the same as defined by the nuclear dynamics section.</p>
+                        states added together. We can see how the nuclear motion is the same as defined by the nuclear
+                        dynamics section.</p>
                     <p>The blue graph shows the probability that the electron will be in that slice of space given
                         respect to the nuclei/protons (red/purple dots), the superposition in bonding and antibonding
                         state,
@@ -167,6 +168,21 @@
                 </div>
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
 
+            </div>
+            <div class="graph_container en_dynamic">
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Coherence</figcaption>
+                    <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
+                    <div class="info_box" id="overlap-info" style="display: none; left:0%; width:100%;">
+                        <p>This graph shows the nuclear coherence between the bonding and antibonding states. We can see
+                            that as the coherence decreases that the overlap of the bond and anti bond in the electron
+                            probability curve also decreases. The imaginary and real component of the coherence come
+                            from the complex nuclear wave function. The phase represents the interference between the
+                            two
+                            wavefunctions phases.</p>
+                    </div>
+                </div>
+                <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
             </div>
             <div class="graph_container" style="max-height: fit-content;">
                 <div class="title_row e_dynamic">
