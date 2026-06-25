@@ -7,10 +7,10 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     nDynamics_antibonding_data = data.nDynamics_antibonding;
     nOverlap_Data = data.overlap_data;
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [bonding_energy_graph, antibonding_energy_graph, {x: nDynamics_bonding_data.wave_data.x, name:'Probability Density (Bonding)', fill: 'tozeroy', fillcolor: 'rgba(31, 119, 180, 0.3)'}, {x: nDynamics_bonding_data.wave_data.x, name:'Probability Density (Antibonding)', fill: 'tozeroy', fillcolor: 'rgba(255, 127, 14, 0.3)'}], {...layout_energy, xaxis:{...layout_energy.xaxis, range:[0.5,25]}, yaxis: {...layout_energy.yaxis, range:[-2,4]}, shapes:{}}, config);
-    Plotly.react('hydrogen-cation-nuclear-position-chart', [{x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name:'Bonding Radius'}, {x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name:'Antionding Radius'}], layout_nPosition, config);
-    Plotly.react('hydrogen-cation-nuclear-momentum-chart', [{x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name:'Bonding Momentum'}, {x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name:'Antibonding Momentum'}], layout_nMomentum, config);
+    Plotly.react('hydrogen-cation-nuclear-position-chart', [{x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name:'Bonding Radius'}, {x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name:'Antionding Radius'}, {x: nDynamics_bonding_data.position_data.x, name:'Average Radius'}], layout_nPosition, config);
+    Plotly.react('hydrogen-cation-nuclear-momentum-chart', [{x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name:'Bonding Momentum'}, {x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name:'Antibonding Momentum'}, {x: nDynamics_bonding_data.momentum_data.x, name:'Average Momentum'}], layout_nMomentum, config);
     Plotly.react('fullDynamics-probability-chart', [{x: nuclear_x, name:'Total Probability'}, {x: nuclear_x, name:'Bonding Probability'}, {x: nuclear_x, name:'Antibonding Probability'}, {x: nuclear_x, name:'Overlap Bond+Antibond'}, {y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Bonding proton'}, {y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Antibonding proton'}], {...layout_prob, showlegend:true,yaxis:{title: { text: 'Probability of Electron' }}}, config);
-    Plotly.react('nuclear-overlap-chart', [{x:nOverlap_Data.time, y:nOverlap_Data.real, name:'Real Part'}, {x:nOverlap_Data.time, y:nOverlap_Data.imag, name:'Image Part'}], {xaxis: {range:[0,10]}, shapes: [{type: 'line',line: { color: 'black', dash: 'dash' }, x0: radiusSliderInput.value, y0: -3, x1: radiusSliderInput.value, y1: 3}], margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }}, config);
+    Plotly.react('nuclear-overlap-chart', [{x:nOverlap_Data.time, y:nOverlap_Data.real, name:'Real Part'}, {x:nOverlap_Data.time, y:nOverlap_Data.imag, name:'Image Part'}], {xaxis: {range:[0,10], title:{text:'Time (fs)'}, yaxis:{title:{text:'Coherence'}}}, shapes: [{type: 'line',line: { color: 'black', dash: 'dash' }, x0: radiusSliderInput.value, y0: -3, x1: radiusSliderInput.value, y1: 3}], margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }}, config);
 });
 
 const epsilon = 8.8541878e-12;
@@ -65,6 +65,15 @@ function info_toggle(info, close = 0) {
     if (close == 1) return info.forEach(id => document.getElementById(id).style.display = 'none');
     const element = document.getElementById(info);
     element.style.display = element.style.display === 'none' ? 'block' : 'none';
+}
+
+function default_values() {
+    stopTime();
+    document.getElementById('time_text').value=0;
+    document.getElementById('time_slider').value=0;
+    document.getElementById('c1').value=0.5;
+    document.getElementById('c2').value=0.5;
+    update_graphs(energy_minimum.solution[0]);
 }
 
 function bonding_energy(radius) {
@@ -203,7 +212,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         for (const distance of probability_x) {
             electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]))
         }
-        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
+        Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius, 'shapes[0].y0':bondingEnergy, 'shapes[0].y1':antibondingEnergy });
         Plotly.restyle('hydrogen-cation-energy-chart', {x: [radius,radius,[newRadius,newRadius, newRadius]], y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy,antibondingEnergy, (bondingEnergy+antibondingEnergy)/2]], text:['Heyo!','Cool Code Yeah?',['E<sup>g</sup> - E<sub>1s</sub>(R): '+bondingEnergy.toFixed(3),'E<sup>u</sup> - E<sub>1s</sub>(R): '+antibondingEnergy.toFixed(3),'E<sup>u</sup>-E<sup>g</sup>: '+(antibondingEnergy - bondingEnergy).toFixed(3)]]}, [0,1,2]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
@@ -211,12 +220,16 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2)
         const y_data_bond = nDynamics_bonding_data.wave_data.y[time];
         const y_data_anti = nDynamics_antibonding_data.wave_data.y[time];
-        document.getElementById('c1Text').value = document.getElementById('c1').value
-        document.getElementById('c2Text').value = document.getElementById('c2').value
-        Plotly.restyle('hydrogen-cation-energy-chart-nuclear', {y: [bonding_energy_y, antibonding_energy_y, y_data_bond.map(num => num*document.getElementById('c1').value), y_data_anti.map(num => num*document.getElementById('c2').value)]}, [0,1,2,3]);
+        const c1 = document.getElementById('c1').value;
+        const c2 = document.getElementById('c2').value;
+        document.getElementById('c1Text').value = c1
+        document.getElementById('c2Text').value = c2
+        Plotly.restyle('hydrogen-cation-energy-chart-nuclear', {y: [bonding_energy_y, antibonding_energy_y, y_data_bond.map(num => num*c1), y_data_anti.map(num => num*c2)]}, [0,1,2,3]);
         sum = 0;
         Plotly.relayout('hydrogen-cation-nuclear-position-chart', { 'shapes[0].x0': time, 'shapes[0].x1': time});
         Plotly.relayout('hydrogen-cation-nuclear-momentum-chart', { 'shapes[0].x0': time, 'shapes[0].x1': time});
+        Plotly.restyle('hydrogen-cation-nuclear-position-chart', {y:[nDynamics_bonding_data.position_data.y.map(function(num, i) {return (num*c1+c2*nDynamics_antibonding_data.position_data.y[i]);})]}, [2])
+        Plotly.restyle('hydrogen-cation-nuclear-momentum-chart', {y:[nDynamics_bonding_data.momentum_data.y.map(function(num, i) {return (num*c1+c2*nDynamics_antibonding_data.momentum_data.y[i]);})]}, [2])
     }
     else if (screen == 'en_dynamic') {
         fullDynamics_probability_y=[];
@@ -345,7 +358,7 @@ const layout_prob = {
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }
 };
 
-layout_edynamics_prob = { ...layout_prob, yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] } }
+const layout_edynamics_prob = { ...layout_prob, yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] } }
 
 const config = {
     responsive: true,

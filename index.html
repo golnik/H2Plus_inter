@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
 </head>
 
-<body>
+<body style="display: flex; flex-direction: column; width: 100vw; height: 100vh; margin: 0%;  flex-wrap: wrap;">
     <div class="navbar">
         <input id="rStatic" type="radio" name="selection" value="static" checked>
         <label for="rStatic">Static</label>
@@ -24,8 +24,7 @@
         <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
         <label for="ren_dynamic">Full Quantum Dynamics</label>
     </div>
-    <div class="horizontal_align_container">
-
+    <div class="graph_section_container">
         <div class="graph_container static e_dynamic">
             <div class="title_row">
                 <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
@@ -42,28 +41,126 @@
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart"></div>
-            <div class="radius_slider_container">
-                <div class="input_row">
-                    <label for="radius_text">Radius:</label>
-                    <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
-                        step="any" oninput="update_graphs(parseFloat(this.value))">
-                    <span>a<sub>0</sub></span>
-                </div>
-                <input id="radius" type="range" min="1" max="6" step="any" list="r-ticks"
-                    oninput="update_graphs(parseFloat(this.value))">
-                <datalist id="r-ticks">
-                    <option value="1" label="1"></option>
-                    <option value="2" label="2"></option>
-                    <option value="2.4928304174227165" label="minimum"></option>
-                    <option value="3" label="3"></option>
-                    <option value="4" label="4"></option>
-                    <option value="5" label="5"></option>
-                    <option value="6" label="6"></option>
-                </datalist>
-            </div>
-            <button onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; document.getElementById('c1').value=0.5; document.getElementById('c2').value=0.5; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
-
+        <div class="graph_container static">
+            <div class="half_chart">
+                <div class="title_row">
+                    <figcaption class="graph_title">Electron Probability Curve for Bonding System</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
+                    <div class="info_box" id="bondProb-info" style="display: none;">
+                        <p>This plot shows the probability that the electron will be in a particular space for a bonding
+                            system where the two orbitals of the nuclei/protons constructively interfere.</p>
+                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                        <p>The blue graph represents the probability that the electron will be in that slice of space
+                            given
+                            respect to the nuclei/protons (red dots) for the bonding system. We can see that there is
+                            some
+                            probability that the electron will be inbetween the two nulei 'showing' the constructive
+                            interference and that they will bond.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"></div>
+            </div>
+            <div class="half_chart">
+                <div class="title_row">
+                    <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
+                    <div class="info_box" id="antiBondProb-info" style="display: none;">
+                        <p>This plot shows the probability that the electron will be in a particular space for an
+                            antibonding system where the two orbitals of the nuclei/protons destructively interfere.</p>
+                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                        <p>The orange graph represents the probability that the electron will be in that slice of space
+                            given respect to the nuclei/protons (red dots) for the antibonding system. We can see that
+                            there
+                            is 0 probability that the electron will be inbetween the two nulei 'showing' the destructive
+                            interference and that they will not bond.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"></div>
+            </div>
+        </div>
+        <div class="graph_container e_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Electron Probability Curve</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
+                <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
+                    <p>This plot shows the probability that the electron will be in a particular space for a
+                        system in superposition between the bonding and antibding states.</p>
+                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                    <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state
+                        and c2
+                        is the antibonding state.</p>
+                    <p>The graph shows the probability that the electron will be in that slice of space given
+                        respect to the nuclei/protons (red dots), the superposition in bonding and antibonding
+                        state,
+                        and time. We can see that as you change the superposition state to be either 100% bonding or
+                        100%
+                        antibonding that it will represent each of the respective graphs regardless of time.</p>
+                </div>
+            </div>
+            <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+        </div>
+        <div class="graph_container n_dynamic">
+            <div class="title_row">
+                <figcaption class="graph_title">Bonding/Antibonding Energy + Probability Density</figcaption>
+                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
+                <div class="info_box" id="nDynamicsMain-info" style="display: none; left: 25%; width:75%">
+                    <p>This plot shows the energy difference of the ground state and the energy to have the two protons
+                        some radius apart and the probability density of the nuclei.</p>
+                    <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
+                        radius R<sub>0</sub> there is a minimum energy which it would like to settle to. The Green curve
+                        with the blue shaded region represents the probability desity of the radius between the nuclei
+                        with respect to time</p>
+                    <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
+                        there is no radius at which it will settle and instead that they will want to continue to drift
+                        forever. The Red curve with the orange shaded region represents the probability density of the
+                        radius between the nuclei with repect to time.</p>
+                    <p>As you increase time the density graphs will go from the initial position 1.4441 bohr to the
+                        forever increase the radius. For the antibonding state this is easy to see as the graph will
+                        forever be decreasing so the lowest energy point is infinity. For the bonding state hoever
+                        though there is an energy dip, because the energy in the system at 1.4441 bohr is greater than 0
+                        it will go down into the dip and then forever try to reach an energy greater than 0 causing it
+                        to also disassociate</p>
+                </div>
+            </div>
+            <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
+        </div>
+        <div class="graph_container n_dynamic">
+            <div class="half_chart">
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Radius</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
+                    <div class="info_box" id="nDynamicsPos-info" style="display: none; left:0%; width:100%;">
+                        <p>This shows the expected nuclear radius of the two graphs with respect to time. The blue
+                            graph
+                            (lower) representing the bonding system and the orange graph (upper) representing the
+                            anti
+                            bonding system. As time increases both curves increase in radius due to the
+                            disassociation
+                            as explained in the probability density graph.</p>
+                            <p>The green curve shows the average between the two states that the nuclei would be based on.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
+            </div>
+            <div class="half_chart">
+                <div class="title_row">
+                    <figcaption class="graph_title">Nuclear Momentum</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
+                    <div class="info_box" id="nDynamicsMom-info" style="display: none; left:0%; width:100%;">
+                        <p>This shows the expected nuclear momentum of the two graphs with respect to time. The blue
+                            graph (lower) representing the bonding system and the orange graph (upper) representing the
+                            anti bonding system. As time increases the orange curve spikes up then levels out due to the
+                            intial steep slope of the energy curve then leveling off like the energy curve.</p>
+                        <p> The blue curve starts by increasing as it moves along the steep curve then after it reaches
+                            the minimum it will start to slow down to a point as the slope of the energy curve levels
+                            off as well</p>
+                        <p>The green curve shows the average between the two states that the nuclei would be based on.</p>
+                    </div>
+                </div>
+                <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
+            </div>
+        </div>
         <div class="graph_container en_dynamic">
             <div class="title_row">
                 <figcaption class="graph_title">Electron Probability Curve</figcaption>
@@ -95,153 +192,71 @@
             </div>
             <div id="fullDynamics-probability-chart" , class="hydrogen-cation-chart"></div>
         </div>
-
-        <div class="graph_container n_dynamic">
+        <div class="graph_container en_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Bonding/Antibonding Energy + Probability Density</figcaption>
-                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
-                <div class="info_box" id="nDynamicsMain-info" style="display: none; left: 25%; width:75%">
-                    <p>This plot shows the energy difference of the ground state and the energy to have the two protons
-                        some radius apart and the probability density of the nuclei.</p>
-                    <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
-                        radius R<sub>0</sub> there is a minimum energy which it would like to settle to. The Green curve
-                        with the blue shaded region represents the probability desity of the radius between the nuclei
-                        with respect to time</p>
-                    <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
-                        there is no radius at which it will settle and instead that they will want to continue to drift
-                        forever. The Red curve with the orange shaded region represents the probability density of the
-                        radius between the nuclei with repect to time.</p>
-                    <p>As you increase time the density graphs will go from the initial position 1.4441 bohr to the
-                        forever increase the radius. For the antibonding state this is easy to see as the graph will
-                        forever be decreasing so the lowest energy point is infinity. For the bonding state hoever
-                        though there is an energy dip, because the energy in the system at 1.4441 bohr is greater than 0
-                        it will go down into the dip and then forever try to reach an energy greater than 0 causing it
-                        to also disassociate</p>
+                <figcaption class="graph_title">Nuclear Coherence</figcaption>
+                <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
+                <div class="info_box" id="overlap-info" style="display: none; left:0%; width:100%;">
+                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. We can see
+                        that as the coherence decreases that the overlap of the bond and anti bond in the electron
+                        probability curve also decreases. The imaginary and real component of the coherence come
+                        from the complex nuclear wave function. The phase represents the interference between the
+                        two
+                        wavefunctions phases.</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
+            <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
         </div>
-        <div class="vertical_align_container">
-            <div class="graph_container n_dynamic" style="max-height: fit-content;">
-                <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Radius</figcaption>
-                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
-                    <div class="info_box" id="nDynamicsPos-info" style="display: none; left:0%; width:100%;">
-                        <p>This shows the expected nuclear radius of the two graphs with respect to time. The blue graph
-                            (lower) representing the bonding system and the orange graph (upper) representing the anti
-                            bonding system. As time increases both curves increase in radius due to the disassociation
-                            as explained in the probability density graph.</p>
-                    </div>
-                </div>
-                <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
-                <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Momentum</figcaption>
-                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
-                    <div class="info_box" id="nDynamicsMom-info" style="display: none; left:0%; width:100%;">
-                        <p>This shows the expected nuclear momentum of the two graphs with respect to time. The blue
-                            graph (lower) representing the bonding system and the orange graph (upper) representing the
-                            anti bonding system. As time increases the orange curve spikes up then levels out due to the
-                            intial steep slope of the energy curve then leveling off like the energy curve.</p>
-                        <p> The blue curve starts by increasing as it moves along the steep curve then after it reaches
-                            the minimum it will start to slow down to a point as the slope of the energy curve levels
-                            off as well</p>
-                    </div>
-                </div>
-                <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
-
-            </div>
-            <div class="graph_container en_dynamic">
-                <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Coherence</figcaption>
-                    <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
-                    <div class="info_box" id="overlap-info" style="display: none; left:0%; width:100%;">
-                        <p>This graph shows the nuclear coherence between the bonding and antibonding states. We can see
-                            that as the coherence decreases that the overlap of the bond and anti bond in the electron
-                            probability curve also decreases. The imaginary and real component of the coherence come
-                            from the complex nuclear wave function. The phase represents the interference between the
-                            two
-                            wavefunctions phases.</p>
-                    </div>
-                </div>
-                <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
-            </div>
-            <div class="graph_container e_dynamic" style="max-height: fit-content;">
-                <div class="title_row">
-                    <figcaption class="graph_title">Electron Probability Curve</figcaption>
-                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
-                    <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
-                        <p>This plot shows the probability that the electron will be in a particular space for a
-                            system in superposition between the bonding and antibding states.</p>
-                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                        <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state
-                            and c2
-                            is the antibonding state.</p>
-                        <p>The graph shows the probability that the electron will be in that slice of space given
-                            respect to the nuclei/protons (red dots), the superposition in bonding and antibonding
-                            state,
-                            and time. We can see that as you change the superposition state to be either 100% bonding or
-                            100%
-                            antibonding that it will represent each of the respective graphs regardless of time.</p>
-                    </div>
-                </div>
-                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
-            </div>
-            <div class="e_dynamic n_dynamic en_dynamic time_cs_box">
+    </div>
+    <div class="inputs_and_interactives_container">
+        <div class="static e_dynamic radius_and_button_container">
+            <div class="radius_slider_container">
                 <div class="input_row">
-                    <span>c1 (bond):</span>
-                    <input id="c1" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
-                    <output id="c1Text" style="width: 31px;"></output>
+                    <label for="radius_text">Radius:</label>
+                    <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
+                        step="any" oninput="update_graphs(parseFloat(this.value))">
+                    <span>a<sub>0</sub></span>
                 </div>
-                <div class="input_row">
-                    <span>c2 (anti):</span>
-                    <input id="c2" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
-                    <output id="c2Text" style="width: 31px;"></output>
-                </div>
-                <div class="input_row">
-                    <label for="time_text">Time:</label>
-                    <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
-                        oninput="update_graphs();">
-                    <span>fs</span>
-                    <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
-                        oninput="document.getElementById('time_text').value = this.value; update_graphs()">
-                </div>
-                <div class="input_row">
-                    <button onclick="startTime()">Play</button>
-                    <button onclick="stopTime()">Stop</button>
-                </div>
+                <input id="radius" type="range" min="1" max="6" step="any" list="r-ticks"
+                    oninput="update_graphs(parseFloat(this.value))">
+                <datalist id="r-ticks">
+                    <option value="1" label="1"></option>
+                    <option value="2" label="2"></option>
+                    <option value="2.4928304174227165" label="minimum"></option>
+                    <option value="3" label="3"></option>
+                    <option value="4" label="4"></option>
+                    <option value="5" label="5"></option>
+                    <option value="6" label="6"></option>
+                </datalist>
             </div>
+            <button style="max-width: fit-content; margin: 0px 10px;"
+                onclick="default_values()">Default/Minimum</button>
         </div>
-        <div class="graph_container static">
-            <div class="title_row">
-                <figcaption class="graph_title">Electron Probability Curve for Bonding System</figcaption>
-                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
-                <div class="info_box" id="bondProb-info" style="display: none;">
-                    <p>This plot shows the probability that the electron will be in a particular space for a bonding
-                        system where the two orbitals of the nuclei/protons constructively interfere.</p>
-                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The blue graph represents the probability that the electron will be in that slice of space given
-                        respect to the nuclei/protons (red dots) for the bonding system. We can see that there is some
-                        probability that the electron will be inbetween the two nulei 'showing' the constructive
-                        interference and that they will bond.</p>
-                </div>
+        <div class="e_dynamic n_dynamic en_dynamic time_cs_box">
+            <div class="input_row">
+                <span>c1 (bond):</span>
+                <input id="c1" type="range" min="0" max="1" step="0.01"
+                    oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
+                <output id="c1Text" style="width: 31px;"></output>
             </div>
-            <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"></div>
-            <div class="title_row">
-                <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
-                <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
-                <div class="info_box" id="antiBondProb-info" style="display: none;">
-                    <p>This plot shows the probability that the electron will be in a particular space for an
-                        antibonding system where the two orbitals of the nuclei/protons destructively interfere.</p>
-                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The orange graph represents the probability that the electron will be in that slice of space
-                        given respect to the nuclei/protons (red dots) for the antibonding system. We can see that there
-                        is 0 probability that the electron will be inbetween the two nulei 'showing' the destructive
-                        interference and that they will not bond.</p>
-                </div>
+            <div class="input_row">
+                <span>c2 (anti):</span>
+                <input id="c2" type="range" min="0" max="1" step="0.01"
+                    oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
+                <output id="c2Text" style="width: 31px;"></output>
             </div>
-            <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"></div>
+            <div class="input_row">
+                <label for="time_text">Time:</label>
+                <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
+                    oninput="update_graphs();">
+                <span>fs</span>
+                <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
+                    oninput="document.getElementById('time_text').value = this.value; update_graphs()">
+            </div>
+            <div class="input_row">
+                <button onclick="startTime()">Play</button>
+                <button onclick="stopTime()">Stop</button>
+            </div>
         </div>
     </div>
     <script src="src/main.js" defer></script>
