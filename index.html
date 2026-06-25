@@ -61,6 +61,7 @@
                     <option value="6" label="6"></option>
                 </datalist>
             </div>
+            <button onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; document.getElementById('c1').value=0.5; document.getElementById('c2').value=0.5; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
         </div>
 
         <div class="graph_container en_dynamic">
@@ -120,27 +121,7 @@
             </div>
             <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
         </div>
-
-        <div class="vertical_align_container static e_dynamic">
-            <div class="input_row">
-                <span>E<sup>g</sup> - E<sub>1s</sub>:</span>
-                <output id="bonding_text"></output>
-                <span>eV</span>
-            </div>
-            <div class="input_row">
-                <span>E<sup>u</sup> - E<sub>1s</sub>:</span>
-                <output id="antibonding_text"></output>
-                <span>eV</span>
-            </div>
-            <div class="input_row">
-                <span>E<sup>u</sup> - E<sup>g</sup>:</span>
-                <output id="energy_diff"></output>
-                <span>eV</span>
-            </div>
-            <button
-                onclick="stopTime(); document.getElementById('time_text').value=0; document.getElementById('time_slider').value=0; update_graphs(energy_minimum.solution[0]);">Default/Minimum</button>
-        </div>
-        <div class="e_dynamic n_dynamic en_dynamic" style="display: flex; flex-direction: column;">
+        <div class="vertical_align_container">
             <div class="graph_container n_dynamic" style="max-height: fit-content;">
                 <div class="title_row">
                     <figcaption class="graph_title">Nuclear Radius</figcaption>
@@ -184,8 +165,8 @@
                 </div>
                 <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
             </div>
-            <div class="graph_container" style="max-height: fit-content;">
-                <div class="title_row e_dynamic">
+            <div class="graph_container e_dynamic" style="max-height: fit-content;">
+                <div class="title_row">
                     <figcaption class="graph_title">Electron Probability Curve</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                     <div class="info_box" id="eDynamic-info" style="display: none;  left: 0%; width: 100%;">
@@ -203,7 +184,9 @@
                             antibonding that it will represent each of the respective graphs regardless of time.</p>
                     </div>
                 </div>
-                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart e_dynamic"></div>
+                <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
+            </div>
+            <div class="e_dynamic n_dynamic en_dynamic time_cs_box">
                 <div class="input_row">
                     <span>c1 (bond):</span>
                     <input id="c1" type="range" min="0" max="1" step="0.01"
@@ -216,9 +199,6 @@
                         oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
                     <output id="c2Text" style="width: 31px;"></output>
                 </div>
-            </div>
-            <div
-                style="background-color: beige; border-radius: 5px; border: 1px solid black; display: flex; flex-direction: column; width: max-content;">
                 <div class="input_row">
                     <label for="time_text">Time:</label>
                     <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"

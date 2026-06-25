@@ -174,9 +174,6 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }
         let bondingEnergy = bonding_energy(newRadius * bohr_radius);
         let antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
-        document.getElementById('bonding_text').value = bondingEnergy.toFixed(3);
-        document.getElementById('antibonding_text').value = antibondingEnergy.toFixed(3);
-        document.getElementById('energy_diff').value = (antibondingEnergy - bondingEnergy).toFixed(3);
         Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius, 'shapes[0].y0':bondingEnergy, 'shapes[0].y1':antibondingEnergy });
         Plotly.restyle('hydrogen-cation-energy-chart', {x: [radius,radius,[newRadius,newRadius, newRadius]], y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy,antibondingEnergy, (bondingEnergy+antibondingEnergy)/2]], text:['Heyo!','Cool Code Yeah?',['E<sup>g</sup> - E<sub>1s</sub>(R): '+bondingEnergy.toFixed(3),'E<sup>u</sup> - E<sub>1s</sub>(R): '+antibondingEnergy.toFixed(3),'E<sup>u</sup>-E<sup>g</sup>: '+(antibondingEnergy - bondingEnergy).toFixed(3)]]}, [0,1,2]);
         bonding_probability_y = []
@@ -198,9 +195,6 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }
         const bondingEnergy = bonding_energy(newRadius * bohr_radius);
         const antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
-        document.getElementById('bonding_text').value = bondingEnergy.toFixed(3);
-        document.getElementById('antibonding_text').value = antibondingEnergy.toFixed(3);
-        document.getElementById('energy_diff').value = (antibondingEnergy - bondingEnergy).toFixed(3);
         document.getElementById('c1Text').value = document.getElementById('c1').value
         document.getElementById('c2Text').value = document.getElementById('c2').value
         const c1 = Math.sqrt(document.getElementById('c1').value);
@@ -210,6 +204,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]))
         }
         Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius });
+        Plotly.restyle('hydrogen-cation-energy-chart', {x: [radius,radius,[newRadius,newRadius, newRadius]], y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy,antibondingEnergy, (bondingEnergy+antibondingEnergy)/2]], text:['Heyo!','Cool Code Yeah?',['E<sup>g</sup> - E<sub>1s</sub>(R): '+bondingEnergy.toFixed(3),'E<sup>u</sup> - E<sub>1s</sub>(R): '+antibondingEnergy.toFixed(3),'E<sup>u</sup>-E<sup>g</sup>: '+(antibondingEnergy - bondingEnergy).toFixed(3)]]}, [0,1,2]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
     }
     else if (screen == 'n_dynamic') {

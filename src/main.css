@@ -20,6 +20,15 @@
     background-color: antiquewhite;
 }
 
+.time_cs_box {
+    background-color: beige;
+    border-radius: 5px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+}
+
 .hydrogen-cation-chart {
     width: 100%;
     max-width: 600px;
@@ -64,6 +73,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: calc(100vh - 100px);
     width: max-content;
     justify-content: center;
 }
