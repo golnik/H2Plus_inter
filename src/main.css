@@ -6,14 +6,14 @@
     height: 60px;
     display: flex;
     align-items: center;
-    padding: 0px;
+    padding: 0x;
     z-index: 2;
     background-color: antiquewhite;
 }
 
 .graph_section_container {
     height: calc(80vh - 60px);
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -23,7 +23,7 @@
 
 .inputs_and_interactives_container {
     height: 20vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -35,7 +35,7 @@
 
 .hydrogen-cation-chart {
     height: calc(100% - 20px);
-    width: auto;
+    width: 100%;
 }
 
 .graph_container {
@@ -43,15 +43,13 @@
     height: 100%;
     flex-direction: column;
     width: 100%;
-    min-width: 150px;
+    /* min-width: 400px; */
     max-width: 45%;
-    align-items: center;
 }
 
 .half_chart {
     height: 100%;
     max-height: 50%;
-    justify-items: center;
 }
 
 .radius_and_button_container {
@@ -72,11 +70,6 @@
     height: fit-content;
 }
 
-#radius {
-    width: 100%;
-    /* max-width: 440px; */
-}
-
 .radius_slider_container {
     width: 100%;
     display: flex;
@@ -94,8 +87,14 @@
 .title_row {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
     position: relative;
+}
+
+.graph_title {
+    text-align: center;
+    font-size: min(2vw, 20px);
 }
 
 .hide-arrows::-webkit-outer-spin-button,
@@ -106,12 +105,6 @@
 
 .hide-arrows {
     -moz-appearance: textfield;
-}
-
-.graph_title {
-    text-align: center;
-    font-size: min(2vw, 20px);
-    position: relative;
 }
 
 .info_icon {
@@ -127,11 +120,18 @@
 .info_box {
     position: absolute;
     top: 100%;
-    left: 50%;
-    width: 50%;
+    left: 25%;
+    width: 75%;
     background-color: beige;
     border: 1px solid black;
     border-radius: 5px;
     padding: 0px 5px;
     z-index: 1;
+}
+
+.informationSection {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    height: calc(100% - 60px);
 }
