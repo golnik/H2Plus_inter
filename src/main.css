@@ -1,87 +1,59 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0%;
+}
+
 .navbar {
-    position: sticky;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
     height: 60px;
     display: flex;
     align-items: center;
-    padding: 0x;
     z-index: 2;
     background-color: antiquewhite;
 }
 
+.informationSection {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
 .graph_section_container {
-    height: calc(80vh - 60px);
-    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     gap: 20px;
     margin-left: 10px;
 }
 
 .inputs_and_interactives_container {
-    height: 20vh;
-    width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: left;
-    align-items: center;
-    gap: 20px;
-    margin-left: 10px;
 }
 
 .hydrogen-cation-chart {
-    height: calc(100% - 20px);
     width: 100%;
 }
 
 .graph_container {
     display: flex;
-    height: 100%;
     flex-direction: column;
-    width: 100%;
-    /* min-width: 400px; */
-    max-width: 45%;
-}
-
-.half_chart {
-    height: 100%;
-    max-height: 50%;
-}
-
-.radius_and_button_container {
-    width: 40%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center
 }
 
 .time_cs_box {
-    background-color: beige;
-    border-radius: 5px;
-    border: 1px solid black;
     display: flex;
     flex-direction: column;
-    width: max-content;
-    height: fit-content;
+    background-color: beige;
 }
 
 .radius_slider_container {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .input_row {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 8px;
 }
 
 .title_row {
@@ -94,7 +66,6 @@
 
 .graph_title {
     text-align: center;
-    font-size: min(2vw, 20px);
 }
 
 .hide-arrows::-webkit-outer-spin-button,
@@ -120,8 +91,6 @@
 .info_box {
     position: absolute;
     top: 100%;
-    left: 25%;
-    width: 75%;
     background-color: beige;
     border: 1px solid black;
     border-radius: 5px;
@@ -129,9 +98,140 @@
     z-index: 1;
 }
 
-.informationSection {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    height: calc(100% - 60px);
+@media (min-width: 769px) {
+    .graph_section_container {
+        height: calc(80vh - 60px);
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .inputs_and_interactives_container {
+        height: calc(20vh - 20px);
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: left;
+        align-items: center;
+        gap: 20px;
+        margin-left: 10px;
+    }
+
+    .hydrogen-cation-chart {
+        height: calc(100% - 20px);
+    }
+
+    .graph_container {
+        height: 100%;
+        width: 100%;
+        max-width: 45%;
+    }
+
+    .half_chart {
+        height: 100%;
+        max-height: 50%;
+    }
+
+    .radius_and_button_container {
+        width: 40%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .time_cs_box {
+        border-radius: 5px;
+        border: 1px solid black;
+        width: max-content;
+        height: fit-content;
+    }
+
+    .radius_slider_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .input_row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .graph_title {
+        font-size: min(2vw, 20px);
+    }
+
+    .info_box {
+        left: 25%;
+        width: 75%;
+    }
+
+    .summary_box {
+        left: 0% !important;
+        width: 25% !important;
+    }
+}
+
+
+@media (max-width: 768px) {
+    body {
+        width: 100%;
+    }
+
+    .navbar {
+        position: sticky;
+        height: 70px;
+        top: 0;
+        left: 0;
+    }
+
+    .sectionLabel {
+        font-size: small;
+    }
+
+    .graph_section_container {
+        flex-direction: column;
+    }
+
+    .inputs_and_interactives_container {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        flex-direction: column;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .graph_container {
+        align-items: center;
+    }
+
+    .half_chart {
+       width: 100%;
+       justify-items: center;
+    }
+
+    .radius_and_button_container {
+        background-color: beige;
+    }
+
+    .time_cs_box {
+        width: 100%;
+        align-items: center;
+    }
+
+    .title_row {
+        width: 100%;
+    }
+
+    .info_box {
+        left: -10px;
+        width: calc(100% - 5px);
+    }
+
+    .summary_box {
+        left: 0%;
+        width: calc(100% - 12px);
+    }
 }
