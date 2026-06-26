@@ -83,7 +83,7 @@
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
                 <div class="info_box" id="energy-info" style="display: none;">
                     <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
-                    <p> The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule.</p>
+                    <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule.</p>
                     <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state.</p>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <figcaption class="graph_title">Electron Probability Curve for Bonding System</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
                     <div class="info_box" id="bondProb-info" style="display: none;">
-                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the bonding state. This density represents the liklihood that the elctron will be found in a particular region of space. The densty is concentrated in between the nuclei because the two atomic orbitals of hydrogen constructively interfere in this state</p>
+                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the bonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty is concentrated in between the nuclei because the two atomic orbitals of hydrogen constructively interfere in this state</p>
                         <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
                     <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
                     <div class="info_box" id="antiBondProb-info" style="display: none;">
-                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the antibonding state. This density represents the liklihood that the elctron will be found in a particular region of space. The densty in between the nuclei is 0 because the two atomic orbitals of hydrogen destructively interfere in this state. The point at which the probability is 0 is called a bonding "node".</p>
+                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the antibonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty in between the nuclei is 0 because the two atomic orbitals of hydrogen destructively interfere in this state. The point at which the probability is 0 is called a bonding "node".</p>
                         <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
                     </div>
                 </div>
@@ -118,19 +118,10 @@
                 <figcaption class="graph_title">Electron Probability Curve</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                 <div class="info_box" id="eDynamic-info" style="display: none;">
-                    <p>This plot shows the probability that the electron will be in a particular space for a
-                        system in superposition between the bonding and antibonding states.</p>
+                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states. This density represents the likelihood that the electron will be found in a particular region of space. The density oscillates across time with a period proportional to the energy difference between the two states.</p>
                     <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state
-                        and c2
-                        is the antibonding state.</p>
-                    <p>The graph shows the probability that the electron will be in that slice of space given
-                        respect to the nuclei/protons (red dots), the superposition in bonding and antibonding
-                        state,
-                        and time. We can see that as you change the superposition state to be either 100% bonding or
-                        100%
-                        antibonding that it will represent each of the respective graphs from the Static screen
-                        regardless of time.</p>
+                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
+                    <p>We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become each of the respective graphs from the Static screen regardless of time.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
@@ -140,22 +131,10 @@
                 <figcaption class="graph_title">Bonding/Antibonding Energy + Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
                 <div class="info_box" id="nDynamicsMain-info" style="display: none;">
-                    <p>This plot shows the energy difference of the ground state and the energy to have the two protons
-                        some radius apart and the probability density of the nuclei.</p>
-                    <p> The blue curve shows the energy needed for a bonding system to form. This shows that at some
-                        radius R<sub>0</sub> there is a minimum energy which it would like to settle to. The Green curve
-                        with the blue shaded region represents the probability density of the radius between the nuclei
-                        with respect to time</p>
-                    <p>The orange curve shows the energy needed for an antibonding system to form. This curve shows that
-                        there is no radius at which it will settle and instead that they will want to continue to drift
-                        forever. The Red curve with the orange shaded region represents the probability density of the
-                        radius between the nuclei with respect to time.</p>
-                    <p>As you increase time, the density graphs will go from the initial position 1.4441 bohr to the
-                        forever increase the radius. For the antibonding state, this is easy to see as the graph will
-                        forever be decreasing, so the lowest energy point is infinity. For the bonding state however
-                        though there is an energy dip, because the energy in the system at 1.4441 bohr is greater than 0
-                        it will go down into the dip and then forever try to reach an energy greater than 0 causing it
-                        to also disassociate</p>
+                    <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
+                    <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule. The Green curve with the blue shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
+                    <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state. The Red curve with the orange shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
+                    <p>As you increase time, the probability density graphs will go from the <span title="The neutral ground state nuclear wavefunction of an H₂ system."><u>initial position, 1.4441 bohr,</u></span> to infinity. For the antibonding state, this is easy to see as the graph will forever be decreasing, so the lowest energy point is infinity. For the bonding state however though there is an energy minimum, because the energy in the system at 1.4441 bohr is greater than 0 it will go through the dip and forever try to reach an energy greater than 0 causing it to also disassociate</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
@@ -166,14 +145,8 @@
                     <figcaption class="graph_title">Nuclear Radius</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
                     <div class="info_box" id="nDynamicsPos-info" style="display: none;">
-                        <p>This shows the expected nuclear radius of the two graphs with respect to time. The blue
-                            graph
-                            (lower) represents the bonding system, and the orange graph (upper) represents the
-                            antibonding system. As time increases, both curves increase in radius due to the
-                            disassociation
-                            as explained in the probability density graph.</p>
-                        <p>The green curve shows the average between the two states that the nuclei would be based on.
-                        </p>
+                        <p>This plot shows the expected internuclear radius of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
+                        <p>The green curve shows the average expected internuclear radius between the two states taking into account how much each state is populated.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
@@ -183,15 +156,9 @@
                     <figcaption class="graph_title">Nuclear Momentum</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
                     <div class="info_box" id="nDynamicsMom-info" style="display: none;">
-                        <p>This shows the expected nuclear momentum of the two graphs with respect to time. The blue
-                            graph (lower) represents the bonding system, and the orange graph (upper) represents the
-                            antibonding system. As time increases, the orange curve spikes up then levels out due to the
-                            initial steep slope of the energy curve then leveling off like the energy curve.</p>
-                        <p> The blue curve starts by increasing as it moves along the steep curve then after it reaches
-                            the minimum it will start to slow down to a point as the slope of the energy curve levels
-                            off as well</p>
-                        <p>The green curve shows the average between the two states that the nuclei would be based on.
-                        </p>
+                        <p>This shows the expected nuclear momentum of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
+                        <p>As time increases, the antibonding curve spikes up then levels out due to the initial steep slope of the energy curve then levels off. The blue curve starts by increasing as it moves along the steep curve then after it reaches the energy minimum it will start to slow down to a point as the slope of the energy curve levels off as well</p>
+                        <p>The green curve shows the average expected nuclear momentum between the two states taking into account how much each state is populated.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
@@ -202,29 +169,11 @@
                 <figcaption class="graph_title">Electron Probability Curve</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-info')"></i>
                 <div class="info_box" id="fullDynamics-info" style="display: none;">
-                    <p>This plot shows the probability that the electron will be in a particular space for a
-                        system in superposition between the bonding and antibonding states of the nuclei with respect to
-                        time.</p>
-                    <p>The purple dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> bonding system. The
-                        yellow dots represent the nuclei/protons in the antibonding system </p>
-                    <p>The two constants c1 and c2 represent the superposition state when c1 is the bonding state and c2
-                        is the antibonding state.</p>
-                    <p>The orange graph shows the bonding probability part of the total probability chart. The green
-                        shows the antibonding probability part of the total probability chart. The red graph
-                        shows the overlap of the bonding and antibonding orbitals of the H<sub>2</sub><sup>+</sup>
-                        molecule in superposition.</p>
-                    <p>We can observe how the probability chart changes in time when it is in superposition seeing how
-                        initially it acts like the electron dynamics chart, then as the orbitals move apart and the
-                        overlap disappears it is composed of the individual wave functions of the bonding and
-                        antibonding
-                        states added together. We can see how the nuclear motion is the same as defined by the nuclear
-                        dynamics section.</p>
-                    <p>The blue graph shows the probability that the electron will be in that slice of space given
-                        respect to the nuclei/protons (red/purple dots), the superposition in bonding and antibonding
-                        state,
-                        and time. We can see that as you change the superposition state to be either 100% bonding or
-                        100%
-                        antibonding that it will represent each of the respective lines.</p>
+                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states as well as the expected nuclear dynamics. This density represents the likelihood that the electron will be found in a particular region of space. The density changes across time initially similar the pure electron dynamics, then as the two states nuclear overlap/coherence decreases it mostly becomes a combination of the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> and <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> parts.</p>
+                    <p>The purple dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> bonding state. The yellow dots represent the nuclei/protons in the antibonding state </p>
+                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
+                    <p>The orange graph shows the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> part of the total probability chart. This part represents the probability density squared for the bonding electronic state wave function ψ<sub>1</sub> multiplied by the probability density squared of the bonding nuclear state wave function χ<sub>1</sub> radii. The green graph shows the <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> part of the total probability chart. This part represents the probability density squared for the antibonding electronic state wave function ψ<sub>2</sub> multiplied by the probability density squared of the antibonding nuclear state wave function χ<sub>2</sub> across all radii. The red graph shows the 2*<ψ<sub>1</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>1</sub>|χ<sub>2</sub>> part of the total probability graph. This part represents the overlap of the bonding and antibonding state's electronic probability density wave functions ψ<sub>1</sub> and ψ<sub>2</sub> multiplied by the overlap of the bonding and antibonding state's nuclear probability density wave functions χ<sub>1</sub> and χ<sub>2</sub> across all radii</p>
+                    <p>The blue graph shows the true electronic probability density function with respect to time which is the summation of the 3 parts. We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become the respective part.</p>
                 </div>
             </div>
             <div id="fullDynamics-probability-chart" , class="hydrogen-cation-chart"></div>
@@ -234,12 +183,7 @@
                 <figcaption class="graph_title">Nuclear Coherence</figcaption>
                 <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
                 <div class="info_box" id="overlap-info" style="display: none;">
-                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. We can see
-                        that as the coherence decreases that the overlap of the bond and antibond in the electron
-                        probability curve also decreases. The imaginary and real component of the coherence come
-                        from the complex nuclear wave function. The phase represents the interference between the
-                        two
-                        wavefunctions phases.</p>
+                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
                 </div>
             </div>
             <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
