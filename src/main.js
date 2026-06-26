@@ -20,6 +20,7 @@ const bohr_radius = 5.291772e-11;
 const electron_charge = 1.60217663e-19;
 const choices = ['info','static', 'e_dynamic', 'n_dynamic', 'en_dynamic'];
 const infoBoxes = ['energy-info','bondProb-info','antiBondProb-info','eDynamic-info','nDynamicsMain-info','nDynamicsPos-info','nDynamicsMom-info','fullDynamics-info','overlap-info','static-summary','eDynamics-summary','nDynamics-summary','fullDynamics-summary'];
+const graphs = ['hydrogen-cation-energy-chart','hydrogen-cation-bond-probability-chart','hydrogen-cation-antibond-probability-chart','hydrogen-cation-electron-dynamics-chart','hydrogen-cation-energy-chart-nuclear','hydrogen-cation-nuclear-position-chart','hydrogen-cation-nuclear-momentum-chart','fullDynamics-probability-chart','nuclear-overlap-chart']
 let screen = 'info';
 let radius = [];
 let iterate_time;
@@ -43,16 +44,9 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
         document.querySelectorAll('.' + screen).forEach(element => { element.style.display = 'flex'; });
         stopTime();
         screen == 'n_dynamic' || screen == 'en_dynamic' ? document.getElementById('time_slider').max = 10 : document.getElementById('time_slider').max = 1.1;
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-energy-chart'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-bond-probability-chart'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-antibond-probability-chart'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-electron-dynamics-chart'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-energy-chart-nuclear'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-nuclear-position-chart'));
-        Plotly.Plots.resize(document.getElementById('hydrogen-cation-nuclear-momentum-chart'));
-        Plotly.Plots.resize(document.getElementById('fullDynamics-probability-chart'));
-        Plotly.Plots.resize(document.getElementById('nuclear-overlap-chart'));
+        for(id of graphs){Plotly.Plots.resize(document.getElementById(id));}
         info_toggle(infoBoxes,1);
+        for(id of graphs){document.getElementById(id).querySelector('[data-title="Reset axes"]').click();}
         update_graphs();
     });
 });
@@ -86,6 +80,7 @@ function default_values() {
     document.getElementById('c1').value=0.5;
     document.getElementById('c2').value=0.5;
     update_graphs(energy_minimum.solution[0]);
+    for(id of graphs){document.getElementById(id).querySelector('[data-title="Reset axes"]').click();}
 }
 
 function bonding_energy(radius) {
