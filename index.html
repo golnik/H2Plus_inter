@@ -92,7 +92,7 @@
         <div class="graph_container static">
             <div class="half_chart">
                 <div class="title_row">
-                    <figcaption class="graph_title">Electron Probability Curve for Bonding System</figcaption>
+                    <figcaption class="graph_title">Electron Probability Curve for Bonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
                     <div class="info_box" id="bondProb-info" style="display: none;">
                         <p>This plot shows the probability density of the electronic wavefunction corresponding to the bonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty is concentrated in between the nuclei because the two atomic orbitals of hydrogen constructively interfere in this state</p>
@@ -103,7 +103,7 @@
             </div>
             <div class="half_chart">
                 <div class="title_row">
-                    <figcaption class="graph_title">Electron Probability Curve for Antibonding System</figcaption>
+                    <figcaption class="graph_title">Electron Probability Curve for Antibonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
                     <div class="info_box" id="antiBondProb-info" style="display: none;">
                         <p>This plot shows the probability density of the electronic wavefunction corresponding to the antibonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty in between the nuclei is 0 because the two atomic orbitals of hydrogen destructively interfere in this state. The point at which the probability is 0 is called a bonding "node".</p>
@@ -183,7 +183,7 @@
                 <figcaption class="graph_title">Nuclear Coherence</figcaption>
                 <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
                 <div class="info_box" id="overlap-info" style="display: none;">
-                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
+                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
                 </div>
             </div>
             <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
