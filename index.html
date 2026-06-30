@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+    <script>
+        aboutText='Welcome to the H₂⁺ Interactive\n\nThis is a tool to explore quantum bonding dynamics in an H₂⁺ molecule. To use this tool you can navigate to different screens at various dynamics from static to full dynamics. On each screen you will see information icons which you can click to learn more about what that graph/section is showing. The math behind all of the graphs is under the \'Info\' section\n\nYou can change different variables to explore the system in different states and time. You can get back to this page by clicking the \'About\' button.\n\nIf you are interested in where we got the math and concepts see below:\n– Atkins, P. W. & Friedman, R. S. Molecular Quantum Mechanics. (Oxford University Press, Oxford, 1997);\n– Ackland, G. J. Section 7: Hydrogen ion and covalent bonding [Lecture notes]. (School of Physics and Astronomy, The University of Edinburgh, 2011);\n\nDevelopers: Alex Klyber, Max Thomas, and Dr. Nikolay Golubev (ngolubev.com)'
+    </script>
 </head>
 
 <body>
@@ -32,9 +35,18 @@
         <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
         <label for="ren_dynamic" class="sectionLabel">Full Quantum Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-summary')"></i></label>
         <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">To be able to do full quantum molecular dynamics we must combine electron and nuclear dynamics where they are "coupled".</div>
+        <button class="aboutButton" onclick="alert(aboutText)">About</button>
     </div>
     <div class="info informationSection">
         <p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
+        <p>To use this tool you can navigate to different screens at various dynamics from static to full dynamics. For the Static and Electron Dynamics sections you will be able to change the radius by either moving the slider or changing the number in the text box. Doing this will change the radius between the two protons/nuclei in the system. For all dynamics screens you will see a time and superposition block. The two 'c' constants change
+            the superposition state of the molecule. In this system we are assuming that we <span
+                title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> an
+            H<sub>2</sub> molecule to some superposition state between the <span
+                title="See the info button on both probability curves under the Static section"><u>bonding and
+                    antibonding</u></span> states of the H<sub>2</sub><sup>+</sup> system. This state of superposition
+            can change having more or less in the bonding state versus the antibonding state. The time slider allows you
+            to explore how the bonding dynamics actually works though time at an ultrafast scale of femtoseconds(10<sup>-15</sup> seconds).</p>
         <p>For this interactive we use the Schrödinger equation: \(i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = \hat{H} \Psi(\mathbf{r}, t)\) :to solve for statics and dynamics in the H<sub>2</sub><sup>+</sup> molecule purely quantum mechanically.</p>
         <p>For statics we use the time independent Schrödinger equation: \(\hat{H} \psi(\mathbf{r}) = E \psi(\mathbf{r})\) : Then using the <span title="Description"><u>Born-Oppenheimer approximation</u></span> and making all movement on the one dimensional z-axis we get the following hamiltonian: \(H=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\). Using this hamiltonian and the LCAO approximation technique as seen below we can get the following equation for the potential energy surfaces where <strong>R</strong> is the radius between the two protons/nuclei and r<sub>1</sub> and r<sub>2</sub> are the distance from the electron to proton 1 and two respectively:
             \[E(\mathbf{R})=\langle \phi (r_1)\vert \hat H\vert\phi (r_1)\rangle\pm\langle\phi (r_1)\vert\hat H\vert\phi (r_2)\rangle\]
@@ -68,59 +80,20 @@
             \(c_1 \,\text{and}\, c_2\) represent the population in each of the bonding and antibonding states respectively where \(1=c_1^2+c_2^2\). \(E_1\) represents the energy at some radius on the potential energy curve for the bonding state and \(E_2\) for the antibonding state. Notice that we already solved for \(\vert \psi_+\vert^2\ \,\text{and}\, \vert \psi_-\vert^2\) as \(P_{bond}(z) \,\text{and}\, P_{anti}(z)\). This gives us the electronic probability density function for Electron Dynamics, showing how the probability function changes over time in some state of superposition.
         </p>
         <p>
-            To find the nucleat probability density curves for the Nuclear Dynamics section we used the Multi-Configurable Time Dependent Hartree algorrithm (MCTDH) to simulate and pre-generate the nuclear wavepacket data because it would have been too complicated to do it in the browser. We used the command show1d84 to generate the wavepackets, and the command expect84 to generate the expected radius and momentum.
+            To find the nucleat probability density curves for the Nuclear Dynamics section we used the Multi-Configurable Time Dependent Hartree algorrithm (MCTDH) to simulate and pre-generate the nuclear wavepacket data because it would have been too complicated to do it in the browser. We used the command showd1d84 to generate the wavepackets, and the command expect84 to generate the expected radius and momentum.
         </p>
         <p>
             To get the electronic probability densisty chart for the Full Dynamics section we say:
-            \[\langle \Psi \vert p \vert \Psi \rangle\]
+            \[\Psi = c_1\vert\chi_+,\psi_+ \rangle + c_2\vert\chi_-,\psi_- \rangle\]
             Then we again use the following equation (the 'p' terms are the same as above with the time dependent part, but to save space it has been collapsed down to just p):
-            \[\Psi = c_1\vert \psi_+ \rangle + c_2\vert \psi_- \rangle\]
+            \[\langle \Psi \vert p \vert \Psi \rangle\]
             <span class="equation">\[=\vert c_1\vert^2\langle\psi_+\vert p\vert\psi_+\rangle\langle\chi_+\vert\chi_+\rangle   +   c_1c_2\langle\psi_+\vert p \vert\psi_-\rangle\langle\chi_+\vert\chi_-\rangle   +   c_2c_1\langle\psi_-\vert p\vert\psi_+\rangle\langle\chi_-\vert\chi_+\rangle   +   \vert c_2\vert^2\langle\psi_-\vert p\vert\psi_-\rangle\langle\chi_-\vert\chi_-\rangle\]</span>
             <span class="equation">\[\text{Because we are working in only the real plane the middle two terms are the same:}\]
             \[=c_1^2\langle\psi_+\vert p\vert\psi_+\rangle\langle\chi_+\vert\chi_+\rangle   +   2c_1c_2\langle\psi_+\vert p \vert\psi_-\rangle\langle\chi_+\vert\chi_-\rangle   +   c_2^2\langle\psi_-\vert p\vert\psi_-\rangle\langle\chi_-\vert\chi_-\rangle\]</span>
-            <span class="equation">\[=c_1^2\int_0^{\infty}\vert\chi_+\vert^2\vert\psi_+\vert^2\,dR   +   2c_1c_2\int_0^{\infty}\chi_+\chi_-\psi_+\psi_-\cos(t(E_1-E_2))\,dR\   +   c_2^2\int_0^{\infty}\vert\chi_-\vert^2\vert\psi_-\vert^2\,dR\]</span>
-            Because these integrals are not analytically solvable, we use a summation to get an approximation where \(\Delta R = (0.1+0.0486328125*k)\)  and t is time:
-            <span class="equation">\[\sum_{k=0}^{512}(c_1^2\vert\chi_+(\Delta R,t)\vert^2\vert\psi_+(\Delta R)\vert^2   +   2c_1c_2\chi_+(\Delta R,t)\chi_-(\Delta R,t)\psi_+(\Delta R)\psi_-(\Delta R)\cos(t(E_1(\Delta R)-E_2(\Delta R))) + c_2^2\vert\chi_-(\Delta R,t)\vert^2\vert\psi_-(\Delta R)\vert^2)*0.0486328125\]</span>
+            <span class="equation">\[=c_1^2\int_{-\infty}^{\infty}\vert\chi_+\vert^2\vert\psi_+\vert^2\,dR   +   2c_1c_2\int_{-\infty}^{\infty}\chi_+\chi_-\psi_+\psi_-\cos(t(E_1-E_2))\,dR\   +   c_2^2\int_{-\infty}^{\infty}\vert\chi_-\vert^2\vert\psi_-\vert^2\,dR\]</span>
+            Because these integrals are not analytically solvable, we use a summation to get an approximation where \(r^* = (0.1+0.0486328125*k)\text{, and}\,\Delta R = 0.0486328125\)  and t is time:
+            <span class="equation">\[\sum_{k=0}^{512}[c_1^2\vert\chi_+(r^*,t)\vert^2\vert\psi_+(r^*)\vert^2   +   2c_1c_2\chi_+(r^*,t)\chi_-(r^*,t)\psi_+(r^*)\psi_-(r^*)\cos(t[E_1(r^*)-E_2(r^*)]) + c_2^2\vert\chi_-(r^*,t)\vert^2\vert\psi_-(r^*)\vert^2]*\Delta R\]</span>
         </p>
-        
-        <p>To use this tool you can navigate to different screens at various dynamics from static to full dynamics.</p>
-        <p>For the Static and Electron Dynamics sections you will be able to change the radius by either moving the slider or changing the number in the text box. Doing this will change the radius between the two protons in the system.</p>
-        <p>For all the screens except Static you will see a time and superposition block. The two 'c' constants change
-            the superposition state of the molecule. In this system we are assuming that we <span
-                title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> an
-            H<sub>2</sub> molecule to some superposition state between the <span
-                title="See the info button on both probability curves under the Static section"><u>bonding and
-                    antibonding</u></span> states of the H<sub>2</sub><sup>+</sup> system. This state of superposition
-            can change having more or less in the bonding state versus the antibonding state. The time slider allows you
-            to explore how the bonding dynamics actually works though time at an ultrafast scale of femtoseconds(10<sup>-15</sup> seconds).</p>
-        <p>The Statics section just shows a basic probability density curve for the electron at two states and how they change when you change
-            the radius. The Electron Dynamics section shows how the probability curve changes through time when the
-            system is in a state of superposition between two states. The Nuclear Dynamics section shows how the protons
-            in the H<sub>2</sub><sup>+</sup> system move through time when <span
-                title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> from the <span
-                title="The state that has the lowest energy. See the Energy Graph in the Static section."><u>ground
-                    state</u></span> of an H<sub>2</sub> system. Finally the Full Quantum Dynamics section combines the
-            Electron Dynamics and the Nuclear Dynamics sections allowing you to see how both the protons and the
-            electron density move and change through time.</p>
-        <span><br>The graphs may not always be zoomed or moved to what you want to see. You can change both the graphs
-            zoom and viewport. Below are some of the things you can do to move around the graph as well as a demo graph
-            to test on briefly</span>
-        <ul>
-            <li>Zoom: <ul>
-                    <li>Click and drag to select the area to zoom in on or use the zoom in button at the top right
-                        corner of the graph.</li>
-                    <li>Click and drag on the ends of either the x or y axes to zoom out and in.</li>
-                    <li>Double click the graph to reset to deafult zoom or use the house button at the top right corner
-                        of the graph.</li>
-                </ul>
-            </li>
-            <li>Pan: Click and drag on the numbered axes x and y to move the graph along the axis or use the pan button at the top right corner of the graph.</li>
-            <li>Graph Lines: If there is a legend you can hide and show specific graphs by clicking on the graph in the
-                legend.</li>
-        </ul>
-        <div class="graph_container">
-            <div id="example-chart" class="hydrogen-cation-chart" style="aspect-ratio: 2/1;"></div>
-        </div>
     </div>
     <div class="static e_dynamic n_dynamic en_dynamic graph_section_container">
         <div class="graph_container static e_dynamic">
@@ -261,23 +234,23 @@
         </div>
         <div class="e_dynamic n_dynamic en_dynamic time_cs_box">
             <div class="input_row">
-                <span>c1 (bond):</span>
+                <span style="width: 76px;">c1 (bond):</span>
                 <input id="c1" type="range" min="0" max="1" step="0.01"
                     oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
                 <output id="c1Text" style="width: 31px;"></output>
             </div>
             <div class="input_row">
-                <span>c2 (anti):</span>
+                <span style="width: 76px;">c2 (anti):</span>
                 <input id="c2" type="range" min="0" max="1" step="0.01"
                     oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
                 <output id="c2Text" style="width: 31px;"></output>
             </div>
-            <div class="input_row">
+            <div style="width: 100%;" class="input_row">
                 <label for="time_text">Time:</label>
-                <input id="time_text" style="width: 40px;" type="number" min="0" step="0.01" value="0"
+                <input id="time_text" class="hide-arrows" style="width: 40px;" type="number" min="0" step="0.01" value="0"
                     oninput="update_graphs();">
                 <span>fs</span>
-                <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
+                <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0" style="width: 70%;"
                     oninput="document.getElementById('time_text').value = this.value; update_graphs()">
             </div>
             <div class="input_row">
@@ -287,6 +260,7 @@
         </div>
     </div>
     <script src="src/main.js" defer></script>
+    <script defer>alert(aboutText)</script>
 </body>
 
 </html>

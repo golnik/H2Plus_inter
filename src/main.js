@@ -360,29 +360,6 @@ const config = {
 };
 
 
-example_data = [
-    {
-        x: [0,1,2,3],
-        y: [13, 19, 15, 10],
-        mode:'markers',
-        name:'points'
-    },
-    {
-        x: [1,2,3,4],
-        y: [10, 16, 21, 9],
-        mode:'lines',
-        name:'Orange Line'
-    },
-    {
-        x: [0,1,2,3,4],
-        y: [16, 18, 19, 20, 12],
-        mode:'lines',
-        name:'Green Line'
-    }
-]
-
-Plotly.newPlot('example-chart',example_data, {margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },title:{text:'Example Plot'}, xaxis:{title:{text:'X Axis'}}, yaxis:{title:{text:'Y Axis'}}}, config)
-
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph, points_energy_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [{ x: probability_x, line: { color: 1 }, name: '|<i>\u03C8</i><sub>B</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
 Plotly.react('hydrogen-cation-antibond-probability-chart', [{ x: probability_x, line: { color: '#ff7f0e' }, name: '|<i>\u03C8</i><sub>A</sub>(R)|<sup>2</sup>' }, { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], layout_prob, config);
