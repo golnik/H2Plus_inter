@@ -197,11 +197,12 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
     else if (screen == 'n_dynamic') {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2)
-        if(time>10 || time<0) return;
+        if(time>10 || time<0 || isNaN(time)) return;
         const y_data_bond = nDynamics_bonding_data.wave_data.y[time];
         const y_data_anti = nDynamics_antibonding_data.wave_data.y[time];
         const c1 = document.getElementById('c1').value;
         const c2 = document.getElementById('c2').value;
+        document.getElementById('time_slider').value = document.getElementById('time_text').value
         document.getElementById('c1Text').value = c1
         document.getElementById('c2Text').value = c2
         shiftBond = bonding_energy(nDynamics_bonding_data.wave_data.x[y_data_bond.indexOf(Math.max(...y_data_bond))]*bohr_radius);
@@ -215,11 +216,12 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
     else if (screen == 'en_dynamic') {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2);
-        if(time>10 || time<0) return;
+        if(time>10 || time<0 || isNaN(time)) return;
         fullDynamics_probability_y=[];
         let fullDynamicsP1_prob_y = [];
         let fullDynamicsP2_prob_y = [];
         let fullDynamicsP3_prob_y = [];
+        document.getElementById('time_slider').value = document.getElementById('time_text').value
         document.getElementById('c1Text').value = document.getElementById('c1').value;
         document.getElementById('c2Text').value = document.getElementById('c2').value;
         const c1 = Math.sqrt(document.getElementById('c1').value);
