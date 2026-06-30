@@ -224,13 +224,6 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         document.getElementById('c2Text').value = document.getElementById('c2').value;
         const c1 = Math.sqrt(document.getElementById('c1').value);
         const c2 = Math.sqrt(document.getElementById('c2').value);
-        // for (const distance of fullDynamics_data.x) {
-        //     let probabilities = fullDynamics_probability(time, distance, [c1,c2]);
-        //     fullDynamics_probability_y.push(probabilities[0]+probabilities[1]+probabilities[2]);
-        //     fullDynamicsP1_prob_y.push(probabilities[0]);
-        //     fullDynamicsP2_prob_y.push(probabilities[1]);
-        //     fullDynamicsP3_prob_y.push(probabilities[2]);
-        // }
         fullDynamicsP1_prob_y=fullDynamics_data[time].P1.map(num=>num*c1**2);
         fullDynamicsP2_prob_y=fullDynamics_data[time].P2.map(num=>num*c2**2);
         fullDynamicsP3_prob_y=fullDynamics_data[time].P3.map(num=>num*c1*c2);
