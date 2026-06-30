@@ -9,8 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="src/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
 </head>
 
 <body>
@@ -25,24 +28,58 @@
         <div class="info_box summary_box" id="eDynamics-summary" style="display: none;">In quantum mechanics a system can be in a "superposition" of states. This means that there is some probability of finding the system in one of multiple states (the system is 'in multiple states at once'). When a molecule is prepared in a superposition of <span title="Energy levels"><u>electronic states</u></span>, the total <span title="Probability density of an electron"><u>electronic density</u></span> is not just the sum of the two state's densities. This is because an interference yields a time dependent density. Here we show this density as a function of time, <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>, and the superposition population of each electronic state.</div>
         <input id="rn_dynamic" type="radio" name="selection" value="n_dynamic">
         <label for="rn_dynamic" class="sectionLabel">Nuclear Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('nDynamics-summary')"></i></label>
-        <div class="info_box summary_box" id="nDynamics-summary" style="display: none;">In addition to electronic dynamics, molecules have nuclear dynamics defined by the <span title="Slope/steepness of the line"><u>gradient</u></span> of the potential energy curve of the electronic state. Here we simulate the dynamics of the nuclear wavefunction using the Multi-Configurable Time Dependent Hartree algorrithm (MCTDH), assuming <span title="The neutral system is ionized at some radius which directly corresponds to the starting radius of the higher electronic states."><u>vertical ionization of the neutral ground state nuclear wavefunction</u></span>. Because the bonding and antibonding electronic state's potential energy surfaces have a different shape, the nuclear wavefunction evolves differently for each, which we then show through tht expectation value for position and momentum.</div>
+        <div class="info_box summary_box" id="nDynamics-summary" style="display: none;">In addition to electronic dynamics, molecules have nuclear dynamics defined by the <span title="Slope/steepness of the line"><u>gradient</u></span> of the potential energy curve of the electronic state. Here we simulate the dynamics of the nuclear wavefunction using the Multi-Configurable Time Dependent Hartree algorithm (MCTDH), assuming <span title="The neutral system is ionized at some radius which directly corresponds to the starting radius of the higher electronic states."><u>vertical ionization of the neutral ground state nuclear wavefunction</u></span>. Because the bonding and antibonding electronic state's potential energy surfaces have a different shape, the nuclear wavefunction evolves differently for each, which we then show through tht expectation value for position and momentum.</div>
         <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
         <label for="ren_dynamic" class="sectionLabel">Full Quantum Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-summary')"></i></label>
         <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">To be able to do full quantum molecular dynamics we must combine electron and nuclear dynamics where they are "coupled".</div>
     </div>
     <div class="info informationSection">
-        <p>This is an interactive tool that explores the ultrafast <span
-                title="How protons and electrons move with respect to time in a bond."><u>quantum bonding
-                    dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1
-            electron.</p>
+        <p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
+        <p>For this interactive we use the Schrödinger equation: \(i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = \hat{H} \Psi(\mathbf{r}, t)\) :to solve for statics and dynamics in the H<sub>2</sub><sup>+</sup> molecule purely quantum mechanically.</p>
+        <p>For statics we use the time independent Schrödinger equation: \(\hat{H} \psi(\mathbf{r}) = E \psi(\mathbf{r})\) : Then using the <span title="Description"><u>Born-Oppenheimer approximation</u></span> and making all movement on the one dimensional z-axis we get the following hamiltonian: \(H=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\)</p>
+        <p>We use one more approximation technique called Linear Combination of Atomic Orbitals (LCAO) which says: \[\psi=\sum_{r} c_r \phi_r\]\[\psi_\pm \approx \phi_a \pm \phi_b\] :where \(\phi_a\) is the wavefunction about the nucleus on the first hydrogen, and \(\phi_b\) is the wavefunction about the nucleus of the second hydrogen in the bond. We use the wave function: \[\phi(r)=\frac{1}{\sqrt{\pi}}e^{-\mathbf{r}}=\frac{1}{\sqrt{\pi}}e^{-\sqrt{x^2+y^2+z^2}}\]: where we assume that z=0 is the middle in between the two protons giving us: \(z_a=z-\frac{R}{2}\) and \(z_b=z+\frac{R}{2}\) : Then we can now use: \(P(\mathbf{r})=\vert\psi(\mathbf{r})\vert^2\) :where 'P' is the electronic probability density. Now since we only want one moving axis (z), we must integrate out x and y. We use our LCAO approximation for the bonding and antibonding states (\(\psi_+\) and \(\psi_-\) respectively), with a normalization constant 'N' to make the final function integrate out to 1, allowing us to get the following for the bonding state:
+            <span class="equation">\[P_{bond}(z)=N^2\int_0^{\infty}\int_0^{\infty}\left(\frac{1}{\sqrt{\pi}}\left(e^{-\sqrt{x^2+y^2+\left(z+\frac{R}{2}\right)^2}}+e^{-\sqrt{x^2+y^2+\left(z-\frac{R}{2}\right)^2}}\right)\right)^2\,dxdy\]</span>
+            <span class="equation">\[P_{bond}(z)=\frac{N^2}{\pi}\int_0^{2\pi}\int_0^{\infty}r\left(e^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}}+e^{-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\right)^2\,drd\theta\]</span>
+            <span class="equation">\[P_{bond}(z)=2N^2\left(\int_0^{\infty}re^{-2\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}}\,dr+\int_0^{\infty}re^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr+\int_0^{\infty}re^{-2\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr\right)\]</span>
+            We are going to say \(j=\int_0^{\infty}re^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr\) since it must be solved numerically. Then using a u-sub for the first and last integrals in the step above of \(u=\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}\) where \(u\,du=r\,dr\) and \(v=\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}\) where \(v\,dv=r\,dr\) we get:
+            <span class="equation">\[P_{bond}(z)=2N^2\left(\int_0^{\infty}ue^{-2u}\,du+\int_0^{\infty}ve^{-2v}\,dv+j\right)\]</span>
+            <span class="equation">\[P_{bond}(z)=N^2\left(\frac{1}{2}e^{-2\vert z+\frac{R}{2}\vert}\left(1+2\left\vert z+\frac{R}{2}\right\vert\right)+\frac{1}{2}e^{-2\vert z-\frac{R}{2}\vert}\left(1+2\left\vert z-\frac{R}{2}\right\vert\right)+j\right)\]</span>
+            When we do this for the antibonding state we get:
+            <span class="equation">\[P_{anti}(z)=N^2\left(\frac{1}{2}e^{-2\vert z+\frac{R}{2}\vert}\left(1+2\left\vert z+\frac{R}{2}\right\vert\right)+\frac{1}{2}e^{-2\vert z-\frac{R}{2}\vert}\left(1+2\left\vert z-\frac{R}{2}\right\vert\right)-j\right)\]</span>
+            We can solve for N by integrating from \(-\infty\) to \(\infty\) with respect to z and setting it equal to 1 to solve for N. Doing this we get:
+            <span class="equation">\[N^2_{bond}=\frac{1}{\sqrt{2\left(1+e^{-R}\left(1+R+\frac{R^2}{3}\right)\right)}}\quad\text{and}\quad N^2_{anti}=\frac{1}{\sqrt{2\left(1-e^{-R}\left(1+R+\frac{R^2}{3}\right)\right)}}\]</span>
+            These two equations give the electronic probability densisty graphs seen in the static section where R is the radius between the nuclei.
+        </p>
+        <p>
+            To find the electronic probability density curve for the Electron Dynamics section we say:
+            \[\Psi = c_1\vert \psi_+ \rangle + c_2\vert \psi_- \rangle\]
+            Then we use the following equation with time dependence to find the curve:
+            \[\langle \Psi \vert p \vert \Psi \rangle\]
+            <span class="equation">\[=c_1^2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_1t}\vert \psi_+\rangle  +  c_1c_2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_2t}\vert \psi_-\rangle  +  c_2c_1\langle \psi_-\vert e^{-iE_2t}pe^{-iE_1t}\vert \psi_+\rangle  +  c_2^2\langle \psi_-\vert e^{-iE_2t}pe^{-iE_2t}\vert \psi_-\rangle\]</span>
+            <span class="equation">\[\text{Because we are working in only the real plane the middle two terms are the same}\]
+            \[=c_1^2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_1t}\vert \psi_+\rangle  +  2c_1c_2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_2t}\vert \psi_-\rangle  +  c_2^2\langle \psi_-\vert e^{-iE_2t}pe^{-iE_2t}\vert \psi_-\rangle\]</span>
+            <span class="equation">\[=\vert c_1\vert^2 \vert \psi_+\vert^2  +  2c_1c_2\psi_+\psi_-\cos(t(E_1-E_2))  +  \vert c_2\vert^2 \vert \psi_-\vert^2\]</span>
+            \(c_1 \,\text{and}\, c_2\) represent the population in each of the bonding and antibonding states respectively where \(1=c_1^2+c_2^2\). \(E_1\) represents the energy at some radius on the potential energy curve for the bonding state and \(E_2\) for the antibonding state. Notice that we already solved for \(\vert \psi_+\vert^2\ \,\text{and}\, \vert \psi_-\vert^2\) as \(P_{bond}(z) \,\text{and}\, P_{anti}(z)\). This gives us the electronic probability density function for Electron Dynamics, showing how the probability function changes over time in some state of superposition.
+        </p>
+        <p>
+            To find the nucleat probability density curves for the Nuclear Dynamics section we used the Multi-Configurable Time Dependent Hartree algorrithm (MCTDH) to simulate and pre-generate the nuclear wavepacket data because it would have been too complicated to do it in the browser. We used the command show1d84 to generate the wavepackets, and the command expect84 to generate the expected radius and momentum.
+        </p>
+        <p>
+            To get the electronic probability densisty chart for the Full Dynamics section we say:
+            \[\Psi= c_1\vert \chi_+,\psi_+\rangle + c_2\vert\chi_-,\psi_-\rangle\]
+            \[=\langle\]
+        </p>
+        
+        Using this allows us to then get a hamiltonians for each of the wavefunction: \(H_a=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}+\frac{e^2}{4 \pi \epsilon_0 R}\) and \(H_b=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\) : \(\)
+        \(i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = -\frac{\hbar^2}{2m} \nabla^2 \Psi(\mathbf{r}, t) + V(\mathbf{r}) \Psi(\mathbf{r}, t)\)
+        \(-\frac{\hbar^2}{2m} \frac{d^2}{dx^2} \psi(x) + V(x) \psi(x) = E \psi(x)\)
+
         <p>To use this tool you can navigate to different screens at various dynamics from static to full dynamics.</p>
-        <p>For the Static and Electron Dynamics sections you will be able to change the radius by either moving the
-            slider or changing the number in the text box. Doing this will change the radius between the two protons in
-            the system.</p>
+        <p>For the Static and Electron Dynamics sections you will be able to change the radius by either moving the slider or changing the number in the text box. Doing this will change the radius between the two protons in the system.</p>
         <p>For all the screens except Static you will see a time and superposition block. The two 'c' constants change
             the superposition state of the molecule. In this system we are assuming that we <span
                 title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> an
-            H<sub>2</sub> to some superposition state between the <span
+            H<sub>2</sub> molecule to some superposition state between the <span
                 title="See the info button on both probability curves under the Static section"><u>bonding and
                     antibonding</u></span> states of the H<sub>2</sub><sup>+</sup> system. This state of superposition
             can change having more or less in the bonding state versus the antibonding state. The time slider allows you
@@ -79,10 +116,10 @@
     <div class="static e_dynamic n_dynamic en_dynamic graph_section_container">
         <div class="graph_container static e_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Hydrogen cation bonding and antibonding energy</figcaption>
+                <figcaption class="graph_title">Hydrogen Cation Bonding and Antibonding Energy</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
                 <div class="info_box" id="energy-info" style="display: none;">
-                    <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
+                    <p>This plot shows the energy difference between the ground state energy of a hydrogen atom and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
                     <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule.</p>
                     <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state.</p>
                 </div>
