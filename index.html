@@ -7,7 +7,11 @@
     <title>H₂⁺ Interactive</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="src/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <!--link rel="stylesheet" href="src/main.css"-->
+    <link rel="stylesheet" href="src/new_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js" defer></script>
@@ -18,6 +22,7 @@
 
 <body>
     <div class="navbar">
+        <span class="navbar-brand">\(H_2^{+}\) Interactive</span>
         <input id="infoScreen" type="radio" name="selection" value="info" checked>
         <label for="infoScreen" class="sectionLabel">Info</label>
         <input id="rStatic" type="radio" name="selection" value="static">
