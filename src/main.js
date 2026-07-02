@@ -2,6 +2,7 @@ const epsilon = 8.8541878e-12;
 const h_ground_energy = -13.6;
 const bohr_radius = 5.291772e-11;
 const electron_charge = 1.60217663e-19;
+const hbar_eVfs = 0.6582119569;
 const choices = ['info','static', 'e_dynamic', 'n_dynamic', 'en_dynamic'];
 const infoBoxes = ['energy-info','bondProb-info','antiBondProb-info','eDynamic-info','nDynamicsMain-info','nDynamicsPos-info','nDynamicsMom-info','fullDynamics-info','overlap-info','static-summary','eDynamics-summary','nDynamics-summary','fullDynamics-summary'];
 const graphs = ['hydrogen-cation-energy-chart','hydrogen-cation-bond-probability-chart','hydrogen-cation-antibond-probability-chart','hydrogen-cation-electron-dynamics-chart','hydrogen-cation-energy-chart-nuclear','hydrogen-cation-nuclear-position-chart','hydrogen-cation-nuclear-momentum-chart','fullDynamics-probability-chart','nuclear-overlap-chart']
@@ -101,9 +102,14 @@ function startTime() {
     if (iterate_time) return;
     iterate_time = setInterval(() => {
         const time = parseFloat(document.getElementById('time_text').value);
-        document.getElementById('time_text').value = (time + 0.01).toFixed(2);
+        let newTime = time + 0.01;
+        if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
+            newTime = 0;
+        }
+        document.getElementById('time_text').value = newTime.toFixed(2);
         update_graphs();
     }, 50);
+    document.getElementById('playPauseButton').textContent = 'Pause';
 }
 
 function stopTime() {
@@ -115,7 +121,16 @@ function stopTime() {
         document.getElementById('time_slider').value = 0;
         update_graphs();
     }
+    document.getElementById('playPauseButton').textContent = 'Play';
     return;
+}
+
+function togglePlayPause() {
+    if (iterate_time) {
+        stopTime();
+    } else {
+        startTime();
+    }
 }
 
 function probability_Curve(radius, distance) {
@@ -150,7 +165,7 @@ function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(
     }
     const pBond = c[0] ** 2 * (waveFunction1 + waveFunction2 + sum) / normalizeBond;
     const pAnti = c[1] ** 2 * (waveFunction1 + waveFunction2 - sum) / normalizeAnti;
-    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond) * Math.cos((time * (E1 - E2)) / 0.6582119569);
+    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond) * Math.cos((time * (E1 - E2)) / hbar_eVfs);
     return pBond + pAnti + pCross;
 }
 
@@ -188,6 +203,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }
         const bondingEnergy = bonding_energy(newRadius * bohr_radius);
         const antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
+        const oscillationPeriod = (2 * Math.PI * hbar_eVfs) / Math.abs(antibondingEnergy - bondingEnergy);
+        document.getElementById('time_slider').max = (2 * oscillationPeriod).toFixed(3);
+        document.getElementById('time_slider').value = document.getElementById('time_text').value
         document.getElementById('c1Text').value = document.getElementById('c1').value
         document.getElementById('c2Text').value = document.getElementById('c2').value
         const c1 = Math.sqrt(document.getElementById('c1').value);
