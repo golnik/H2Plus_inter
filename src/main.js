@@ -217,6 +217,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         Plotly.relayout('hydrogen-cation-energy-chart', { 'shapes[0].x0': newRadius, 'shapes[0].x1': newRadius, 'shapes[0].y0':bondingEnergy, 'shapes[0].y1':antibondingEnergy });
         Plotly.restyle('hydrogen-cation-energy-chart', {x: [radius,radius,[newRadius,newRadius, newRadius]], y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy,antibondingEnergy, (bondingEnergy+antibondingEnergy)/2]], text:['','',['E<sup>g</sup> - E<sub>1s</sub>(R): '+bondingEnergy.toFixed(3),'E<sup>u</sup> - E<sub>1s</sub>(R): '+antibondingEnergy.toFixed(3),'E<sup>u</sup>-E<sup>g</sup>: '+(antibondingEnergy - bondingEnergy).toFixed(3)]]}, [0,1,2]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', { y: [electron_dynamics_y, [0, 0]], x: [probability_x, [-(newRadius / 2), newRadius / 2]] }, [0, 1]);
+        Plotly.relayout('hydrogen-cation-electron-dynamics-chart', { 'annotations[0].text': `ΔE = ${Math.abs(antibondingEnergy - bondingEnergy).toFixed(3)} eV<br> T = ${oscillationPeriod.toFixed(3)} fs` });
     }
     else if (screen == 'n_dynamic') {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2)
@@ -377,7 +378,19 @@ const layout_prob = {
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 }
 };
 
-const layout_edynamics_prob = { ...layout_prob, yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] } }
+const layout_edynamics_prob = {
+    ...layout_prob,
+    yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] },
+    annotations: [{
+        xref: 'paper', yref: 'paper',
+        x: 0.98, y: 1.0,
+        xanchor: 'right', yanchor: 'top',
+        align: 'left',
+        showarrow: false,
+        font: { size: 18, family: 'JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' },
+        text: ''
+    }]
+}
 
 const config = {
     responsive: true,
