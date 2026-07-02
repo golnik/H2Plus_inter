@@ -69,6 +69,11 @@ for (let i = 0; i <= 2667; i++) {
     antibonding_energy_y.push(antibonding_energy((rad) * bohr_radius));
 }
 
+function toggle_about() {
+    const overlay = document.getElementById('about-modal-overlay');
+    overlay.style.display = overlay.style.display === 'none' ? 'flex' : 'none';
+}
+
 function info_toggle(info, close = 0) {
     if (close == 1) return info.forEach(id => document.getElementById(id).style.display = 'none');
     const element = document.getElementById(info);

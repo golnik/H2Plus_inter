@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.js" integrity="sha384-AtrdNsnxl/75rvBneBVH7DtOvCxSVahR2zWqle1coBKd8DEmLoviqNeJSx64gNAs" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
-    <script>
-        aboutText='Welcome to the H₂⁺ Interactive\n\nThis is a tool to explore quantum bonding dynamics in an H₂⁺ molecule. To use this tool you can navigate to different screens at various dynamics from static to full dynamics. On each screen you will see information icons which you can click to learn more about what that graph/section is showing. The math behind all of the graphs is under the \'Info\' section\n\nYou can change different variables to explore the system in different states and time. You can get back to this page by clicking the \'About\' button.\n\nIf you are interested in where we got the math and concepts see below:\n– Atkins, P. W. & Friedman, R. S. Molecular Quantum Mechanics. (Oxford University Press, Oxford, 1997);\n– Ackland, G. J. Section 7: Hydrogen ion and covalent bonding [Lecture notes]. (School of Physics and Astronomy, The University of Edinburgh, 2011);\n\nDevelopers: Alex Klyber, Max Thomas, and Dr. Nikolay Golubev (ngolubev.com)'
-    </script>
 </head>
 
 <body>
@@ -35,7 +32,21 @@
         <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
         <label for="ren_dynamic" class="sectionLabel">Full Quantum Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-summary')"></i></label>
         <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">To be able to do full quantum molecular dynamics we must combine electron and nuclear dynamics where they are "coupled".</div>
-        <button class="aboutButton" onclick="alert(aboutText)">About</button>
+        <button class="aboutButton" onclick="toggle_about()">About</button>
+    </div>
+    <div class="about-modal-overlay" id="about-modal-overlay" onclick="if (event.target === this) toggle_about();">
+        <div class="about-modal-content">
+            <button class="about-modal-close" onclick="toggle_about()">&times;</button>
+            <p>Welcome to the \(H_{2}^{+}\) Interactive</p>
+            <p>This is a tool to explore quantum bonding dynamics in an H₂⁺ molecule. To use this tool you can navigate to different screens at various dynamics from static to full dynamics. On each screen you will see information icons which you can click to learn more about what that graph/section is showing. The math behind all of the graphs is under the 'Info' section.</p>
+            <p>You can change different variables to explore the system in different states and time. You can get back to this page by clicking the 'About' button.</p>
+            <p>If you are interested in where we got the math and concepts see below:</p>
+            <p>
+                – Atkins, P. W. &amp; Friedman, R. S. Molecular Quantum Mechanics. (Oxford University Press, Oxford, 1997);<br>
+                – Ackland, G. J. Section 7: Hydrogen ion and covalent bonding [Lecture notes]. (School of Physics and Astronomy, The University of Edinburgh, 2011);
+            </p>
+            <p>Developers: Alex Klyber, Max Thomas, and Dr. Nikolay Golubev (ngolubev.com)</p>
+        </div>
     </div>
     <div class="info informationSection">
         <p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
@@ -260,7 +271,6 @@
         </div>
     </div>
     <script src="src/main.js" defer></script>
-    <script defer>alert(aboutText)</script>
 </body>
 
 </html>
