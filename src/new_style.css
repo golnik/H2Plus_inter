@@ -293,9 +293,11 @@ input[name="selection"]:focus-visible + .sectionLabel {
     margin: 0;
 }
 
-.time_cs_box {
+.time_cs_box,
+.radius_and_button_container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     background: var(--color-card);
     border: 1px solid var(--color-border);
     border-top: 3px solid var(--color-navy);
@@ -310,6 +312,8 @@ input[name="selection"]:focus-visible + .sectionLabel {
 .input_row {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 8px;
 }
 
 .input_row span,
@@ -372,6 +376,9 @@ output {
 input[type="range"] {
     appearance: none;
     -webkit-appearance: none;
+    width: 100%;
+    flex: 1 1 0%;
+    min-width: 0;
     height: 6px;
     border-radius: 3px;
     background: linear-gradient(90deg, var(--color-navy-light), var(--color-gold));
@@ -650,10 +657,10 @@ button:active {
 
     .radius_and_button_container {
         width: 40%;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center
+        height: fit-content;
+        justify-content: center;
+        padding: 10px 14px;
+        gap: 4px;
     }
 
     .time_cs_box {
@@ -662,20 +669,12 @@ button:active {
         width: 20vw;
         min-width: fit-content;
         height: fit-content;
-        align-items: center;
     }
 
     .radius_slider_container {
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    .input_row {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 8px;
     }
 
     .graph_title {
@@ -741,15 +740,13 @@ button:active {
     }
 
     .radius_and_button_container {
-        background: var(--color-paper-alt);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius);
+        width: 100%;
         padding: 10px;
+        gap: 4px;
     }
 
     .time_cs_box {
         width: 100%;
-        align-items: center;
         padding: 10px;
         gap: 4px;
     }
