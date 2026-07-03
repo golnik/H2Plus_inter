@@ -234,12 +234,11 @@ input[name="selection"]:focus-visible + .sectionLabel {
     box-shadow: var(--shadow-card);
     padding: 12px 14px;
     overflow: hidden;
-    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    transition: box-shadow 0.25s ease;
 }
 
 .graph_container:hover {
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
 }
 
 .half_chart {
