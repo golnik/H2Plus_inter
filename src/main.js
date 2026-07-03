@@ -548,7 +548,7 @@ radiusTextInput.value = energy_minimum.solution[0];
 // =============================================================================
 
 for (const i of choices) { document.querySelectorAll('.' + i).forEach(element => { element.style.display = 'none'; }); }
-document.querySelectorAll('.info').forEach(element => { element.style.display = 'flex'; });
+document.querySelectorAll('.info').forEach(element => { element.style.display = ''; });
 
 // =============================================================================
 // Event listeners
@@ -558,7 +558,7 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
     radio.addEventListener('change', function () {
         screen = this.value;
         for (const i of choices) { document.querySelectorAll('.' + i).forEach(element => { element.style.display = 'none'; }); }
-        document.querySelectorAll('.' + screen).forEach(element => { element.style.display = 'flex'; });
+        document.querySelectorAll('.' + screen).forEach(element => { element.style.display = ''; });
         stopTime();
         document.getElementById('time_slider').max = (screen == 'n_dynamic' || screen == 'en_dynamic') ? 10 : 1.1;
         for (const id of graphs) { Plotly.Plots.resize(document.getElementById(id)); }
