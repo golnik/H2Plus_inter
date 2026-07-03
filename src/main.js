@@ -9,6 +9,12 @@ const electron_charge = 1.60217663e-19;
 const hbar_eVfs = 0.6582119569;
 
 // =============================================================================
+// Plot configuration
+// =============================================================================
+
+const PLOT_FONT_SIZE = 14;
+
+// =============================================================================
 // UI configuration
 // =============================================================================
 
@@ -174,6 +180,7 @@ const delta_point_graph = {
 
 const layout_energy = {
     autosize: true,
+    font: { size: PLOT_FONT_SIZE },
     showlegend: true,
     legend: {
         x: 1,
@@ -200,6 +207,7 @@ const layout_energy = {
 
 const layout_nPosition = {
     autosize: true,
+    font: { size: PLOT_FONT_SIZE },
     legend: {
         x: 0,
         y: 1,
@@ -224,6 +232,7 @@ const layout_nPosition = {
 
 const layout_nMomentum = {
     autosize: true,
+    font: { size: PLOT_FONT_SIZE },
     legend: {
         xanchor: 'right',
         x: 1,
@@ -248,6 +257,7 @@ const layout_nMomentum = {
 
 const layout_prob = {
     autosize: true,
+    font: { size: PLOT_FONT_SIZE },
     showlegend: false,
     xaxis: {
         title: { text: 'R/a<sub>0</sub>' },
@@ -268,7 +278,7 @@ const layout_edynamics_prob = {
         xanchor: 'right', yanchor: 'top',
         align: 'left',
         showarrow: false,
-        font: { size: 18, family: 'JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' },
+        font: { size: PLOT_FONT_SIZE, family: 'JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' },
         text: '',
     }],
 };
