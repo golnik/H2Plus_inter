@@ -151,17 +151,37 @@ const antibonding_energy_graph = {
     name: 'E<sup>u</sup> - E<sub>1s</sub>',
 };
 
-const points_energy_graph = {
+const bonding_point_graph = {
     type: 'scatter',
-    mode: 'markers+text',
-    text: ['E<sup>g</sup> - E<sub>1s</sub>(R): ', 'E<sup>u</sup> - E<sub>1s</sub>: ', 'E<sup>u</sup>-E<sup>g</sup>: '],
-    textposition: ['bottom left', 'top left', 'left'],
-    marker: { size: 10, color: [-1, '#ff7f0e', 'green'] },
+    mode: 'markers',
+    name: 'E<sup>g</sup> - E<sub>1s</sub>(R)',
+    marker: { size: 10, color: '#1f77b4' },
+};
+
+const antibonding_point_graph = {
+    type: 'scatter',
+    mode: 'markers',
+    name: 'E<sup>u</sup> - E<sub>1s</sub>(R)',
+    marker: { size: 10, color: '#ff7f0e' },
+};
+
+const delta_point_graph = {
+    type: 'scatter',
+    mode: 'markers',
+    name: 'E<sup>u</sup>-E<sup>g</sup>',
+    marker: { size: 10, color: 'green' },
 };
 
 const layout_energy = {
     autosize: true,
-    showlegend: false,
+    showlegend: true,
+    legend: {
+        x: 1,
+        y: 1,
+        yanchor: 'top',
+        xanchor: 'right',
+        bgcolor: 'rgba(255,255,255,0.5)',
+    },
     xaxis: {
         range: [0.5, 6],
         title: { text: 'R/a<sub>0</sub>' },
@@ -170,20 +190,6 @@ const layout_energy = {
         range: [-3, 4],
         title: { text: 'E<sup>g,u</sup> - E<sub>1s</sub> (eV)' },
     },
-    annotations: [
-        {
-            x: 1.65,
-            y: bonding_energy(1.3 * bohr_radius),
-            text: 'E<sup>g</sup> - E<sub>1s</sub>',
-            showarrow: false,
-        },
-        {
-            x: 3.75,
-            y: antibonding_energy(3.4 * bohr_radius),
-            text: 'E<sup>u</sup> - E<sub>1s</sub>',
-            showarrow: false,
-        },
-    ],
     shapes: [{
         type: 'line',
         line: { color: 'black', dash: 'dash' },
@@ -356,14 +362,18 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             'shapes[0].y0': bondingEnergy, 'shapes[0].y1': antibondingEnergy,
         });
         Plotly.restyle('hydrogen-cation-energy-chart', {
-            x: [radius, radius, [newRadius, newRadius, newRadius]],
-            y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy, antibondingEnergy, (bondingEnergy + antibondingEnergy) / 2]],
-            text: ['', '', [
+            x: [radius, radius, [newRadius], [newRadius], [newRadius]],
+            y: [
+                bonding_energy_y, antibonding_energy_y,
+                [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
+            ],
+            name: [
+                'E<sup>g</sup> - E<sub>1s</sub>', 'E<sup>u</sup> - E<sub>1s</sub>',
                 'E<sup>g</sup> - E<sub>1s</sub>(R): ' + bondingEnergy.toFixed(3),
                 'E<sup>u</sup> - E<sub>1s</sub>(R): ' + antibondingEnergy.toFixed(3),
                 'E<sup>u</sup>-E<sup>g</sup>: ' + (antibondingEnergy - bondingEnergy).toFixed(3),
-            ]],
-        }, [0, 1, 2]);
+            ],
+        }, [0, 1, 2, 3, 4]);
 
         bonding_probability_y = [];
         antibonding_probability_y = [];
@@ -413,14 +423,18 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             'shapes[0].y0': bondingEnergy, 'shapes[0].y1': antibondingEnergy,
         });
         Plotly.restyle('hydrogen-cation-energy-chart', {
-            x: [radius, radius, [newRadius, newRadius, newRadius]],
-            y: [bonding_energy_y, antibonding_energy_y, [bondingEnergy, antibondingEnergy, (bondingEnergy + antibondingEnergy) / 2]],
-            text: ['', '', [
+            x: [radius, radius, [newRadius], [newRadius], [newRadius]],
+            y: [
+                bonding_energy_y, antibonding_energy_y,
+                [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
+            ],
+            name: [
+                'E<sup>g</sup> - E<sub>1s</sub>', 'E<sup>u</sup> - E<sub>1s</sub>',
                 'E<sup>g</sup> - E<sub>1s</sub>(R): ' + bondingEnergy.toFixed(3),
                 'E<sup>u</sup> - E<sub>1s</sub>(R): ' + antibondingEnergy.toFixed(3),
                 'E<sup>u</sup>-E<sup>g</sup>: ' + (antibondingEnergy - bondingEnergy).toFixed(3),
-            ]],
-        }, [0, 1, 2]);
+            ],
+        }, [0, 1, 2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
             y: [electron_dynamics_y, [0, 0]],
             x: [probability_x, [-(newRadius / 2), newRadius / 2]],
@@ -502,7 +516,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
 // Initial chart setup
 // =============================================================================
 
-Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph, points_energy_graph], layout_energy, config);
+Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph, bonding_point_graph, antibonding_point_graph, delta_point_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [
     { x: probability_x, line: { color: 1 }, name: '|<i>ψ</i><sub>B</sub>(R)|<sup>2</sup>' },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
