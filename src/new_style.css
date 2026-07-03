@@ -110,6 +110,11 @@ body {
     border: 0;
 }
 
+.navSection {
+    position: relative;
+    height: 100%;
+}
+
 .sectionLabel {
     display: flex;
     align-items: center;
@@ -687,8 +692,8 @@ button:active {
     }
 
     .summary_box {
-        left: 0% !important;
-        width: 25% !important;
+        left: 0;
+        width: 320px;
     }
 }
 
