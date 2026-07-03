@@ -266,18 +266,6 @@ input[name="selection"]:focus-visible + .sectionLabel {
     margin-bottom: 6px;
 }
 
-.title_row::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 42px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--color-gold);
-}
-
 .title_row .info_icon {
     color: var(--color-navy-light);
     font-size: 14px;
@@ -291,7 +279,7 @@ input[name="selection"]:focus-visible + .sectionLabel {
 .graph_title {
     text-align: center;
     font-family: var(--font-serif);
-    font-style: italic;
+    font-style: bold;
     font-weight: 600;
     color: var(--color-navy);
     letter-spacing: 0.2px;
