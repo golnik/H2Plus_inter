@@ -148,33 +148,30 @@ for (let i = 0; i <= 2667; i++) {
 const bonding_energy_graph = {
     x: radius,
     y: bonding_energy_y,
-    name: 'E<sup>g</sup> - E<sub>1s</sub>',
+    name: 'Bonding State',
 };
 
 const antibonding_energy_graph = {
     x: radius,
     y: antibonding_energy_y,
-    name: 'E<sup>u</sup> - E<sub>1s</sub>',
+    name: 'Antibonding State',
 };
 
 const bonding_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    name: 'E<sup>g</sup> - E<sub>1s</sub>(R)',
     marker: { size: 10, color: '#1f77b4' },
 };
 
 const antibonding_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    name: 'E<sup>u</sup> - E<sub>1s</sub>(R)',
     marker: { size: 10, color: '#ff7f0e' },
 };
 
 const delta_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    name: 'E<sup>u</sup>-E<sup>g</sup>',
     marker: { size: 10, color: 'green' },
 };
 
@@ -191,11 +188,11 @@ const layout_energy = {
     },
     xaxis: {
         range: [0.5, 6],
-        title: { text: 'R/a<sub>0</sub>' },
+        title: { text: 'R [Bohr]' },
     },
     yaxis: {
         range: [-3, 4],
-        title: { text: 'E<sup>g,u</sup> - E<sub>1s</sub> (eV)' },
+        title: { text: 'Energy [eV]' },
     },
     shapes: [{
         type: 'line',
@@ -209,7 +206,7 @@ const layout_nPosition = {
     autosize: true,
     font: { size: PLOT_FONT_SIZE },
     legend: {
-        x: 0,
+        x: 0.01,
         y: 1,
         yanchor: 'top',
         xanchor: 'left',
@@ -217,10 +214,10 @@ const layout_nPosition = {
     },
     xaxis: {
         range: [0, 10],
-        title: { text: 'Time (fs)' },
+        title: { text: 'Time [fs]' },
     },
     yaxis: {
-        title: { text: '<R/a<sub>0</sub>> (bohr)' },
+        title: { text: 'Distance [Bohr]' },
     },
     shapes: [{
         type: 'line',
@@ -236,16 +233,16 @@ const layout_nMomentum = {
     legend: {
         xanchor: 'right',
         x: 1,
-        yanchor: 'bottom',
-        y: 0,
+        yanchor: 'middle',
+        y: 0.6,
         bgcolor: 'rgba(255,255,255,0.5)',
     },
     xaxis: {
         range: [0, 10],
-        title: { text: 'Time (fs)' },
+        title: { text: 'Time [fs]' },
     },
     yaxis: {
-        title: { text: '<p> (bohr<sup>-1</sup>)' },
+        title: { text: 'Momentum [Bohr<sup>-1</sup>]' },
     },
     shapes: [{
         type: 'line',
@@ -260,11 +257,11 @@ const layout_prob = {
     font: { size: PLOT_FONT_SIZE },
     showlegend: false,
     xaxis: {
-        title: { text: 'R/a<sub>0</sub>' },
+        title: { text: 'r [Bohr]' },
     },
     yaxis: {
         range: [-0.015, 0.4],
-        title: { text: 'Probability of Electron' },
+        title: { text: 'Probability' },
     },
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
 };
@@ -278,7 +275,7 @@ const layout_edynamics_prob = {
         xanchor: 'right', yanchor: 'top',
         align: 'left',
         showarrow: false,
-        font: { size: PLOT_FONT_SIZE, family: 'JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace' },
+        font: { size: PLOT_FONT_SIZE },
         text: '',
     }],
 };
@@ -378,10 +375,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
-                'E<sup>g</sup> - E<sub>1s</sub>', 'E<sup>u</sup> - E<sub>1s</sub>',
-                'E<sup>g</sup> - E<sub>1s</sub>(R): ' + bondingEnergy.toFixed(3),
-                'E<sup>u</sup> - E<sub>1s</sub>(R): ' + antibondingEnergy.toFixed(3),
-                'E<sup>u</sup>-E<sup>g</sup>: ' + (antibondingEnergy - bondingEnergy).toFixed(3),
+                'Bonding State', 'Antibonding State',
+                'E<sub>B</sub>(R): ' + bondingEnergy.toFixed(3) + ' eV',
+                'E<sub>A</sub>(R): ' + antibondingEnergy.toFixed(3) + ' eV',
+                'ΔE: ' + (antibondingEnergy - bondingEnergy).toFixed(3) + ' eV',
             ],
         }, [0, 1, 2, 3, 4]);
 
@@ -439,10 +436,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
-                'E<sup>g</sup> - E<sub>1s</sub>', 'E<sup>u</sup> - E<sub>1s</sub>',
-                'E<sup>g</sup> - E<sub>1s</sub>(R): ' + bondingEnergy.toFixed(3),
-                'E<sup>u</sup> - E<sub>1s</sub>(R): ' + antibondingEnergy.toFixed(3),
-                'E<sup>u</sup>-E<sup>g</sup>: ' + (antibondingEnergy - bondingEnergy).toFixed(3),
+                'Bonding State', 'Antibonding State',
+                'E<sub>B</sub>(R): ' + bondingEnergy.toFixed(3) + ' eV',
+                'E<sub>A</sub>(R): ' + antibondingEnergy.toFixed(3) + ' eV',
+                'ΔE: ' + (antibondingEnergy - bondingEnergy).toFixed(3) + ' eV',
             ],
         }, [0, 1, 2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
@@ -595,29 +592,29 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     }, config);
 
     Plotly.react('hydrogen-cation-nuclear-position-chart', [
-        { x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name: 'Bonding Radius' },
-        { x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name: 'Antionding Radius' },
-        { x: nDynamics_bonding_data.position_data.x, name: 'Average Radius', visible: 'legendonly' },
+        { x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name: 'Bonding State' },
+        { x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name: 'Antionding State' },
+        { x: nDynamics_bonding_data.position_data.x, name: 'Averaged', visible: 'legendonly' },
     ], layout_nPosition, config);
 
     Plotly.react('hydrogen-cation-nuclear-momentum-chart', [
-        { x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name: 'Bonding Momentum' },
-        { x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name: 'Antibonding Momentum' },
-        { x: nDynamics_bonding_data.momentum_data.x, name: 'Average Momentum', visible: 'legendonly' },
+        { x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name: 'Bonding State' },
+        { x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name: 'Antibonding State' },
+        { x: nDynamics_bonding_data.momentum_data.x, name: 'Averaged', visible: 'legendonly' },
     ], layout_nMomentum, config);
 
     Plotly.react('fullDynamics-probability-chart', [
         { x: fullDynamics_data.x, name: 'Total Probability' },
-        { x: fullDynamics_data.x, name: '<ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>>', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '<ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>>', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '2*<ψ<sub>1</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>1</sub>|χ<sub>2</sub>>', visible: 'legendonly' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Bonding proton' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Antibonding proton' },
+        { x: fullDynamics_data.x, name: '$\\rho_{11} \\langle \\chi_1 \\vert \\chi_1 \\rangle$', visible: 'legendonly' },
+        { x: fullDynamics_data.x, name: '$\\rho_{22} \\langle \\chi_2 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
+        { x: fullDynamics_data.x, name: '$2 \\times \\rho_{12} \\langle \\chi_1 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Proton on Bonding State' },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Proton on Antibonding State' },
     ], {
         ...layout_prob,
         showlegend: true,
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgba(255,255,255,0.5)' },
-        yaxis: { title: { text: 'Probability of Electron' }, range: [-0.225, 0.55] },
+        yaxis: { title: { text: 'Probability' }, range: [-0.225, 0.55] },
     }, config);
 
     Plotly.react('nuclear-overlap-chart', [
@@ -625,8 +622,9 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: nOverlap_Data.time, y: nOverlap_Data.imag, name: 'Imaginary Part' },
         { x: nOverlap_Data.time, y: overlap_magnitude, name: 'Magnitude' },
     ], {
-        xaxis: { range: [0, 10], title: { text: 'Time (fs)' } },
-        yaxis: { title: { text: '<χ<sub>1</sub>|χ<sub>2</sub>>' } },
+        font: { size: PLOT_FONT_SIZE },
+        xaxis: { range: [0, 10], title: { text: 'Time [fs]' } },
+        yaxis: { title: { text: '$\\langle \\chi_1 \\vert \\chi_2 \\rangle$' } },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },

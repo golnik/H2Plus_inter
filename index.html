@@ -13,6 +13,10 @@
     <!--link rel="stylesheet" href="src/main.css"-->
     <link rel="stylesheet" href="src/new_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <script>
+        window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
     <script src="https://cdn.plot.ly/plotly-3.6.0.min.js" charset="utf-8" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.17.0/dist/katex.min.css" integrity="sha384-vlBdW0r3AcZO/HboRPznQNowvexd3fY8qHOWkBi5q7KGgqJ+F48+DceybYmrVbmB" crossorigin="anonymous">
@@ -51,6 +55,7 @@
         <div class="about-modal-content">
             <button class="about-modal-close" onclick="toggle_about()">&times;</button>
             <p><b>Welcome to the Quantum Dynamics Learning Tool!</b></p>
+            <p><b>Developers: Alex Klyber, Maximillian Thomas, and Nikolay Golubev</b></p>
             <p>This interactive learning tool provides a visualization of ultrafast electron-nuclear dynamics in the \(H_2^{+}\) molecular ion. The interface is organized into multiple sections, each focusing on a specific aspect of the system and the underlying dynamical processes. Context-sensitive information icons accompanying the figures and interface elements provide detailed descriptions of the quantities being displayed and their physical interpretation. A comprehensive discussion of the theoretical framework, computational methodology, and the physical concepts underlying the presented results is available in the <b>Info</b> section.</p>
             <p>Adjust the system parameters and simulation time to explore the electronic and electron-nuclear dynamics under different conditions. You can return to this page at any time by selecting the <b>About</b> button.</p>
             <p>For a detailed discussion of the underlying theory, mathematical formalism, and physical concepts, see references listed below:</p>
@@ -66,8 +71,8 @@
                     School of Physics and Astronomy, The University of Edinburgh, 2011.
                 </li>
             </ul>
-            <p>Developers: Alex Klyber, Maximillian Thomas, and Nikolay Golubev</p>
-            <p>For additional interactive demonstrations and related projects, visit <a href="https://www.ngolubev.com" target="_blank" rel="noopener noreferrer">www.ngolubev.com</a></p>
+            
+            <p>For additional interactive demonstrations and related projects, visit <a href="https://www.ngolubev.com" target="_blank" rel="noopener noreferrer">www.ngolubev.com</a>!</p>
         </div>
     </div>
     <div class="info informationSection">
@@ -131,7 +136,7 @@
     <div class="static e_dynamic n_dynamic en_dynamic graph_section_container">
         <div class="graph_container static e_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Hydrogen Cation Bonding and Antibonding Energy</figcaption>
+                <figcaption class="graph_title">Hydrogen Cation Bonding and Antibonding PESs</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
                 <div class="info_box" id="energy-info" style="display: none;">
                     <p>This plot shows the energy difference between the ground state energy of a hydrogen atom and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
@@ -144,7 +149,7 @@
         <div class="stacked_graph_container static">
             <div class="graph_container">
                 <div class="title_row">
-                    <figcaption class="graph_title">Electron Probability Curve for Bonding State</figcaption>
+                    <figcaption class="graph_title">Electron Probability Density of Bonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
                     <div class="info_box" id="bondProb-info" style="display: none;">
                         <p>This plot shows the probability density of the electronic wavefunction corresponding to the bonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty is concentrated in between the nuclei because the two atomic orbitals of hydrogen constructively interfere in this state</p>
@@ -155,7 +160,7 @@
             </div>
             <div class="graph_container">
                 <div class="title_row">
-                    <figcaption class="graph_title">Electron Probability Curve for Antibonding State</figcaption>
+                    <figcaption class="graph_title">Electron Probability Density of Antibonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
                     <div class="info_box" id="antiBondProb-info" style="display: none;">
                         <p>This plot shows the probability density of the electronic wavefunction corresponding to the antibonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty in between the nuclei is 0 because the two atomic orbitals of hydrogen destructively interfere in this state. The point at which the probability is 0 is called a bonding "node".</p>
@@ -167,7 +172,7 @@
         </div>
         <div class="graph_container e_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Electron Probability Curve</figcaption>
+                <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                 <div class="info_box" id="eDynamic-info" style="display: none;">
                     <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states. This density represents the likelihood that the electron will be found in a particular region of space. The density oscillates across time with a period proportional to the energy difference between the two states.</p>
@@ -180,7 +185,7 @@
         </div>
         <div class="graph_container n_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Bonding/Antibonding Energy + Probability Density</figcaption>
+                <figcaption class="graph_title">Bonding/Antibonding PESs + Nuclear Probability Densities</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
                 <div class="info_box" id="nDynamicsMain-info" style="display: none;">
                     <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
@@ -194,7 +199,7 @@
         <div class="stacked_graph_container n_dynamic">
             <div class="graph_container">
                 <div class="title_row">
-                    <figcaption class="graph_title">Nuclear Radius</figcaption>
+                    <figcaption class="graph_title">Internuclear Distance</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
                     <div class="info_box" id="nDynamicsPos-info" style="display: none;">
                         <p>This plot shows the expected internuclear radius of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
@@ -218,7 +223,7 @@
         </div>
         <div class="graph_container en_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Electron Probability Curve</figcaption>
+                <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-info')"></i>
                 <div class="info_box" id="fullDynamics-info" style="display: none;">
                     <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states as well as the expected nuclear dynamics. This density represents the likelihood that the electron will be found in a particular region of space. The density changes across time initially similar the pure electron dynamics, then as the two states nuclear overlap/coherence decreases it mostly becomes a combination of the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> and <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> parts.</p>
@@ -232,7 +237,7 @@
         </div>
         <div class="graph_container en_dynamic">
             <div class="title_row">
-                <figcaption class="graph_title">Nuclear Coherence</figcaption>
+                <figcaption class="graph_title">Electronic Coherence</figcaption>
                 <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
                 <div class="info_box" id="overlap-info" style="display: none;">
                     <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
