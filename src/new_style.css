@@ -305,9 +305,16 @@ input[name="selection"]:focus-visible + .sectionLabel {
     align-items: center;
     background: var(--color-card);
     border: 1px solid var(--color-border);
-    border-top: 3px solid var(--color-navy);
     border-radius: var(--radius);
     box-shadow: var(--shadow-card);
+    padding: 12px 14px;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+}
+
+.time_cs_box:hover,
+.radius_and_button_container:hover {
+    box-shadow: var(--shadow-card-hover);
 }
 
 .radius_slider_container {
@@ -681,7 +688,7 @@ button:active {
         width: 100%;
         height: 100%;
         justify-content: center;
-        padding: 10px 14px;
+        padding: 12px 14px;
         gap: 4px;
     }
 
@@ -695,7 +702,7 @@ button:active {
     }
 
     .time_cs_box {
-        padding: 10px 14px;
+        padding: 12px 14px;
         gap: 4px;
         flex: 1 1 0;
         min-width: 0;
@@ -773,7 +780,6 @@ button:active {
 
     .radius_and_button_container {
         width: 100%;
-        padding: 10px;
         gap: 4px;
     }
 
@@ -786,7 +792,6 @@ button:active {
 
     .time_cs_box {
         width: 100%;
-        padding: 10px;
         gap: 4px;
     }
 
