@@ -412,7 +412,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
         const oscillationPeriod = (2 * Math.PI * hbar_eVfs) / Math.abs(antibondingEnergy - bondingEnergy);
 
-        document.getElementById('time_slider').max = (2 * oscillationPeriod).toFixed(3);
+        document.getElementById('time_slider').max = oscillationPeriod.toFixed(3);
         document.getElementById('time_slider').value = document.getElementById('time_text').value;
         document.getElementById('c1Text').value = parseFloat(document.getElementById('c1').value).toFixed(2);
         document.getElementById('c2Text').value = parseFloat(document.getElementById('c2').value).toFixed(2);
