@@ -191,7 +191,7 @@ const layout_energy = {
         title: { text: 'R [Bohr]' },
     },
     yaxis: {
-        range: [-3, 4],
+        range: [-2, 20],
         title: { text: 'Energy [eV]' },
     },
     shapes: [{
@@ -475,11 +475,13 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const shiftBond = bonding_energy(nDynamics_bonding_data.wave_data.x[y_data_bond.indexOf(Math.max(...y_data_bond))] * bohr_radius);
         const shiftAnti = antibonding_energy(nDynamics_antibonding_data.wave_data.x[y_data_anti.indexOf(Math.max(...y_data_anti))] * bohr_radius);
 
+        const NUC_SCALE = 2;
+
         Plotly.restyle('hydrogen-cation-energy-chart-nuclear', {
             y: [
                 bonding_energy_y, antibonding_energy_y,
-                y_data_bond.map(num => num * c1 > 0.0005 ? num * c1 + shiftBond : null),
-                y_data_anti.map(num => num * c2 > 0.0005 ? num * c2 + shiftAnti : null),
+                y_data_bond.map(num => num * c1 > 0.0005 ? NUC_SCALE * num * c1 + shiftBond : null),
+                y_data_anti.map(num => num * c2 > 0.0005 ? NUC_SCALE * num * c2 + shiftAnti : null),
             ],
         }, [0, 1, 2, 3]);
 
@@ -595,7 +597,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     ], {
         ...layout_energy,
         xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
-        yaxis: { ...layout_energy.yaxis, range: [-2, 4] },
+        //yaxis: { ...layout_energy.yaxis, range: [-2, 20] },
         shapes: {},
     }, config);
 
@@ -613,9 +615,9 @@ fetch('qdata.json').then(response => response.json()).then(data => {
 
     Plotly.react('fullDynamics-probability-chart', [
         { x: fullDynamics_data.x, name: 'Total Probability' },
-        { x: fullDynamics_data.x, name: '$\\rho_{11} \\langle \\chi_1 \\vert \\chi_1 \\rangle$', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '$\\rho_{22} \\langle \\chi_2 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '$2 \\times \\rho_{12} \\langle \\chi_1 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
+        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}|^2 \\int \\rho_{\\text{B}} |\\chi_{\\text{B}}|^2 dR$', visible: 'legendonly' },
+        { x: fullDynamics_data.x, name: '$|c_{\\text{A}}|^2 \\int \\rho_{\\text{A}} |\\chi_{\\text{A}}|^2 dR$', visible: 'legendonly' },
+        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}| |c_{\\text{A}}| \\int \\rho_{\\text{BA}} \\chi^{*}_{\\text{B}} \\chi_{\\text{A}} dR$', visible: 'legendonly' },
         { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Protons on Bonding State' },
         { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Protons on Antibonding State' },
     ], {
@@ -632,7 +634,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     ], {
         font: { size: PLOT_FONT_SIZE },
         xaxis: { range: [0, 10], title: { text: 'Time [fs]' } },
-        yaxis: { title: { text: '$\\langle \\chi_1 \\vert \\chi_2 \\rangle$' } },
+        yaxis: { title: { text: '$\\langle \\chi_{\\text{B}} \\vert \\chi_{\\text{A}} \\rangle$' } },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },
