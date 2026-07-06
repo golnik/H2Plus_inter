@@ -320,7 +320,7 @@ function startTime() {
         }
         document.getElementById('time_text').value = newTime.toFixed(2);
         update_graphs();
-    }, 50);
+    }, 10);
     document.getElementById('playPauseButton').textContent = 'Pause';
 }
 
@@ -590,8 +590,8 @@ fetch('qdata.json').then(response => response.json()).then(data => {
 
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [
         bonding_energy_graph, antibonding_energy_graph,
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Probability Density (Bonding)', fill: 'toself', fillcolor: 'rgba(31, 119, 180, 0.3)' },
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Probability Density (Antibonding)', fill: 'toself', fillcolor: 'rgba(255, 127, 14, 0.3)' },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Bonding State', fill: 'toself', fillcolor: 'rgba(31, 119, 180, 0.3)' },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Antibonding State', fill: 'toself', fillcolor: 'rgba(255, 127, 14, 0.3)' },
     ], {
         ...layout_energy,
         xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
@@ -602,13 +602,13 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     Plotly.react('hydrogen-cation-nuclear-position-chart', [
         { x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name: 'Bonding State' },
         { x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name: 'Antionding State' },
-        { x: nDynamics_bonding_data.position_data.x, name: 'Averaged', visible: 'legendonly' },
+        { x: nDynamics_bonding_data.position_data.x, name: 'Average', visible: 'legendonly' },
     ], layout_nPosition, config);
 
     Plotly.react('hydrogen-cation-nuclear-momentum-chart', [
         { x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name: 'Bonding State' },
         { x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name: 'Antibonding State' },
-        { x: nDynamics_bonding_data.momentum_data.x, name: 'Averaged', visible: 'legendonly' },
+        { x: nDynamics_bonding_data.momentum_data.x, name: 'Average', visible: 'legendonly' },
     ], layout_nMomentum, config);
 
     Plotly.react('fullDynamics-probability-chart', [
@@ -616,8 +616,8 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: fullDynamics_data.x, name: '$\\rho_{11} \\langle \\chi_1 \\vert \\chi_1 \\rangle$', visible: 'legendonly' },
         { x: fullDynamics_data.x, name: '$\\rho_{22} \\langle \\chi_2 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
         { x: fullDynamics_data.x, name: '$2 \\times \\rho_{12} \\langle \\chi_1 \\vert \\chi_2 \\rangle$', visible: 'legendonly' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Proton on Bonding State' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Proton on Antibonding State' },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Protons on Bonding State' },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Protons on Antibonding State' },
     ], {
         ...layout_prob,
         showlegend: true,
