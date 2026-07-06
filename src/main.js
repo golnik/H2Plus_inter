@@ -302,7 +302,7 @@ function info_toggle(info, close = 0) {
 
 function default_values() {
     stopTime();
-    document.getElementById('time_text').value = 0.00;
+    document.getElementById('time_text').value = (0).toFixed(2);
     document.getElementById('time_slider').value = 0.00;
     document.getElementById('c1').value = 0.5;
     document.getElementById('c2').value = 0.5;
@@ -414,8 +414,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
 
         document.getElementById('time_slider').max = (2 * oscillationPeriod).toFixed(3);
         document.getElementById('time_slider').value = document.getElementById('time_text').value;
-        document.getElementById('c1Text').value = document.getElementById('c1').value;
-        document.getElementById('c2Text').value = document.getElementById('c2').value;
+        document.getElementById('c1Text').value = parseFloat(document.getElementById('c1').value).toFixed(2);
+        document.getElementById('c2Text').value = parseFloat(document.getElementById('c2').value).toFixed(2);
 
         const c1 = Math.sqrt(document.getElementById('c1').value);
         const c2 = Math.sqrt(document.getElementById('c2').value);
@@ -469,8 +469,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const c2 = document.getElementById('c2').value;
 
         document.getElementById('time_slider').value = document.getElementById('time_text').value;
-        document.getElementById('c1Text').value = c1;
-        document.getElementById('c2Text').value = c2;
+        document.getElementById('c1Text').value = parseFloat(c1).toFixed(2);
+        document.getElementById('c2Text').value = parseFloat(c2).toFixed(2);
 
         const shiftBond = bonding_energy(nDynamics_bonding_data.wave_data.x[y_data_bond.indexOf(Math.max(...y_data_bond))] * bohr_radius);
         const shiftAnti = antibonding_energy(nDynamics_antibonding_data.wave_data.x[y_data_anti.indexOf(Math.max(...y_data_anti))] * bohr_radius);
@@ -498,8 +498,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         if (time > 10 || time < 0 || isNaN(time)) return;
 
         document.getElementById('time_slider').value = document.getElementById('time_text').value;
-        document.getElementById('c1Text').value = document.getElementById('c1').value;
-        document.getElementById('c2Text').value = document.getElementById('c2').value;
+        document.getElementById('c1Text').value = parseFloat(document.getElementById('c1').value).toFixed(2);
+        document.getElementById('c2Text').value = parseFloat(document.getElementById('c2').value).toFixed(2);
 
         const c1 = Math.sqrt(document.getElementById('c1').value);
         const c2 = Math.sqrt(document.getElementById('c2').value);
