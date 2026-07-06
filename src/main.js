@@ -329,7 +329,7 @@ function stopTime() {
         clearInterval(iterate_time);
         iterate_time = undefined;
     } else {
-        document.getElementById('time_text').value = (0).toFixed(2);
+        document.getElementById('time_text').value = (0.00).toFixed(2);
         document.getElementById('time_slider').value = 0.00;
         update_graphs();
     }
@@ -376,9 +376,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             ],
             name: [
                 'Bonding State', 'Antibonding State',
-                'E<sub>B</sub>(R): ' + bondingEnergy.toFixed(3) + ' eV',
-                'E<sub>A</sub>(R): ' + antibondingEnergy.toFixed(3) + ' eV',
-                'ΔE: ' + (antibondingEnergy - bondingEnergy).toFixed(3) + ' eV',
+                `$E_{\\text{B}}(R): ${bondingEnergy.toFixed(3)} \\text{ eV}$`,
+                `$E_{\\text{A}}(R): ${antibondingEnergy.toFixed(3)} \\text{ eV}$`,
+                `$\\Delta E: ${(antibondingEnergy - bondingEnergy).toFixed(3)} \\text{ eV}$`,
             ],
         }, [0, 1, 2, 3, 4]);
 
@@ -420,6 +420,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const c1 = Math.sqrt(document.getElementById('c1').value);
         const c2 = Math.sqrt(document.getElementById('c2').value);
 
+        const dE = antibondingEnergy - bondingEnergy;
+        const time = parseFloat(document.getElementById('time_text').value);
+
         const electron_dynamics_y = [];
         for (const distance of probability_x) {
             electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]));
@@ -437,9 +440,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             ],
             name: [
                 'Bonding State', 'Antibonding State',
-                'E<sub>B</sub>(R): ' + bondingEnergy.toFixed(3) + ' eV',
-                'E<sub>A</sub>(R): ' + antibondingEnergy.toFixed(3) + ' eV',
-                'ΔE: ' + (antibondingEnergy - bondingEnergy).toFixed(3) + ' eV',
+                `$E_{\\text{B}}(R): ${bondingEnergy.toFixed(3)} \\text{ eV}$`,
+                `$E_{\\text{A}}(R): ${antibondingEnergy.toFixed(3)} \\text{ eV}$`,
+                `$\\Delta E: ${dE.toFixed(3)} \\text{ eV}$`,
             ],
         }, [0, 1, 2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
@@ -447,7 +450,12 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             x: [probability_x, [-(newRadius / 2), newRadius / 2]],
         }, [0, 1]);
         Plotly.relayout('hydrogen-cation-electron-dynamics-chart', {
-            'annotations[0].text': `ΔE = ${Math.abs(antibondingEnergy - bondingEnergy).toFixed(3)} eV<br> T = ${oscillationPeriod.toFixed(3)} fs`,
+            'annotations[0].text':
+                `$\\begin{array}{c}
+                    \\Delta E &=& ${Math.abs(dE).toFixed(3)} \\text{ eV} \\\\ 
+                    T &=& ${oscillationPeriod.toFixed(3)} \\text{ fs} \\\\
+                    t &=& ${time.toFixed(3)} \\text{ fs}
+                \\end{array}$`,
         });
     }
 
