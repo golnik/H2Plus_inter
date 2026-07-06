@@ -270,29 +270,33 @@
             <button style="max-width: fit-content; margin: 0px 10px;"
                 onclick="default_values()">Default/Minimum</button>
         </div>
-        <div class="e_dynamic n_dynamic en_dynamic time_cs_box">
-            <div class="input_row">
-                <span style="width: 76px;">c1 (bond):</span>
-                <input id="c1" type="range" min="0" max="1" step="0.01"
-                    oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
-                <output id="c1Text" style="width: 31px;"></output>
+        <div class="e_dynamic n_dynamic en_dynamic time_panels_row">
+            <div class="time_cs_box">
+                <div class="input_row">
+                    <span style="width: 76px;">\(|c_\text{B}|^2\):</span>
+                    <input id="c1" type="range" min="0" max="1" step="0.01"
+                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
+                    <output id="c1Text" style="width: 31px;"></output>
+                </div>
+                <div class="input_row">
+                    <span style="width: 76px;">\(|c_\text{A}|^2\):</span>
+                    <input id="c2" type="range" min="0" max="1" step="0.01"
+                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
+                    <output id="c2Text" style="width: 31px;"></output>
+                </div>
             </div>
-            <div class="input_row">
-                <span style="width: 76px;">c2 (anti):</span>
-                <input id="c2" type="range" min="0" max="1" step="0.01"
-                    oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
-                <output id="c2Text" style="width: 31px;"></output>
-            </div>
-            <div style="width: 100%;" class="input_row">
-                <label for="time_text">Time:</label>
-                <input id="time_text" class="hide-arrows" style="width: 55px; text-align: center;" type="number" min="0.00" step="0.01" value="0.00"
-                    oninput="update_graphs();">
-                <span>fs</span>
-                <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
-                    oninput="document.getElementById('time_text').value = this.value; update_graphs()">
-            </div>
-            <div class="input_row">
-                <button id="playPauseButton" onclick="togglePlayPause()">Play</button>
+            <div class="time_cs_box">
+                <div style="width: 100%;" class="input_row">
+                    <label for="time_text">Time:</label>
+                    <input id="time_text" class="hide-arrows" style="width: 55px; text-align: center;" type="number" min="0.00" step="0.01" value="0.00"
+                        oninput="update_graphs();">
+                    <span>fs</span>
+                    <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
+                        oninput="document.getElementById('time_text').value = this.value; update_graphs()">
+                </div>
+                <div class="input_row">
+                    <button id="playPauseButton" onclick="togglePlayPause()">Play</button>
+                </div>
             </div>
         </div>
     </div>
