@@ -302,8 +302,8 @@ function info_toggle(info, close = 0) {
 
 function default_values() {
     stopTime();
-    document.getElementById('time_text').value = 0;
-    document.getElementById('time_slider').value = 0;
+    document.getElementById('time_text').value = 0.00;
+    document.getElementById('time_slider').value = 0.00;
     document.getElementById('c1').value = 0.5;
     document.getElementById('c2').value = 0.5;
     update_graphs(energy_minimum.solution[0]);
@@ -316,7 +316,7 @@ function startTime() {
         const time = parseFloat(document.getElementById('time_text').value);
         let newTime = time + 0.01;
         if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
-            newTime = 0;
+            newTime = 0.00;
         }
         document.getElementById('time_text').value = newTime.toFixed(2);
         update_graphs();
@@ -329,8 +329,8 @@ function stopTime() {
         clearInterval(iterate_time);
         iterate_time = undefined;
     } else {
-        document.getElementById('time_text').value = 0;
-        document.getElementById('time_slider').value = 0;
+        document.getElementById('time_text').value = (0).toFixed(2);
+        document.getElementById('time_slider').value = 0.00;
         update_graphs();
     }
     document.getElementById('playPauseButton').textContent = 'Play';
@@ -354,8 +354,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
 
     if (screen == 'static') {
-        if (radiusTextInput.value !== newRadius) {
-            radiusTextInput.value = newRadius;
+        if (parseFloat(radiusTextInput.value) !== newRadius) {
+            radiusTextInput.value = newRadius.toFixed(2);
         }
         if (radiusSliderInput.value !== newRadius) {
             radiusSliderInput.value = newRadius;
@@ -401,8 +401,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
 
     else if (screen == 'e_dynamic') {
-        if (radiusTextInput.value !== newRadius) {
-            radiusTextInput.value = newRadius;
+        if (parseFloat(radiusTextInput.value) !== newRadius) {
+            radiusTextInput.value = newRadius.toFixed(2);
         }
         if (radiusSliderInput.value !== newRadius) {
             radiusSliderInput.value = newRadius;
@@ -538,7 +538,7 @@ Plotly.react('hydrogen-cation-electron-dynamics-chart', [
 ], layout_edynamics_prob, config);
 
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
-radiusTextInput.value = energy_minimum.solution[0];
+radiusTextInput.value = energy_minimum.solution[0].toFixed(2);
 
 // =============================================================================
 // Initial visibility

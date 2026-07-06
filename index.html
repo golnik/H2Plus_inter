@@ -251,8 +251,8 @@
             <div class="radius_slider_container">
                 <div class="input_row">
                     <label for="radius_text">Radius:</label>
-                    <input id="radius_text" class="hide-arrows" style="width: 40px;" type="number" min="0.1" max="6"
-                        step="any" oninput="update_graphs(parseFloat(this.value))">
+                    <input id="radius_text" class="hide-arrows" style="width: 55px; text-align: center;" type="number" min="0.1" max="6"
+                        step="0.01" oninput="update_graphs(parseFloat(this.value))">
                     <span>a<sub>0</sub></span>
                 </div>
                 <input id="radius" type="range" min="1" max="6" step="any" list="r-ticks"
@@ -285,7 +285,7 @@
             </div>
             <div style="width: 100%;" class="input_row">
                 <label for="time_text">Time:</label>
-                <input id="time_text" class="hide-arrows" style="width: 40px;" type="number" min="0" step="0.01" value="0"
+                <input id="time_text" class="hide-arrows" style="width: 55px; text-align: center;" type="number" min="0.00" step="0.01" value="0.00"
                     oninput="update_graphs();">
                 <span>fs</span>
                 <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
