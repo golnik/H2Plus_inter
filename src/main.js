@@ -193,7 +193,7 @@ const layout_energy = {
         title: { text: 'R [Bohr]' },
     },
     yaxis: {
-        range: [-2, 20],
+        range: [-15.6, 6.4],
         title: { text: 'Energy [eV]' },
     },
     shapes: [{
@@ -333,8 +333,8 @@ function startTime() {
             newTime = 0.00;
         }
         document.getElementById('time_text').value = newTime.toFixed(2);
-        update_graphs();
-    }, 10);
+        throttledUpdate();
+    }, 15);
     document.getElementById('playPauseButton').textContent = 'Pause';
 }
 
@@ -390,9 +390,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             ],
             name: [
                 'Bonding State', 'Antibonding State',
-                `$E_{\\text{B}}(R): ${bondingEnergy.toFixed(3)} \\text{ eV}$`,
-                `$E_{\\text{A}}(R): ${antibondingEnergy.toFixed(3)} \\text{ eV}$`,
-                `$\\Delta E: ${(antibondingEnergy - bondingEnergy).toFixed(3)} \\text{ eV}$`,
+                `E<sub>A</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
+                `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
+                `ΔE: ${ (antibondingEnergy - bondingEnergy).toFixed(3) } eV`,
             ],
         }, [0, 1, 2, 3, 4]);
 
@@ -431,9 +431,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const bondingEnergy = bonding_energy(newRadius * bohr_radius);
         const antibondingEnergy = antibonding_energy(newRadius * bohr_radius);
         const oscillationPeriod = (2 * Math.PI * hbar_eVfs) / Math.abs(antibondingEnergy - bondingEnergy);
+        const time = parseFloat(document.getElementById('time_text').value);
 
         document.getElementById('time_slider').max = oscillationPeriod.toFixed(3);
-        document.getElementById('time_slider').value = document.getElementById('time_text').value;
+        document.getElementById('time_slider').value = time;
         document.getElementById('c1Text').value = parseFloat(document.getElementById('c1').value).toFixed(2);
         document.getElementById('c2Text').value = parseFloat(document.getElementById('c2').value).toFixed(2);
 
@@ -441,11 +442,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const c2 = Math.sqrt(document.getElementById('c2').value);
 
         const dE = antibondingEnergy - bondingEnergy;
-        const time = parseFloat(document.getElementById('time_text').value);
 
         const electron_dynamics_y = [];
         for (const distance of probability_x) {
-            electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, document.getElementById('time_text').value, [c1, c2]));
+            electron_dynamics_y.push(eDynamics_probability_Curve(newRadius, distance, time, [c1, c2]));
         }
 
         Plotly.relayout('hydrogen-cation-energy-chart', {
@@ -460,9 +460,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             ],
             name: [
                 'Bonding State', 'Antibonding State',
-                `$E_{\\text{B}}(R): ${bondingEnergy.toFixed(3)} \\text{ eV}$`,
-                `$E_{\\text{A}}(R): ${antibondingEnergy.toFixed(3)} \\text{ eV}$`,
-                `$\\Delta E: ${dE.toFixed(3)} \\text{ eV}$`,
+                `E<sub>A</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
+                `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
+                `ΔE: ${dE.toFixed(3)} eV`,
             ],
         }, [0, 1, 2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
@@ -471,11 +471,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }, [0, 1]);
         Plotly.relayout('hydrogen-cation-electron-dynamics-chart', {
             'annotations[0].text':
-                `$\\begin{array}{c}
-                    \\Delta E &=& ${Math.abs(dE).toFixed(3)} \\text{ eV} \\\\ 
-                    T &=& ${oscillationPeriod.toFixed(3)} \\text{ fs} \\\\
-                    t &=& ${time.toFixed(3)} \\text{ fs}
-                \\end{array}$`,
+                `ΔE = ${Math.abs(dE).toFixed(3)} eV<br>T = ${oscillationPeriod.toFixed(3)} fs<br>t = ${time.toFixed(3)}fs`,
         });
     }
 
@@ -516,36 +512,49 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
 
     else if (screen == 'en_dynamic') {
-        const time = parseFloat(document.getElementById('time_text').value).toFixed(2);
-        if (time > 10 || time < 0 || isNaN(time)) return;
+        const timeTextInput = document.getElementById('time_text');
+        const timeStr = parseFloat(timeTextInput.value).toFixed(2);
+        if (timeStr > 10 || timeStr < 0 || isNaN(timeStr)) return;
 
-        document.getElementById('time_slider').value = document.getElementById('time_text').value;
-        document.getElementById('c1Text').value = parseFloat(document.getElementById('c1').value).toFixed(2);
-        document.getElementById('c2Text').value = parseFloat(document.getElementById('c2').value).toFixed(2);
+        const c1Input = document.getElementById('c1');
+        const c2Input = document.getElementById('c2');
+        const c1Val = parseFloat(c1Input.value);
+        const c2Val = parseFloat(c2Input.value);
 
-        const c1 = Math.sqrt(document.getElementById('c1').value);
-        const c2 = Math.sqrt(document.getElementById('c2').value);
+        document.getElementById('time_slider').value = timeStr;
+        document.getElementById('c1Text').value = c1Val.toFixed(2);
+        document.getElementById('c2Text').value = c2Val.toFixed(2);
 
-        const fullDynamicsP1_prob_y = fullDynamics_data[time].P1.map(num => num * c1 ** 2);
-        const fullDynamicsP2_prob_y = fullDynamics_data[time].P2.map(num => num * c2 ** 2);
-        const fullDynamicsP3_prob_y = fullDynamics_data[time].P3.map(num => num * c1 * c2);
+        const c12 = Math.sqrt(c1Val) * Math.sqrt(c2Val);
+        const c1_squared = c1Val; 
+        const c2_squared = c2Val; 
 
-        fullDynamics_probability_y = [];
-        for (const i in fullDynamics_data.x) {
-            fullDynamics_probability_y[i] = fullDynamicsP1_prob_y[i] + fullDynamicsP2_prob_y[i] + fullDynamicsP3_prob_y[i];
+        const timeData = fullDynamics_data[timeStr];
+
+        const P1_y = timeData.P1.map(num => num * c1_squared);
+        const P2_y = timeData.P2.map(num => num * c2_squared);
+        const P3_y = timeData.P3.map(num => num * c12);
+        
+        const total_y = P1_y.map((num, i) => num + P2_y[i] + P3_y[i]);
+
+        const bondY = nDynamics_bonding_data.wave_data.y[timeStr];
+        const antiY = nDynamics_antibonding_data.wave_data.y[timeStr];
+        let maxBondIdx = 0, maxAntiIdx = 0;
+        
+        for (let i = 1; i < bondY.length; i++) {
+            if (bondY[i] > bondY[maxBondIdx]) maxBondIdx = i;
+            if (antiY[i] > antiY[maxAntiIdx]) maxAntiIdx = i;
         }
 
-        const bondRadius = nDynamics_bonding_data.wave_data.x[nDynamics_bonding_data.wave_data.y[time].indexOf(Math.max(...nDynamics_bonding_data.wave_data.y[time]))];
-        const antiRadius = nDynamics_antibonding_data.wave_data.x[nDynamics_antibonding_data.wave_data.y[time].indexOf(Math.max(...nDynamics_antibonding_data.wave_data.y[time]))];
+        const bondRadius = nDynamics_bonding_data.wave_data.x[maxBondIdx];
+        const antiRadius = nDynamics_antibonding_data.wave_data.x[maxAntiIdx];
 
         Plotly.restyle('fullDynamics-probability-chart', {
-            y: [fullDynamics_probability_y, fullDynamicsP1_prob_y, fullDynamicsP2_prob_y, fullDynamicsP3_prob_y, [0, 0], [0, 0]],
-            x: [
-                fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x,
-                [-bondRadius / 2, bondRadius / 2], [-antiRadius / 2, antiRadius / 2],
-            ],
+            y: [total_y, P1_y, P2_y, P3_y, [0, 0], [0, 0]],
+            x: [fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x, [-bondRadius / 2, bondRadius / 2], [-antiRadius / 2, antiRadius / 2]],
         }, [0, 1, 2, 3, 4, 5]);
-        Plotly.relayout('nuclear-overlap-chart', { 'shapes[0].x0': time, 'shapes[0].x1': time });
+        
+        Plotly.relayout('nuclear-overlap-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
     }
 }
 
@@ -611,7 +620,12 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
         for (const id of graphs) { Plotly.Plots.resize(document.getElementById(id)); }
         info_toggle(infoBoxes, 1);
         screen == 'en_dynamic' ? update_heatmap() : null;
-        for (const id of graphs) { document.getElementById(id).querySelector('[data-title="Reset axes"]').click(); }
+        const visibleGraphs = Array.from(document.querySelectorAll('.' + screen + ' .js-plotly-plot'));
+        visibleGraphs.forEach(graph => {
+            Plotly.Plots.resize(graph);
+            const resetBtn = graph.querySelector('[data-title="Reset axes"]');
+            if (resetBtn) resetBtn.click();
+        });
         update_graphs();
     });
 });
@@ -619,6 +633,19 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
 // =============================================================================
 // Nuclear dynamics data (loaded asynchronously)
 // =============================================================================
+
+let isDrawing = false;
+
+function throttledUpdate() {
+    if (!isDrawing) {
+        isDrawing = true;
+        requestAnimationFrame(() => {
+            update_graphs();
+            isDrawing = false;
+        });
+    }
+    // update_graphs();
+}
 
 fetch('qdata.json').then(response => response.json()).then(data => {
     nDynamics_bonding_data = data.nDynamics_bonding;
@@ -628,7 +655,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
 
     const overlap_magnitude = [];
     for (const i in nOverlap_Data.time) {
-        overlap_magnitude.push(Math.sqrt(nOverlap_Data.real[i] ** 2 + nOverlap_Data.imag[i] ** 2));
+        overlap_magnitude.push(Math.sqrt(nOverlap_Data.real[i] ** 2 + nOverlap_Data.imag[i] ** 2)/3);
     }
 
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [
@@ -663,14 +690,15 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Protons on Antibonding State' },
     ], {
         ...layout_prob,
+        hovermode: false,
         showlegend: true,
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgba(255,255,255,0.5)' },
         yaxis: { title: { text: 'Probability' }, range: [-0.225, 0.55] },
     }, config);
 
     Plotly.react('nuclear-overlap-chart', [
-        { x: nOverlap_Data.time, y: nOverlap_Data.real, name: 'Real Part' },
-        { x: nOverlap_Data.time, y: nOverlap_Data.imag, name: 'Imaginary Part' },
+        { x: nOverlap_Data.time, y: nOverlap_Data.real.map(num => num/3), name: 'Real Part' },
+        { x: nOverlap_Data.time, y: nOverlap_Data.imag.map(num => num/3), name: 'Imaginary Part' },
         { x: nOverlap_Data.time, y: overlap_magnitude, name: 'Magnitude' },
     ], {
         font: { size: PLOT_FONT_SIZE },
@@ -679,7 +707,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },
-            x0: radiusSliderInput.value, y0: -3, x1: radiusSliderInput.value, y1: 3,
+            x0: radiusSliderInput.value, y0: -1, x1: radiusSliderInput.value, y1: 1,
         }],
         margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
     }, config);

@@ -306,13 +306,13 @@
                 <div class="input_row">
                     <span>\(|c_\text{B}|^2\):</span>
                     <input id="c1" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();" onchange="update_heatmap();">
+                        oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
                     <output id="c1Text"></output>
                 </div>
                 <div class="input_row">
                     <span>\(|c_\text{A}|^2\):</span>
                     <input id="c2" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();" onchange="update_heatmap();">
+                        oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
                     <output id="c2Text"></output>
                 </div>
             </div>
@@ -323,11 +323,11 @@
                 <div class="input_row">
                     <label for="time_text">\(t\):</label>
                     <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
-                        oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); update_graphs()">
+                        oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); throttledUpdate()">
                     <input id="time_text" class="hide-arrows"
                         style="width: 55px; text-align: center;" type="number"
                         min="0.00" step="0.01" value="0.00"
-                        oninput="update_graphs();">
+                        oninput="throttledUpdate();">
                     <span>fs</span>
                 </div>
                 <button id="playPauseButton" class="panel-action-button" onclick="togglePlayPause()">Play</button>
