@@ -23,7 +23,7 @@ const choices = ['info', 'static', 'e_dynamic', 'n_dynamic', 'en_dynamic'];
 const infoBoxes = [
     'energy-info', 'bondProb-info', 'antiBondProb-info', 'eDynamic-info',
     'nDynamicsMain-info', 'nDynamicsPos-info', 'nDynamicsMom-info',
-    'fullDynamics-info', 'overlap-info', 'static-summary',
+    'fullDynamics-info', 'overlap-info', 'transition-info', 'static-summary',
     'eDynamics-summary', 'nDynamics-summary', 'fullDynamics-summary',
 ];
 
@@ -32,7 +32,7 @@ const graphs = [
     'hydrogen-cation-antibond-probability-chart', 'hydrogen-cation-electron-dynamics-chart',
     'hydrogen-cation-energy-chart-nuclear', 'hydrogen-cation-nuclear-position-chart',
     'hydrogen-cation-nuclear-momentum-chart', 'fullDynamics-probability-chart',
-    'nuclear-overlap-chart',
+    'nuclear-overlap-chart', 'transition-probability-chart', 'time-electron-density-chart',
 ];
 
 // =============================================================================
@@ -57,6 +57,8 @@ let bonding_probability_y = [];
 let antibonding_probability_y = [];
 const probability_x = [];
 let fullDynamics_probability_y = [];
+const time_axis =[];
+for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
 
 let nDynamics_bonding_data;
 let nDynamics_antibonding_data;
@@ -71,14 +73,14 @@ function bonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius))
         * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
             + (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 + (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
+        / (1 + (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))+h_ground_energy;
 }
 
 function antibonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius))
         * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
             - (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
+        / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))+h_ground_energy;
 }
 
 function probability_Curve(radius, distance) {
@@ -280,6 +282,18 @@ const layout_edynamics_prob = {
     }],
 };
 
+const time_electron_density_layout = {
+    autosize: true,
+    font: { size: PLOT_FONT_SIZE },
+    xaxis: {
+        title: { text: 'Time [fs]' },
+    },
+    yaxis: {
+        title: { text: 'Distance [Bohr]' },
+    },
+    margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
+}
+
 const config = {
     responsive: true,
     useResizeHandler: true,
@@ -382,12 +396,14 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             ],
         }, [0, 1, 2, 3, 4]);
 
-        bonding_probability_y = [];
-        antibonding_probability_y = [];
+        let bonding_probability_y = [];
+        let antibonding_probability_y = [];
+        let transistion_y=[];
         for (const distance of probability_x) {
             const [bondingProb, antibondingProb] = probability_Curve(newRadius, distance);
             bonding_probability_y.push(bondingProb);
             antibonding_probability_y.push(antibondingProb);
+            transistion_y.push(bondingProb-antibondingProb);
         }
 
         Plotly.restyle('hydrogen-cation-bond-probability-chart', {
@@ -398,6 +414,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             y: [antibonding_probability_y, [0, 0]],
             x: [probability_x, [-(newRadius / 2), newRadius / 2]],
         }, [0, 1]);
+        Plotly.restyle('transition-probability-chart', {
+            y: [transistion_y, [0, 0]],
+            x: [probability_x, [-(newRadius / 2), newRadius / 2]],
+        }, [0,1]);
     }
 
     else if (screen == 'e_dynamic') {
@@ -529,6 +549,25 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
 }
 
+function update_heatmap() {
+    if (screen == 'en_dynamic') {
+        let z_data = [];
+        const c1 = Math.sqrt(document.getElementById('c1').value);
+        const c2 = Math.sqrt(document.getElementById('c2').value);
+        for (const t in time_axis) {
+            z_data[t] = [];
+            const ttime = time_axis[t];
+            const P1 = fullDynamics_data[ttime].P1.map(num => num * c1 ** 2);
+            const P2 = fullDynamics_data[ttime].P2.map(num => num * c2 ** 2);
+            const P3 = fullDynamics_data[ttime].P3.map(num => num * c1 * c2);
+            for (const i in fullDynamics_data.x) {
+                z_data[t][i] = P1[i] + P2[i] + P3[i];
+            }
+        }
+        z_data = z_data[0].map((_, colIndex) => z_data.map(row => row[colIndex]));
+        Plotly.restyle('time-electron-density-chart', {z:[z_data]}, [0]);
+    }
+}
 // =============================================================================
 // Initial chart setup
 // =============================================================================
@@ -542,6 +581,7 @@ Plotly.react('hydrogen-cation-antibond-probability-chart', [
     { x: probability_x, line: { color: '#ff7f0e' }, name: '|<i>ψ</i><sub>A</sub>(R)|<sup>2</sup>' },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
 ], layout_prob, config);
+Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:'green'}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.2, 0.4]}}, config);
 Plotly.react('hydrogen-cation-electron-dynamics-chart', [
     { x: probability_x, name: '|<i>ψ</i>(R,t)|<sup>2</sup>' },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
@@ -570,6 +610,7 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
         document.getElementById('time_slider').max = (screen == 'n_dynamic' || screen == 'en_dynamic') ? 10 : 1.1;
         for (const id of graphs) { Plotly.Plots.resize(document.getElementById(id)); }
         info_toggle(infoBoxes, 1);
+        screen == 'en_dynamic' ? update_heatmap() : null;
         for (const id of graphs) { document.getElementById(id).querySelector('[data-title="Reset axes"]').click(); }
         update_graphs();
     });
@@ -642,4 +683,5 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         }],
         margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
     }, config);
+    Plotly.react('time-electron-density-chart', [{x:time_axis, y:fullDynamics_data.x, type:'heatmap'}], time_electron_density_layout, config);
 });

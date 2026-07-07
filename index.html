@@ -86,7 +86,7 @@
             can change having more or less in the bonding state versus the antibonding state. The time slider allows you
             to explore how the bonding dynamics actually works though time at an ultrafast scale of femtoseconds(10<sup>-15</sup> seconds).</p>
         <p>For this interactive we use the Schrödinger equation: \(i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = \hat{H} \Psi(\mathbf{r}, t)\) :to solve for statics and dynamics in the H<sub>2</sub><sup>+</sup> molecule purely quantum mechanically.</p>
-        <p>For statics we use the time independent Schrödinger equation: \(\hat{H} \psi(\mathbf{r}) = E \psi(\mathbf{r})\) : Then using the <span title="Description"><u>Born-Oppenheimer approximation</u></span> and making all movement on the one dimensional z-axis we get the following hamiltonian: \(H=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\). Using this hamiltonian and the LCAO approximation technique as seen below we can get the following equation for the potential energy surfaces where <strong>R</strong> is the radius between the two protons/nuclei and r<sub>1</sub> and r<sub>2</sub> are the distance from the electron to proton 1 and two respectively:
+        <p>For statics we use the time independent Schrödinger equation: \(\hat{H} \psi(\mathbf{r}) = E \psi(\mathbf{r})\) : Then using the <span title="Assumes the nuclei(protons) are stationary."><u>Born-Oppenheimer approximation</u></span> and making all movement on the one dimensional z-axis we get the following hamiltonian: \(H=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\). Using this hamiltonian and the LCAO approximation technique as seen below we can get the following equation for the potential energy surfaces where <strong>R</strong> is the radius between the two protons/nuclei and r<sub>1</sub> and r<sub>2</sub> are the distance from the electron to proton 1 and two respectively:
             \[E(\mathbf{R})=\langle \phi (r_1)\vert \hat H\vert\phi (r_1)\rangle\pm\langle\phi (r_1)\vert\hat H\vert\phi (r_2)\rangle\]
             This then when solved gives us the following:
             <span class="equation">\[E_1=\frac{q_{el}}{4\pi\epsilon_0R}*\frac{(1+\frac{R}{a_0})e^{-2\frac{R}{a_0}}+(1-\frac{2}{3}(\frac{R}{a_0})^2e^{-\frac{R}{a_0}})}{1+(1+\frac{R}{a_0}+\frac{1}{3}(\frac{R}{a_0})^2)e^{-\frac{R}{a_0}}}\]
@@ -169,6 +169,16 @@
                 </div>
                 <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"></div>
             </div>
+            <div class="graph_container">
+                <div class="title_row">
+                    <figcaption class="graph_title">Transition State</figcaption>
+                    <i class=" fas fa-info-circle info_icon" onclick="info_toggle('transition-info')"></i>
+                    <div class="info_box" id="transition-info" style="display: none;">
+
+                    </div>
+                </div>
+                <div id="transition-probability-chart" class="hydrogen-cation-chart"></div>
+            </div>
         </div>
         <div class="graph_container e_dynamic">
             <div class="title_row">
@@ -221,6 +231,28 @@
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
             </div>
         </div>
+        <div class="stacked_graph_container en_dynamic" style="height: 100%">
+            <div class="graph_container" style="max-height: 30%;">
+                <div class="title_row">
+                    <figcaption class="graph_title">Electronic Coherence</figcaption>
+                    <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
+                    <div class="info_box" id="overlap-info" style="display: none;">
+                        <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
+                    </div>
+                </div>
+                <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
+            </div>
+            <div class="graph_container">
+                <div class="title_row">
+                    <figcaption class="graph_title">Time-Dependent Electron Density</figcaption>
+                    <i class="fas fa-info-circle info_icon" onclick="info_toggle('electronicOverlap-info')"></i>
+                    <div class="info_box" id="electronicOverlap-info" style="display: none;">
+
+                    </div>
+                </div>
+                <div id="time-electron-density-chart" class="hydrogen-cation-chart"></div>
+            </div>
+        </div>
         <div class="graph_container en_dynamic">
             <div class="title_row">
                 <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
@@ -234,16 +266,6 @@
                 </div>
             </div>
             <div id="fullDynamics-probability-chart" , class="hydrogen-cation-chart"></div>
-        </div>
-        <div class="graph_container en_dynamic">
-            <div class="title_row">
-                <figcaption class="graph_title">Electronic Coherence</figcaption>
-                <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
-                <div class="info_box" id="overlap-info" style="display: none;">
-                    <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
-                </div>
-            </div>
-            <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
         </div>
     </div>
     <div class="static e_dynamic n_dynamic en_dynamic inputs_and_interactives_container">
@@ -284,13 +306,13 @@
                 <div class="input_row">
                     <span>\(|c_\text{B}|^2\):</span>
                     <input id="c1" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();">
+                        oninput="document.getElementById('c2').value = 1-this.value; update_graphs();" onchange="update_heatmap();">
                     <output id="c1Text"></output>
                 </div>
                 <div class="input_row">
                     <span>\(|c_\text{A}|^2\):</span>
                     <input id="c2" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();">
+                        oninput="document.getElementById('c1').value = 1-this.value; update_graphs();" onchange="update_heatmap();">
                     <output id="c2Text"></output>
                 </div>
             </div>
