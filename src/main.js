@@ -3,7 +3,7 @@
 // =============================================================================
 
 const epsilon = 8.8541878e-12;
-const h_ground_energy = -13.6;
+const h_ground_energy = -13.6057;
 const bohr_radius = 5.291772e-11;
 const electron_charge = 1.60217663e-19;
 const hbar_eVfs = 0.6582119569;
@@ -13,6 +13,18 @@ const hbar_eVfs = 0.6582119569;
 // =============================================================================
 
 const PLOT_FONT_SIZE = 14;
+
+// =============================================================================
+// Colors
+// =============================================================================
+
+const probColor_nonSpecific = 'black';
+const bondingColor = '#1f77b4';
+const antibondingColor = '#ff7f0e';
+const multiUseColor = 'green';
+const protonStandardColor = 'red';
+const h2Color = '#9467bd';
+const arrowDelta = 0.05;
 
 // =============================================================================
 // UI configuration
@@ -59,7 +71,6 @@ let antibonding_probability_y = [];
 const probability_x = [];
 let fullDynamics_probability_y = [];
 const time_axis =[];
-for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
 
 let nDynamics_bonding_data;
 let nDynamics_antibonding_data;
@@ -74,14 +85,14 @@ function bonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius))
         * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
             + (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 + (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))+h_ground_energy;
+        / (1 + (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
 }
 
 function antibonding_energy(radius) {
     return ((electron_charge) / (4 * Math.PI * epsilon * radius))
         * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
             - (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))+h_ground_energy;
+        / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
 }
 
 function probability_Curve(radius, distance) {
@@ -149,6 +160,7 @@ const h2_xmin = radius[h2_energy_y.indexOf(h2_ymin)];
 const h2toBond_y = bonding_energy(h2_xmin * bohr_radius);
 const h2toAnti_y = antibonding_energy(h2_xmin * bohr_radius);
 
+for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
 
 // =============================================================================
 // Chart traces & layouts
@@ -158,30 +170,32 @@ const bonding_energy_graph = {
     x: radius,
     y: bonding_energy_y,
     name: 'Bonding State',
+    line: {color: bondingColor},
 };
 
 const antibonding_energy_graph = {
     x: radius,
     y: antibonding_energy_y,
     name: 'Antibonding State',
+    line: {color: antibondingColor},
 };
 
 const bonding_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    marker: { size: 10, color: '#1f77b4' },
+    marker: { size: 10, color: bondingColor },
 };
 
 const antibonding_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    marker: { size: 10, color: '#ff7f0e' },
+    marker: { size: 10, color: antibondingColor },
 };
 
 const delta_point_graph = {
     type: 'scatter',
     mode: 'markers',
-    marker: { size: 10, color: 'green' },
+    marker: { size: 10, color: multiUseColor },
 };
 
 const layout_energy = {
@@ -196,11 +210,11 @@ const layout_energy = {
         bgcolor: 'rgba(255,255,255,0.5)',
     },
     xaxis: {
-        range: [0.5, 6],
+        range: [0.9, 6],
         title: { text: 'R [Bohr]' },
     },
     yaxis: {
-        range: [-20, 6.4],
+        range: [-3, 20],
         title: { text: 'Energy [eV]' },
     },
     shapes: [{
@@ -291,14 +305,20 @@ const layout_edynamics_prob = {
 
 const time_electron_density_layout = {
     autosize: true,
+    showlegend: false,
     font: { size: PLOT_FONT_SIZE },
     xaxis: {
         title: { text: 'Time [fs]' },
     },
     yaxis: {
         title: { text: 'Distance [Bohr]' },
+        automargin: false
     },
-    margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
+    shapes: [{
+        type: 'line', line: { color: 'black', dash: 'dash', width:3 },
+        x0: 0, y0: -12.5, x1: 0, y1: 12.5,
+    }],
+    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
 }
 
 const config = {
@@ -597,17 +617,17 @@ function update_heatmap() {
 
 Plotly.react('hydrogen-cation-energy-chart', [bonding_energy_graph, antibonding_energy_graph, bonding_point_graph, antibonding_point_graph, delta_point_graph], layout_energy, config);
 Plotly.react('hydrogen-cation-bond-probability-chart', [
-    { x: probability_x, line: { color: 1 }, name: '|<i>ψ</i><sub>B</sub>(R)|<sup>2</sup>' },
-    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
+    { x: probability_x, line: { color: bondingColor }, name: '|<i>ψ</i><sub>B</sub>(R)|<sup>2</sup>' },
+    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
 ], layout_prob, config);
 Plotly.react('hydrogen-cation-antibond-probability-chart', [
-    { x: probability_x, line: { color: '#ff7f0e' }, name: '|<i>ψ</i><sub>A</sub>(R)|<sup>2</sup>' },
-    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
+    { x: probability_x, line: { color: antibondingColor }, name: '|<i>ψ</i><sub>A</sub>(R)|<sup>2</sup>' },
+    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
 ], layout_prob, config);
-Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:'green'}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.2, 0.4]}}, config);
+Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:multiUseColor}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.2, 0.4]}}, config);
 Plotly.react('hydrogen-cation-electron-dynamics-chart', [
-    { x: probability_x, name: '|<i>ψ</i>(R,t)|<sup>2</sup>' },
-    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' },
+    { x: probability_x, name: '|<i>ψ</i>(R,t)|<sup>2</sup>', line:{color: probColor_nonSpecific} },
+    { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
 ], layout_edynamics_prob, config);
 
 energy_minimum = numeric.uncmin(x => bonding_energy(x[0] * bohr_radius), [2.5]);
@@ -658,7 +678,6 @@ function throttledUpdate() {
             isDrawing = false;
         });
     }
-    // update_graphs();
 }
 
 fetch('qdata.json').then(response => response.json()).then(data => {
@@ -666,6 +685,11 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     nDynamics_antibonding_data = data.nDynamics_antibonding;
     nOverlap_Data = data.overlap_data;
     fullDynamics_data = data.fullDynamics;
+    exprB = nDynamics_bonding_data.position_data.y.map(num => num/2);
+    exprA = nDynamics_antibonding_data.position_data.y.map(num => num/2);
+    exprx = nDynamics_bonding_data.position_data.x;
+    nexprB = exprB.map(num => -num);
+    nexprA = exprA.map(num => -num);
 
     const overlap_magnitude = [];
     for (const i in nOverlap_Data.time) {
@@ -674,40 +698,40 @@ fetch('qdata.json').then(response => response.json()).then(data => {
 
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [
         bonding_energy_graph, antibonding_energy_graph,
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Bonding State', fill: 'toself', fillcolor: 'rgba(31, 119, 180, 0.3)' },
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Antibonding State', fill: 'toself', fillcolor: 'rgba(255, 127, 14, 0.3)' },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Bonding State', fill: 'toself', fillcolor: `${bondingColor}4D` },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Antibonding State', fill: 'toself', fillcolor: `${antibondingColor}4D` },
         { x: radius, y: h2_energy_y, name: 'H<sub>2</sub> Potential Energy Curve'},
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on H<sub>2</sub>', fill: 'toself', fillcolor: 'rgb(148, 103, 189, 0.3)' },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on H<sub>2</sub>', fill: 'toself', fillcolor: `${h2Color}4D` },
     ], {
         ...layout_energy,
         xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
-        //yaxis: { ...layout_energy.yaxis, range: [-2, 20] },
+        yaxis: { ...layout_energy.yaxis, range: [-20, 20] },
         shapes: [],
         annotations: [
-            {x: h2_xmin, y: h2toAnti_y, xref:'x', yref:'y', ax: h2_xmin, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:'#ff7f0e'},
-            {x: h2_xmin, y: h2toBond_y, xref:'x', yref:'y', ax: h2_xmin, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:'#1f77b4'},
+            {x: h2_xmin+arrowDelta/2, y: h2toAnti_y, xref:'x', yref:'y', ax: h2_xmin+arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:antibondingColor},
+            {x: h2_xmin-arrowDelta/2, y: h2toBond_y, xref:'x', yref:'y', ax: h2_xmin-arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:bondingColor},
         ],
     }, config);
 
     Plotly.react('hydrogen-cation-nuclear-position-chart', [
-        { x: nDynamics_bonding_data.position_data.x, y: nDynamics_bonding_data.position_data.y, name: 'Bonding State' },
-        { x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name: 'Antionding State' },
-        { x: nDynamics_bonding_data.position_data.x, name: 'Average', visible: 'legendonly' },
+        { x: exprx, y: nDynamics_bonding_data.position_data.y, name: 'Bonding State', line: {color: bondingColor}},
+        { x: nDynamics_antibonding_data.position_data.x, y: nDynamics_antibonding_data.position_data.y, name: 'Antionding State', line: {color: antibondingColor} },
+        { x: exprx, name: 'Average', visible: 'legendonly', line: {color: multiUseColor} },
     ], layout_nPosition, config);
 
     Plotly.react('hydrogen-cation-nuclear-momentum-chart', [
-        { x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name: 'Bonding State' },
-        { x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name: 'Antibonding State' },
-        { x: nDynamics_bonding_data.momentum_data.x, name: 'Average', visible: 'legendonly' },
+        { x: nDynamics_bonding_data.momentum_data.x, y: nDynamics_bonding_data.momentum_data.y, name: 'Bonding State', line: {color: bondingColor} },
+        { x: nDynamics_antibonding_data.momentum_data.x, y: nDynamics_antibonding_data.momentum_data.y, name: 'Antibonding State', line: {color: antibondingColor} },
+        { x: nDynamics_bonding_data.momentum_data.x, name: 'Average', visible: 'legendonly', line: {color: multiUseColor} },
     ], layout_nMomentum, config);
 
     Plotly.react('fullDynamics-probability-chart', [
-        { x: fullDynamics_data.x, name: 'Total Probability' },
-        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}|^2 \\int \\rho_{\\text{B}} |\\chi_{\\text{B}}|^2 dR$', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '$|c_{\\text{A}}|^2 \\int \\rho_{\\text{A}} |\\chi_{\\text{A}}|^2 dR$', visible: 'legendonly' },
-        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}| |c_{\\text{A}}| \\int \\rho_{\\text{BA}} \\chi^{*}_{\\text{B}} \\chi_{\\text{A}} dR$', visible: 'legendonly' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'purple' }, name: 'Protons on Bonding State' },
-        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'yellow' }, name: 'Protons on Antibonding State' },
+        { x: fullDynamics_data.x, name: 'Total Probability', line:{color:probColor_nonSpecific} },
+        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}|^2 \\int \\rho_{\\text{B}} |\\chi_{\\text{B}}|^2 dR$', visible: 'legendonly' , line:{color:bondingColor}},
+        { x: fullDynamics_data.x, name: '$|c_{\\text{A}}|^2 \\int \\rho_{\\text{A}} |\\chi_{\\text{A}}|^2 dR$', visible: 'legendonly', line:{color:antibondingColor} },
+        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}| |c_{\\text{A}}| \\int \\rho_{\\text{BA}} \\chi^{*}_{\\text{B}} \\chi_{\\text{A}} dR$', visible: 'legendonly', line:{color:'#d62728'} },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: bondingColor }, name: 'Protons on Bonding State' },
+        { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: antibondingColor }, name: 'Protons on Antibonding State' },
     ], {
         ...layout_prob,
         hovermode: false,
@@ -731,5 +755,20 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         }],
         margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
     }, config);
-    Plotly.react('time-electron-density-chart', [{x:time_axis, y:fullDynamics_data.x, type:'heatmap'}], time_electron_density_layout, config);
+    Plotly.react('time-electron-density-chart', [{
+        x:time_axis,
+        y:fullDynamics_data.x,
+        type:'heatmap',
+        colorscale: 'Blackbody',
+        colorbar: {
+            orientation: 'h',
+            x: 0.5,
+            xanchor: 'center',
+            y: 1.05,
+            yanchor: 'bottom',
+            len: 0.8,
+            ypad: 0,
+            yblock: 0,
+        },
+    }, {x:exprx, y:exprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:exprA, name:'AntibondProton', line:{color:antibondingColor}}, {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:nexprA, name:'AntibondProton', line:{color:antibondingColor}}], time_electron_density_layout, {...config, displayModeBar:false});
 });
