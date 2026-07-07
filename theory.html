@@ -1,27 +1,82 @@
+<h2>Introduction</h2>
+
 <p>Advances in laser technology over the past several decades have revolutionized the study of properties and behavior of matter by enabling direct observation of quantum dynamics in atomic, molecular, and solid state systems with unprecedented temporal and spatial resolution. At the quantum level, this dynamics arises from the formation of coherent superpositions of quantum states and their subsequent evolution governed by interactions among electrons, nuclei, and external electromagnetic fields. The purpose of this interactive demonstration is to introduce the fundamental concepts of quantum dynamics through the example of the hydrogen molecular cation, one of the simplest systems that exhibits coupled electronic and nuclear motion.</p>
     
-<p>We begin by introducing the fundamental concepts required to describe a molecular system at the quantum level, including the construction of the Hamiltonian, the nature of coupled electron-nuclear dynamics, and the theoretical framework used to describe and solve the quantum dynamics of molecules. These concepts are then illustrated using the hydrogen molecular cation through the determination of its stationary states, the emergence of purely electronic dynamics from coherent superposition of electronic states, the formation and propagation of nuclear wave packets, the role of electronic coherences, and, ultimately, the full quantum dynamics arising from the coupled evolution of electronic and nuclear degrees of freedom.</p>
+<p>We begin by introducing mathematical formalism required to describe a molecular system at the quantum level, including the construction of the Hamiltonian, the nature of electronic and coupled electron-nuclear dynamics, and the theoretical framework used to describe and solve the quantum dynamics of molecules. These concepts are then illustrated using the hydrogen molecular cation through the determination of its stationary states, the emergence of purely electronic dynamics from coherent superposition of electronic states, the formation and propagation of nuclear wave packets, the role of electronic coherences, and, ultimately, the full quantum dynamics arising from the coupled evolution of electronic and nuclear degrees of freedom.</p>
 
-<p>To describe the properties and behavior of the hydrogen cation, we solve the fundamental quantum mechanical equation of motion, known as the time-dependent Schrödinger equation:
+<h2>Basic Concepts of Electronic and Electron-Nuclear Dynamics</h2>
+
+<p>To describe the properties and behavior of a molecule, we solve the fundamental quantum mechanical equation of motion, known as the time-dependent Schrödinger equation:
 \begin{equation}
-\label{eq:SE}
+\label{eq:TDSE}
     i \hbar \frac{\partial \Psi(\mathbf{r},\mathbf{R},t)}{\partial t} = 
     \hat{H}(\mathbf{r},\mathbf{R}) \Psi(\mathbf{r},\mathbf{R},t), \tag{1}
 \end{equation}
-where \(\hbar\) is the reduced Planck constant, \(\mathbf{r}\) and \(\mathbf{R}\) represent the electronic and nuclear coordinates, respectively, and \(\Psi(\mathbf{r},\mathbf{R},t)\) is the time-dependent wavefunction describing the quantum state of the system determined by the Hamiltonian operator \(\hat{H}(\mathbf{r},\mathbf{R})\). For a field-free molecular system, this operator can be written in the following form
+where \(\hbar\) is the reduced Planck constant, \(\mathbf{r}\) and \(\mathbf{R}\) represent the electronic and nuclear coordinates, respectively, and \(\Psi(\mathbf{r},\mathbf{R},t)\) is the time-dependent molecular wavefunction describing the quantum state of the system determined by the Hamiltonian operator \(\hat{H}(\mathbf{r},\mathbf{R})\). For a field-free molecular system, the Hamiltonian operator can be written in the following form
 \begin{equation}
 \label{eq:H}
     \hat{H}(\mathbf{r},\mathbf{R}) = \hat{T}_n + 
-    \underbrace{\hat{T}_e + V(\mathbf{r},\mathbf{R})}_{\hat{H}_e(\mathbf{r}|\mathbf{R})}, \tag{2}
+    \underbrace{\hat{T}_e + V(\mathbf{r},\mathbf{R})}_{\hat{H}_e(\mathbf{r};\mathbf{R})}, \tag{2}
 \end{equation}
 where \(\hat{T}_n\) and \(\hat{T}_e\) are the nuclear and electronic kinetic energy terms, respectively, and \(V(\mathbf{r},\mathbf{R})\) is the potential energy describing the Coulomb interactions among the electrons and nuclei.</p>
 
-<p>To simplify the solution of Eq. (\(\ref{eq:SE}\)), we introduced the electronic Hamiltonian operator \(\hat{H}_e(\mathbf{r}|\mathbf{R})\), which determines the behavior of electrons for a fixed nuclear configuration. In this formulation, the nuclear coordinates \(\mathbf{R}\) enter the electronic Hamiltonian only as parameters, enabling the definition of a separate Schrödinger equation for the electronic subsystem in which the nuclei are treated as stationary. Solving the time-independent Schrödinger equation for the Hamiltonian \(\hat{H}_e(\mathbf{r}|\mathbf{R})\):
+<p>To simplify the solution of Eq. (\(\ref{eq:TDSE}\)), we introduced the electronic Hamiltonian operator \(\hat{H}_e(\mathbf{r};\mathbf{R})\), which determines the behavior of electrons for a fixed nuclear configuration. In this formulation, the nuclear coordinates \(\mathbf{R}\) enter the electronic Hamiltonian only as parameters, enabling the definition of a separate Schrödinger equation for the electronic subsystem in which the nuclei are treated as stationary:
+\begin{equation}
+\label{eq:TDSE_e}
+    i \hbar \frac{\partial \Phi(\mathbf{r},t; \mathbf{R})}{\partial t} = 
+    \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi(\mathbf{r},t;\mathbf{R}), \tag{3}
+\end{equation}
+where \(\Phi(\mathbf{r},t;\mathbf{R})\) is the time-dependent electronic wavefunction for a given nuclear configuration.</p>
+
+<p>A convenient way to solve Eq. (\(\ref{eq:TDSE_e}\)) is to start with the time-independent Schrödinger equation for the electronic Hamiltonian \(\hat{H}_e(\mathbf{r};\mathbf{R})\):
 \begin{equation}
 \label{eq:SE_He}
-    \hat{H}_e(\mathbf{r}|\mathbf{R}) \Phi_I ()
+    \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi_I(\mathbf{r};\mathbf{R}) =
+    E_I(\mathbf{R}) \Phi_I(\mathbf{r};\mathbf{R}). \tag{4}
 \end{equation}
-</p>
+The obtained set of stationary electronic states, \(\{\Phi_I(\mathbf{r};\mathbf{R})\}\), and their corresponding energies, \(E_I(\mathbf{R})\), forms a complete basis for representing the time-dependent electronic wavefunction:
+\begin{equation}
+\label{eq:Phi}
+    \Phi(\mathbf{r},t;\mathbf{R}) = \sum_I c_I(t) \Phi_I(\mathbf{r};\mathbf{R}), \tag{5}
+\end{equation}
+where \(c_I(t)\) are the time-dependent expansion coefficients. Substituting this expansion into the time-dependent electronic Schrödinger equation and exploiting the orthonormality of the stationary states yields
+\begin{equation}
+\label{eq:Phi_sol}
+    \Phi(\mathbf{r},t;\mathbf{R}) = 
+    \sum_I c_I \exp\left({-\frac{i}{\hbar} E_I(\mathbf{R}) t}\right) \Phi_I(\mathbf{r};\mathbf{R}), \tag{6}
+\end{equation}
+where the time-independent coefficients \(c_I\) determine the weights of the electronic eigenstates in the created superposition.</p>
+
+<p>The time-dependent electronic wavefunction, \(\Phi(\mathbf{r},t;\mathbf{R})\), provides complete information about the electron motion in the system and enables the evaluation of a wide range of electronic properties. In particular, the time-dependent electron density offers an intuitive visualization of how the electronic charge redistributes throughout the molecule over time. It can be obtained by evaluating the expectation value of the electron density operator, \(\hat{\rho}(\mathbf{r})\):
+\begin{equation}
+\label{eq:rho}
+\begin{split}
+    \rho(\mathbf{r},t;\mathbf{R}) & = 
+    \int \Phi^{*}(\mathbf{r},t;\mathbf{R}) \hat{\rho}(\mathbf{r}) \Phi(\mathbf{r},t;\mathbf{R}) d\mathbf{r} \\
+    & = \sum_I |c_I|^2 \rho_{II}(\mathbf{r};\mathbf{R}) 
+        + \sum_{I,J} c^{*}_I c_J \exp \left[{-\frac{i}{\hbar} 
+            \left( E_J(\mathbf{R})-E_I(\mathbf{R}) \right) t}\right] \rho_{IJ}(\mathbf{r};\mathbf{R}),
+\end{split}
+\tag{7}
+\end{equation}
+where \(\rho_{IJ}(\mathbf{r};\mathbf{R})=\int \Phi^{*}_I(\mathbf{r};\mathbf{R}) \hat{\rho}(\mathbf{r}) \Phi_I(\mathbf{r};\mathbf{R}) d\mathbf{r}\) are the stationary (\(I=J\)) electron densities of the states and the transition (\(I \neq J\)) electron densities.</p>
+
+<p>The basis of stationary electronic states, \(\{\Phi_I(\mathbf{r};\mathbf{R})\}\), also provides a convenient representation for solving the full time-dependent Schrödinger equation. Expanding the total molecular wavefunction as
+\begin{equation}
+\label{eq:fullWF_expansion}
+    \Psi(\mathbf{r},\mathbf{R},t) = \sum_I
+        c_I \chi_I(\mathbf{R},t) \Phi_I(\mathbf{r};\mathbf{R}),
+\end{equation}
+with \(\chi_I(\mathbf{R},t)\) denoting the time-dependent nuclear wave packets associated with the corresponding electronic states, allows the full time-dependent Schrödinger equation, Eq. (\(\ref{eq:TDSE}\)), to be transformed into a set of coupled equations of motion for the nuclear wave packets.</p>
+
+<p>Assuming that the electronic states depend only weakly on the nuclear coordinates, such that \(\Phi_I(\mathbf{r};\mathbf{R}) \approx \Phi_I(\mathbf{r})\), the nonadiabatic couplings between different electronic states can be neglected, and the equations of motion for the nuclear wave packets reduce to
+\begin{equation}
+    i \hbar \frac{\partial \chi_I(\mathbf{R},t)}{\partial t} =
+    \left[ \hat{T}_n + E_I(\mathbf{R}) \right] \chi_I(\mathbf{R},t).
+\end{equation}
+In this context, each nuclear wave packet evolves independently on a single electronic potential energy surface without transferring population to other electronic states. The electronic energies \(E_I(\mathbf{R})\), viewed as functions of the nuclear coordinates, define the potential energy surfaces (PESs), which determine the forces acting on the nuclei and thereby govern their motion. Consequently, the coupled electron-nuclear problem is reduced to solving the electronic Schrödinger equation to obtain the potential energy surfaces, followed by the propagation of nuclear wave packets on these surfaces. This separation of electronic and nuclear motion forms the basis of the Born–Oppenheimer approximation and underlies much of modern theoretical chemistry and molecular quantum dynamics.</p>
+
+<h2>Hydrogen Cation</h2>
 
 <p>
 In case of the hydrogen molecular cation, which consists of a single electron and two protons, the Hamiltonian takes on a particularly simple form
