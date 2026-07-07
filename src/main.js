@@ -53,6 +53,7 @@ let energy_minimum;
 const radius = [];
 const bonding_energy_y = [];
 const antibonding_energy_y = [];
+const h2_energy_y = [];
 let bonding_probability_y = [];
 let antibonding_probability_y = [];
 const probability_x = [];
@@ -141,7 +142,13 @@ for (let i = 0; i <= 2667; i++) {
     radius.push(rad);
     bonding_energy_y.push(bonding_energy(rad * bohr_radius));
     antibonding_energy_y.push(antibonding_energy(rad * bohr_radius));
+    h2_energy_y.push(4.7475*(1-Math.exp(-1.0298*(rad-1.4011)))**2+h_ground_energy-4.7475);
 }
+const h2_ymin = Math.min(...h2_energy_y);
+const h2_xmin = radius[h2_energy_y.indexOf(h2_ymin)];
+const h2toBond_y = bonding_energy(h2_xmin * bohr_radius);
+const h2toAnti_y = antibonding_energy(h2_xmin * bohr_radius);
+
 
 // =============================================================================
 // Chart traces & layouts
@@ -193,7 +200,7 @@ const layout_energy = {
         title: { text: 'R [Bohr]' },
     },
     yaxis: {
-        range: [-15.6, 6.4],
+        range: [-20, 6.4],
         title: { text: 'Energy [eV]' },
     },
     shapes: [{
@@ -383,18 +390,16 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             'shapes[0].y0': bondingEnergy, 'shapes[0].y1': antibondingEnergy,
         });
         Plotly.restyle('hydrogen-cation-energy-chart', {
-            x: [radius, radius, [newRadius], [newRadius], [newRadius]],
+            x: [[newRadius], [newRadius], [newRadius]],
             y: [
-                bonding_energy_y, antibonding_energy_y,
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
-                'Bonding State', 'Antibonding State',
                 `E<sub>A</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
                 `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
                 `ΔE: ${ (antibondingEnergy - bondingEnergy).toFixed(3) } eV`,
             ],
-        }, [0, 1, 2, 3, 4]);
+        }, [2, 3, 4]);
 
         let bonding_probability_y = [];
         let antibonding_probability_y = [];
@@ -453,9 +458,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             'shapes[0].y0': bondingEnergy, 'shapes[0].y1': antibondingEnergy,
         });
         Plotly.restyle('hydrogen-cation-energy-chart', {
-            x: [radius, radius, [newRadius], [newRadius], [newRadius]],
+            x: [[newRadius], [newRadius], [newRadius]],
             y: [
-                bonding_energy_y, antibonding_energy_y,
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
@@ -464,7 +468,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
                 `ΔE: ${dE.toFixed(3)} eV`,
             ],
-        }, [0, 1, 2, 3, 4]);
+        }, [2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
             y: [electron_dynamics_y, [0, 0]],
             x: [probability_x, [-(newRadius / 2), newRadius / 2]],
@@ -491,15 +495,25 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const shiftBond = bonding_energy(nDynamics_bonding_data.wave_data.x[y_data_bond.indexOf(Math.max(...y_data_bond))] * bohr_radius);
         const shiftAnti = antibonding_energy(nDynamics_antibonding_data.wave_data.x[y_data_anti.indexOf(Math.max(...y_data_anti))] * bohr_radius);
 
-        const NUC_SCALE = 2;
+        const NUC_SCALE = 1;
 
         Plotly.restyle('hydrogen-cation-energy-chart-nuclear', {
             y: [
-                bonding_energy_y, antibonding_energy_y,
                 y_data_bond.map(num => num * c1 > 0.0005 ? NUC_SCALE * num * c1 + shiftBond : null),
                 y_data_anti.map(num => num * c2 > 0.0005 ? NUC_SCALE * num * c2 + shiftAnti : null),
+                y_data_bond.map(num => num > 0.0005 && time == 0 ? NUC_SCALE * num + h2_ymin : null),
             ],
-        }, [0, 1, 2, 3]);
+        }, [2, 3, 5]);
+        
+        if (time == 0){
+            Plotly.relayout('hydrogen-cation-energy-chart-nuclear', {
+                'annotations[1].showarrow': true, 'annotations[0].showarrow': true,
+            });
+        } else {
+            Plotly.relayout('hydrogen-cation-energy-chart-nuclear', {
+                'annotations[1].showarrow': false, 'annotations[0].showarrow': false,
+            });
+        }
 
         Plotly.relayout('hydrogen-cation-nuclear-position-chart', { 'shapes[0].x0': time, 'shapes[0].x1': time });
         Plotly.relayout('hydrogen-cation-nuclear-momentum-chart', { 'shapes[0].x0': time, 'shapes[0].x1': time });
@@ -662,11 +676,17 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         bonding_energy_graph, antibonding_energy_graph,
         { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Bonding State', fill: 'toself', fillcolor: 'rgba(31, 119, 180, 0.3)' },
         { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Antibonding State', fill: 'toself', fillcolor: 'rgba(255, 127, 14, 0.3)' },
+        { x: radius, y: h2_energy_y, name: 'H<sub>2</sub> Potential Energy Curve'},
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on H<sub>2</sub>', fill: 'toself', fillcolor: 'rgb(148, 103, 189, 0.3)' },
     ], {
         ...layout_energy,
         xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
         //yaxis: { ...layout_energy.yaxis, range: [-2, 20] },
-        shapes: {},
+        shapes: [],
+        annotations: [
+            {x: h2_xmin, y: h2toAnti_y, xref:'x', yref:'y', ax: h2_xmin, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:'#ff7f0e'},
+            {x: h2_xmin, y: h2toBond_y, xref:'x', yref:'y', ax: h2_xmin, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:'#1f77b4'},
+        ],
     }, config);
 
     Plotly.react('hydrogen-cation-nuclear-position-chart', [
