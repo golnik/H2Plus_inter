@@ -10,13 +10,13 @@
 \begin{equation}
 \label{eq:TDSE}
     i \hbar \frac{\partial \Psi(\mathbf{r},\mathbf{R},t)}{\partial t} = 
-    \hat{H}(\mathbf{r},\mathbf{R}) \Psi(\mathbf{r},\mathbf{R},t), \tag{1}
+    \hat{H}(\mathbf{r},\mathbf{R}) \Psi(\mathbf{r},\mathbf{R},t),
 \end{equation}
 where \(\hbar\) is the reduced Planck constant, \(\mathbf{r}\) and \(\mathbf{R}\) represent the electronic and nuclear coordinates, respectively, and \(\Psi(\mathbf{r},\mathbf{R},t)\) is the time-dependent molecular wavefunction describing the quantum state of the system determined by the Hamiltonian operator \(\hat{H}(\mathbf{r},\mathbf{R})\). For a field-free molecular system, the Hamiltonian operator can be written in the following form
 \begin{equation}
 \label{eq:H}
     \hat{H}(\mathbf{r},\mathbf{R}) = \hat{T}_n + 
-    \underbrace{\hat{T}_e + V(\mathbf{r},\mathbf{R})}_{\hat{H}_e(\mathbf{r};\mathbf{R})}, \tag{2}
+    \underbrace{\hat{T}_e + V(\mathbf{r},\mathbf{R})}_{\hat{H}_e(\mathbf{r};\mathbf{R})},
 \end{equation}
 where \(\hat{T}_n\) and \(\hat{T}_e\) are the nuclear and electronic kinetic energy terms, respectively, and \(V(\mathbf{r},\mathbf{R})\) is the potential energy describing the Coulomb interactions among the electrons and nuclei.</p>
 
@@ -24,7 +24,7 @@ where \(\hat{T}_n\) and \(\hat{T}_e\) are the nuclear and electronic kinetic ene
 \begin{equation}
 \label{eq:TDSE_e}
     i \hbar \frac{\partial \Phi(\mathbf{r},t; \mathbf{R})}{\partial t} = 
-    \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi(\mathbf{r},t;\mathbf{R}), \tag{3}
+    \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi(\mathbf{r},t;\mathbf{R}),
 \end{equation}
 where \(\Phi(\mathbf{r},t;\mathbf{R})\) is the time-dependent electronic wavefunction for a given nuclear configuration.</p>
 
@@ -32,18 +32,18 @@ where \(\Phi(\mathbf{r},t;\mathbf{R})\) is the time-dependent electronic wavefun
 \begin{equation}
 \label{eq:SE_He}
     \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi_I(\mathbf{r};\mathbf{R}) =
-    E_I(\mathbf{R}) \Phi_I(\mathbf{r};\mathbf{R}). \tag{4}
+    E_I(\mathbf{R}) \Phi_I(\mathbf{r};\mathbf{R}).
 \end{equation}
 The obtained set of stationary electronic states, \(\{\Phi_I(\mathbf{r};\mathbf{R})\}\), and their corresponding energies, \(E_I(\mathbf{R})\), forms a complete basis for representing the time-dependent electronic wavefunction:
 \begin{equation}
 \label{eq:Phi}
-    \Phi(\mathbf{r},t;\mathbf{R}) = \sum_I c_I(t) \Phi_I(\mathbf{r};\mathbf{R}), \tag{5}
+    \Phi(\mathbf{r},t;\mathbf{R}) = \sum_I c_I(t) \Phi_I(\mathbf{r};\mathbf{R}),
 \end{equation}
 where \(c_I(t)\) are the time-dependent expansion coefficients. Substituting this expansion into the time-dependent electronic Schrödinger equation and exploiting the orthonormality of the stationary states yields
 \begin{equation}
 \label{eq:Phi_sol}
     \Phi(\mathbf{r},t;\mathbf{R}) = 
-    \sum_I c_I \exp\left({-\frac{i}{\hbar} E_I(\mathbf{R}) t}\right) \Phi_I(\mathbf{r};\mathbf{R}), \tag{6}
+    \sum_I c_I \exp\left({-\frac{i}{\hbar} E_I(\mathbf{R}) t}\right) \Phi_I(\mathbf{r};\mathbf{R}),
 \end{equation}
 where the time-independent coefficients \(c_I\) determine the weights of the electronic eigenstates in the created superposition.</p>
 
@@ -57,7 +57,6 @@ where the time-independent coefficients \(c_I\) determine the weights of the ele
         + \sum_{I,J} c^{*}_I c_J \exp \left[{-\frac{i}{\hbar} 
             \left( E_J(\mathbf{R})-E_I(\mathbf{R}) \right) t}\right] \rho_{IJ}(\mathbf{r};\mathbf{R}),
 \end{split}
-\tag{7}
 \end{equation}
 where \(\rho_{IJ}(\mathbf{r};\mathbf{R})=\int \Phi^{*}_I(\mathbf{r};\mathbf{R}) \hat{\rho}(\mathbf{r}) \Phi_I(\mathbf{r};\mathbf{R}) d\mathbf{r}\) are the stationary (\(I=J\)) electron densities of the states and the transition (\(I \neq J\)) electron densities.</p>
 
