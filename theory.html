@@ -75,6 +75,18 @@ with \(\chi_I(\mathbf{R},t)\) denoting the time-dependent nuclear wave packets a
 \end{equation}
 In this context, each nuclear wave packet evolves independently on a single electronic potential energy surface without transferring population to other electronic states. The electronic energies \(E_I(\mathbf{R})\), viewed as functions of the nuclear coordinates, define the potential energy surfaces (PESs), which determine the forces acting on the nuclei and thereby govern their motion. Consequently, the coupled electron-nuclear problem is reduced to solving the electronic Schrödinger equation to obtain the potential energy surfaces, followed by the propagation of nuclear wave packets on these surfaces. This separation of electronic and nuclear motion forms the basis of the Born–Oppenheimer approximation and underlies much of modern theoretical chemistry and molecular quantum dynamics.</p>
 
+<p>Similarly to the case of purely electronic dynamics, the total molecular wavefunction \(\Psi(\mathbf{r},\mathbf{R},t)\) can be used to calculate time-dependent molecular properties, including the dynamics of the electron density. Evaluating the expectation value of the electron density operator yields:
+\begin{equation}
+\label{eq}
+    \rho(\mathbf{r},t) =
+        \int \int \Psi^{*}(\mathbf{r},\mathbf{R},t)
+        \hat{\rho}(\mathbf{r})
+        \Psi(\mathbf{r},\mathbf{R},t) d\mathbf{r} d\mathbf{R} =
+        \sum_I |c_I|^2 \rho_{II}(\mathbf{r}) 
+        + \sum_{I,J} c^{*}_I c_J \chi_{IJ}(t) \rho_{IJ}(\mathbf{r}).
+\end{equation}
+In contrast to the purely electronic case, this expression includes an additional integration over the nuclear coordinates and therefore accounts for the influence of nuclear motion on the electronic density. Substituting the expansion of the molecular wavefunction in terms of electronic states and nuclear wave packets yields contributions from both the populations of individual electronic states and the electronic coherences between them, while the time evolution of the nuclear wave packets introduces the effects of nuclear motion. Thus, the time-dependent electron density provides a direct representation of the coupled electron-nuclear dynamics.</p>
+
 <h2>Hydrogen Cation</h2>
 
 <p>
