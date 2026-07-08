@@ -625,6 +625,9 @@ button:active {
 
 .informationSection p {
     margin: 0 0 18px;
+    text-align: justify;
+    hyphens: auto;
+    -webkit-hyphens: auto;
 }
 
 .informationSection strong {
