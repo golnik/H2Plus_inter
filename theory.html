@@ -16,7 +16,7 @@ where \(\hbar\) is the reduced Planck constant, \(\mathbf{r}\) and \(\mathbf{R}\
 \begin{equation}
 \label{eq:H}
     \hat{H}(\mathbf{r},\mathbf{R}) = \hat{T}_n + 
-    \underbrace{\hat{T}_e + V(\mathbf{r})}_{\hat{H}_e(\mathbf{r};\mathbf{R})},
+    \underbrace{\hat{T}_e + V(\mathbf{r},\mathbf{R})}_{\hat{H}_e(\mathbf{r};\mathbf{R})},
 \end{equation}
 where \(\hat{T}_n\) and \(\hat{T}_e\) are the nuclear and electronic kinetic energy terms, respectively, and \(V(\mathbf{r},\mathbf{R})\) is the potential energy describing the Coulomb interactions among the electrons and nuclei.</p>
 
@@ -73,7 +73,7 @@ with \(\chi_I(\mathbf{R},t)\) denoting the time-dependent nuclear wave packets a
     i \hbar \frac{\partial \chi_I(\mathbf{R},t)}{\partial t} =
     \left[ \hat{T}_n + E_I(\mathbf{R}) \right] \chi_I(\mathbf{R},t).
 \end{equation}
-In this context, each nuclear wave packet evolves independently within a single electronic state without transferring population to other states. The electronic energies \(E_I(\mathbf{R})\), viewed as functions of the nuclear coordinates, define the potential energy surfaces (PESs), which determine the forces acting on the nuclei and thereby govern their motion. Consequently, the coupled electron-nuclear problem is reduced to solving the electronic Schrödinger equation to obtain the potential energy surfaces, followed by the propagation of nuclear wave packets on these surfaces. This separation of electronic and nuclear motion forms the basis of the Born–Oppenheimer approximation and underlies much of modern theoretical chemistry and molecular quantum dynamics.</p>
+In this context, each nuclear wave packet evolves independently within a single electronic state without transferring population to other states. The electronic energies \(E_I(\mathbf{R})\), viewed as functions of the nuclear coordinates, define the potential energy surfaces (PESs), which determine the forces acting on the nuclei and thereby govern their motion. Consequently, the coupled electron-nuclear problem is reduced to solving the electronic Schrödinger equation to obtain the potential energy surfaces, followed by the propagation of nuclear wave packets on these surfaces. This separation of electronic and nuclear motion forms the basis of the Born–Oppenheimer approximation and underlies much of modern theoretical chemistry and molecular quantum dynamics<sup class="citation-group"><a href="#ref-domcke" class="citation"></a></sup>.</p>
 
 <p>Similarly to the case of purely electronic dynamics, the total molecular wavefunction \(\Psi(\mathbf{r},\mathbf{R},t)\) can be used to calculate time-dependent molecular properties, including the dynamics of the electron density. Evaluating the expectation value of the electron density operator yields:
 \begin{equation}
@@ -176,8 +176,9 @@ Here, \(H_{ij}(R)=\langle\phi_i|\hat{H}_e|\phi_j\rangle \) are the matrix elemen
 
 <h2>References</h2>
 <ol class="references-list">
-    <li id="ref-krausz">F. Krausz and M. Ivanov, Rev. Mod. Phys. <b>81</b>, 163 (2009).</li>
-    <li id="ref-griffiths">D. J. Griffiths and D. F. Schroeter, <em>Introduction to Quantum Mechanics</em>. (Cambridge University Press, Cambridge; New York, NY, 2018).</li>
+    <li id="ref-krausz">F. Krausz and M. Ivanov, <em>Attosecond physics</em>, Rev. Mod. Phys. <b>81</b>, 163 (2009).</li>
+    <li id="ref-griffiths">D. J. Griffiths and D. F. Schroeter, <em>Introduction to Quantum Mechanics</em>. (Cambridge University Press, Cambridge, 2018).</li>    
+    <li id="ref-domcke">W. Domcke, D. Yarkony, and H. Köppel, <em>Conical Intersections: Electronic Structure, Dynamics & Spectroscopy</em>. (World Scientific Publishing, Singapore, 2004).</li>
     <li id="ref-bunker">P. R. Bunker and P. Jensen, <em>Molecular Symmetry and Spectroscopy</em>. (NRC Research Press, Ottawa, 2006).</li>
     <li id="ref-atkins">P. W. Atkins and R. S. Friedman, <em>Molecular Quantum Mechanics</em>. (Oxford University Press, Oxford, 1997).</li>
 </ol>
