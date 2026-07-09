@@ -37,6 +37,7 @@ const infoBoxes = [
     'nDynamicsMain-info', 'nDynamicsPos-info', 'nDynamicsMom-info',
     'fullDynamics-info', 'overlap-info', 'transition-info', 'static-summary',
     'eDynamics-summary', 'nDynamics-summary', 'fullDynamics-summary',
+    'radiusSlider-info', 'expansionCoeff-info', 'timeSlider-info',
 ];
 
 const graphs = [
