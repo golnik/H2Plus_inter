@@ -769,7 +769,7 @@ button:active {
     /* -- Full Quantum Dynamics (en_dynamic) -- */
     .stacked_graph_container.en_dynamic {
         grid-column: 1;
-        grid-row: 1;
+        grid-row: 1 / span 2;
     }
 
     .stacked_graph_container.en_dynamic > .graph_container:first-child {
