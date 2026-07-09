@@ -589,6 +589,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }, [0, 1, 2, 3, 4, 5]);
         
         Plotly.relayout('nuclear-overlap-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
+        Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
     }
 }
 
@@ -675,6 +676,7 @@ function throttledUpdate() {
         isDrawing = true;
         requestAnimationFrame(() => {
             update_graphs();
+            if (screen == 'en_dynamic') update_heatmap();
             isDrawing = false;
         });
     }
