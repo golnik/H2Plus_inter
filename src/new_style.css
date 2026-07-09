@@ -702,21 +702,24 @@ button:active {
     }
 }
 
-/* Desktop / tablet: graphs + controls laid out as a fixed-height dashboard */
+/* Desktop / tablet: graphs + controls laid out as a single fixed-height dashboard grid.
+   `.graph_section_container` is the one grid for every screen (static / e_dynamic /
+   n_dynamic / en_dynamic); `.inputs_and_interactives_container` is `display: contents`
+   here so its own children become direct items of that same grid — this lets a screen's
+   panel span both the graph row and the controls row natively (see `.stacked_graph_container.static`
+   below) instead of needing a `position: fixed` workaround with hand-computed offsets. */
 @media (min-width: 769px) {
     .graph_section_container {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: 4fr 1fr;
         align-items: stretch;
-        height: calc(80vh - 60px - 20px);
+        gap: 20px;
+        height: calc(100vh - 60px - 40px);
     }
 
     .inputs_and_interactives_container {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        height: calc(20vh - 40px);
-        align-items: stretch;
-        gap: 20px;
+        display: contents;
     }
 
     .graph_container {
@@ -730,17 +733,62 @@ button:active {
         min-width: 0;
     }
 
-    .radius_panels_row {
+    /* -- Electronic Structure (static) -- */
+    .graph_container.static.e_dynamic {
         grid-column: 1;
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        min-width: 0;
-        gap: 20px;
+        grid-row: 1;
     }
 
+    .stacked_graph_container.static {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .radius_panels_row {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    /* -- Electron Dynamics (e_dynamic) -- */
+    .graph_container.e_dynamic:not(.static) {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    /* -- Nuclear Dynamics (n_dynamic) -- */
+    .graph_container.n_dynamic {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .stacked_graph_container.n_dynamic {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    /* -- Full Quantum Dynamics (en_dynamic) -- */
+    .stacked_graph_container.en_dynamic {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .stacked_graph_container.en_dynamic > .graph_container:first-child {
+        max-height: 30%;
+    }
+
+    .graph_container.en_dynamic {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    /* -- Controls shared by e_dynamic / n_dynamic / en_dynamic -- */
     .time_panels_row {
         grid-column: 2;
+        grid-row: 2;
+    }
+
+    .radius_panels_row,
+    .time_panels_row {
         display: flex;
         flex-direction: row;
         width: 100%;

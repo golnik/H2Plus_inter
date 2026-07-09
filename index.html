@@ -117,7 +117,7 @@
                     <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state.</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-energy-chart" , class="hydrogen-cation-chart"></div>
+            <div id="hydrogen-cation-energy-chart" class="hydrogen-cation-chart"></div>
         </div>
         <div class="stacked_graph_container static">
             <div class="graph_container">
@@ -177,7 +177,7 @@
                     <p>As you increase time, the probability density graphs will go from the <span title="The neutral ground state nuclear wavefunction of an H₂ system."><u>initial position, 1.4441 bohr,</u></span> to infinity. For the antibonding state, this is easy to see as the graph will forever be decreasing, so the lowest energy point is infinity. For the bonding state however though there is an energy minimum, because the energy in the system at 1.4441 bohr is greater than 0 it will go through the dip and forever try to reach an energy greater than 0 causing it to also disassociate</p>
                 </div>
             </div>
-            <div id="hydrogen-cation-energy-chart-nuclear" , class="hydrogen-cation-chart"></div>
+            <div id="hydrogen-cation-energy-chart-nuclear" class="hydrogen-cation-chart"></div>
         </div>
         <div class="stacked_graph_container n_dynamic">
             <div class="graph_container">
@@ -204,8 +204,8 @@
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
             </div>
         </div>
-        <div class="stacked_graph_container en_dynamic" style="height: 100%">
-            <div class="graph_container" style="max-height: 30%;">
+        <div class="stacked_graph_container en_dynamic">
+            <div class="graph_container">
                 <div class="title_row">
                     <figcaption class="graph_title">Electronic Coherence</figcaption>
                     <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
@@ -238,72 +238,72 @@
                     <p>The blue graph shows the true electronic probability density function with respect to time which is the summation of the 3 parts. We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become the respective part.</p>
                 </div>
             </div>
-            <div id="fullDynamics-probability-chart" , class="hydrogen-cation-chart"></div>
+            <div id="fullDynamics-probability-chart" class="hydrogen-cation-chart"></div>
         </div>
-    </div>
-    <div class="static e_dynamic n_dynamic en_dynamic inputs_and_interactives_container">
-        <div class="static e_dynamic radius_panels_row">
-            <div class="time_cs_box">
-                <div class="title_row">
-                    <span class="graph_title">Internuclear Distance</span>
-                </div>
-                <div class="radius_slider_container">
-                    <div class="input_row">
-                        <label for="radius_text">\(R\):</label>
-                        <input id="radius" type="range" min="1" max="6" step="any" list="r-ticks"
-                            oninput="update_graphs(parseFloat(this.value))">
-                        <input id="radius_text" class="hide-arrows"
-                            style="width: 55px; text-align: center;" type="number"
-                            min="0.1" max="6" step="0.01"
-                            oninput="update_graphs(parseFloat(this.value))">
-                        <span>Bohr</span>
+        <div class="inputs_and_interactives_container">
+            <div class="static e_dynamic radius_panels_row">
+                <div class="time_cs_box">
+                    <div class="title_row">
+                        <span class="graph_title">Internuclear Distance</span>
                     </div>
-                    <!--datalist id="r-ticks">
-                        <option value="1" label="1"></option>
-                        <option value="2" label="2"></option>
-                        <option value="2.4928304174227165" label="minimum"></option>
-                        <option value="3" label="3"></option>
-                        <option value="4" label="4"></option>
-                        <option value="5" label="5"></option>
-                        <option value="6" label="6"></option>
-                    </datalist-->
-                </div>
-                <button class="panel-action-button" onclick="default_values()">Default/Minimum</button>
-            </div>
-        </div>
-        <div class="e_dynamic n_dynamic en_dynamic time_panels_row">
-            <div class="time_cs_box">
-                <div class="title_row">
-                    <span class="graph_title">Expansion Coefficients</span>
-                </div>
-                <div class="input_row">
-                    <span>\(|c_\text{B}|^2\):</span>
-                    <input id="c1" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
-                    <output id="c1Text"></output>
-                </div>
-                <div class="input_row">
-                    <span>\(|c_\text{A}|^2\):</span>
-                    <input id="c2" type="range" min="0" max="1" step="0.01"
-                        oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
-                    <output id="c2Text"></output>
+                    <div class="radius_slider_container">
+                        <div class="input_row">
+                            <label for="radius_text">\(R\):</label>
+                            <input id="radius" type="range" min="1" max="6" step="any" list="r-ticks"
+                                oninput="update_graphs(parseFloat(this.value))">
+                            <input id="radius_text" class="hide-arrows"
+                                style="width: 55px; text-align: center;" type="number"
+                                min="0.1" max="6" step="0.01"
+                                oninput="update_graphs(parseFloat(this.value))">
+                            <span>Bohr</span>
+                        </div>
+                        <!--datalist id="r-ticks">
+                            <option value="1" label="1"></option>
+                            <option value="2" label="2"></option>
+                            <option value="2.4928304174227165" label="minimum"></option>
+                            <option value="3" label="3"></option>
+                            <option value="4" label="4"></option>
+                            <option value="5" label="5"></option>
+                            <option value="6" label="6"></option>
+                        </datalist-->
+                    </div>
+                    <button class="panel-action-button" onclick="default_values()">Default/Minimum</button>
                 </div>
             </div>
-            <div class="time_cs_box">
-                <div class="title_row">
-                    <span class="graph_title">Time</span>
+            <div class="e_dynamic n_dynamic en_dynamic time_panels_row">
+                <div class="time_cs_box">
+                    <div class="title_row">
+                        <span class="graph_title">Expansion Coefficients</span>
+                    </div>
+                    <div class="input_row">
+                        <span>\(|c_\text{B}|^2\):</span>
+                        <input id="c1" type="range" min="0" max="1" step="0.01"
+                            oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
+                        <output id="c1Text"></output>
+                    </div>
+                    <div class="input_row">
+                        <span>\(|c_\text{A}|^2\):</span>
+                        <input id="c2" type="range" min="0" max="1" step="0.01"
+                            oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate();" onchange="update_heatmap();">
+                        <output id="c2Text"></output>
+                    </div>
                 </div>
-                <div class="input_row">
-                    <label for="time_text">\(t\):</label>
-                    <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
-                        oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); throttledUpdate();" onchange="screen == 'en_dynamic' ? Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': parseFloat(this.value).toFixed(2), 'shapes[0].x1': parseFloat(this.value).toFixed(2) }):null;">
-                    <input id="time_text" class="hide-arrows"
-                        style="width: 55px; text-align: center;" type="number"
-                        min="0.00" step="0.01" value="0.00"
-                        oninput="throttledUpdate();">
-                    <span>fs</span>
+                <div class="time_cs_box">
+                    <div class="title_row">
+                        <span class="graph_title">Time</span>
+                    </div>
+                    <div class="input_row">
+                        <label for="time_text">\(t\):</label>
+                        <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
+                            oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); throttledUpdate();" onchange="screen == 'en_dynamic' ? Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': parseFloat(this.value).toFixed(2), 'shapes[0].x1': parseFloat(this.value).toFixed(2) }):null;">
+                        <input id="time_text" class="hide-arrows"
+                            style="width: 55px; text-align: center;" type="number"
+                            min="0.00" step="0.01" value="0.00"
+                            oninput="throttledUpdate();">
+                        <span>fs</span>
+                    </div>
+                    <button id="playPauseButton" class="panel-action-button" onclick="togglePlayPause()">Play</button>
                 </div>
-                <button id="playPauseButton" class="panel-action-button" onclick="togglePlayPause()">Play</button>
             </div>
         </div>
     </div>
