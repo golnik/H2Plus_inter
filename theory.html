@@ -93,15 +93,60 @@ where the quantity \(\chi_{IJ}(t) = \int \chi^{*}_I(\mathbf{R},t) \chi_J(\mathbf
 
 <h2>Hydrogen Cation</h2>
 
-<p>
-In case of the hydrogen molecular cation, which consists of a single electron and two protons, the Hamiltonian takes on a particularly simple form
+<p>In the case of the hydrogen molecular cation, which consists of a single electron and two protons, the molecular Hamiltonian takes the particularly simple form
 \begin{equation}
 \label{eq:H_hydrogen}
-    \hat{H}(\mathbf{r},\mathbf{R}) =
+    \hat{H}(r_1,r_2,R) =
+    \overbrace{-\frac{\hbar^2}{2\mu_n}\frac{\partial^2}{\partial R^2}}^{\hat{T}_n}
+    \quad
+    \underbrace{
+        \overbrace{-\frac{\hbar^2}{2m_e}\nabla_e^2}^{\hat{T}_e}
+        \quad
+        \overbrace{-\frac{e^2}{4\pi\varepsilon_0}
+            \left(
+            \frac{1}{r_1}
+            +\frac{1}{r_2}
+            \right)
+            +\frac{e^2}{4\pi\varepsilon_0R}
+        }^{V(r_1,r_2,R)}
+    }_{\hat{H}_e(r_1,r_2;R)},
 \end{equation}
-</p>
+where \(R\) is the internuclear distance, \(r_1\) and \(r_2\) are the distances between the electron and nuclei \(1\) and \(2\), respectively, \(\mu_n\) is the reduced mass of the two protons, and \(m_e\) is the electron mass. This form of the Hamiltonian results from expressing the three-body problem in terms of the internal coordinates after separating the center-of-mass motion. The electronic Laplacian \(\nabla_e^2\) in these internal coordinates takes a rather complicated form due to the non-orthogonality of the chosen coordinate system and the resulting coupling between the electronic and nuclear degrees of freedom. The explicit form of the Laplacian and its derivation are omitted here for simplicity and can be explored in more detail in Refs.</p>
 
-<p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
+<p>To solve the time-independent electronic Schrödinger equation, Eq. \((\ref{eq:SE_He})\), we employ the linear combination of atomic orbitals (LCAO) method, in which the molecular electronic wavefunctions are expanded at each nuclear geometry in a basis of atomic orbitals:
+\begin{equation}
+    \Phi_I(\mathbf{r}) =
+    \sum_\mu c_{\mu}^{I}\phi_\mu(\mathbf{r}),
+\end{equation}
+where \(\phi_\mu(\mathbf{r})\) are the atomic basis functions and \(c_{\mu}^{I}\) are the corresponding expansion coefficients. In this interactive demonstration, we adopt the simplest possible basis consisting of two hydrogen \(1s\) atomic orbitals \(\phi_1(\mathbf{r})\) and \(\phi_2(\mathbf{r})\), each described by a simple exponential function
+\begin{equation}
+    \phi_{1s}(\mathbf{r})=
+    \frac{1}{\sqrt{\pi}}
+    \exp\left(-|\mathbf{r}|\right).
+\end{equation}
+The basis functions are obtained by placing these orbitals on the corresponding nuclei separated by the internuclear distance \(R\). Such a formulation provides a minimal basis for describing the electronic states of the hydrogen molecular cation.</p>
+
+<p>Representing the electronic Hamiltonian, \(\hat{H}_e(r_1,r_2;R)\), in the basis of atomic orbitals and applying the variational principle yields two molecular electronic states. The electronic energies of these states are
+\begin{equation}
+    E_B(R)=\frac{H_{11}(R)+H_{12}(R)}
+    {1+S(R)},
+    \qquad
+    E_A(R)=\frac{H_{11}(R)-H_{12}(R)}
+    {1-S(R)},
+\end{equation}    
+and the corresponding normalized wavefunctions are
+\begin{equation}
+    \Phi_B(\mathbf{r}) =
+        \frac{\phi_1(\mathbf{r})+\phi_2(\mathbf{r})}
+        {\sqrt{2\left(1+S(R)\right)}},
+    \qquad
+    \Phi_A(\mathbf{r}) =
+        \frac{\phi_1(\mathbf{r})-\phi_2(\mathbf{r})}
+        {\sqrt{2\left(1-S(R)\right)}}.
+\end{equation}
+Here, \(H_{ij}(R)=\langle\phi_i|\hat{H}_e|\phi_j\rangle \) are the matrix elements of the electronic Hamiltonian and \(S(R)=\langle\phi_1|\phi_2\rangle\) is the overlap integral between the two atomic orbitals. The lower-energy PES \(E_B(R)\) and the associated wavefunction \(\Phi_B(\mathbf{r})\) correspond to the bonding (\(B\)) electronic state, while the higher-energy pair of \(E_A(R)\) and \(\Phi_A(\mathbf{r})\) represent the antibonding (\(A\)) electronic state.</p>
+
+<!--p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
 <p>To use this tool you can navigate to different screens at various dynamics from static to full dynamics. For the Static and Electron Dynamics sections you will be able to change the radius by either moving the slider or changing the number in the text box. Doing this will change the radius between the two protons/nuclei in the system. For all dynamics screens you will see a time and superposition block. The two 'c' constants change
     the superposition state of the molecule. In this system we are assuming that we <span
         title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> an
@@ -156,4 +201,4 @@ In case of the hydrogen molecular cation, which consists of a single electron an
     <span class="equation">\[=c_1^2\int_{-\infty}^{\infty}\vert\chi_+\vert^2\vert\psi_+\vert^2\,dR   +   2c_1c_2\int_{-\infty}^{\infty}\chi_+\chi_-\psi_+\psi_-\cos(t(E_1-E_2))\,dR\   +   c_2^2\int_{-\infty}^{\infty}\vert\chi_-\vert^2\vert\psi_-\vert^2\,dR\]</span>
     Because these integrals are not analytically solvable, we use a summation to get an approximation where \(r^* = (0.1+0.0486328125*k)\text{, and}\,\Delta R = 0.0486328125\)  and t is time:
     <span class="equation">\[\sum_{k=0}^{512}[c_1^2\vert\chi_+(r^*,t)\vert^2\vert\psi_+(r^*)\vert^2   +   2c_1c_2\chi_+(r^*,t)\chi_-(r^*,t)\psi_+(r^*)\psi_-(r^*)\cos(t[E_1(r^*)-E_2(r^*)]) + c_2^2\vert\chi_-(r^*,t)\vert^2\vert\psi_-(r^*)\vert^2]*\Delta R\]</span>
-</p>
+</p-->
