@@ -24,7 +24,7 @@ const antibondingColor = '#ff7f0e';
 const multiUseColor = 'green';
 const protonStandardColor = 'red';
 const h2Color = '#9467bd';
-const arrowDelta = 0.05;
+const arrowDelta = 0.3;
 
 // =============================================================================
 // UI configuration
@@ -156,9 +156,9 @@ for (let i = 0; i <= 2667; i++) {
     h2_energy_y.push(4.7475*(1-Math.exp(-1.0298*(rad-1.4011)))**2+h_ground_energy-4.7475);
 }
 const h2_ymin = Math.min(...h2_energy_y);
-const h2_xmin = radius[h2_energy_y.indexOf(h2_ymin)];
-const h2toBond_y = bonding_energy(h2_xmin * bohr_radius);
-const h2toAnti_y = antibonding_energy(h2_xmin * bohr_radius);
+const h2_xmin = radius[h2_energy_y.indexOf(h2_ymin)]+0.03;
+const h2toBond_y = bonding_energy(h2_xmin * bohr_radius)+0.1;
+const h2toAnti_y = antibonding_energy(h2_xmin * bohr_radius)+0.4;
 
 for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
 
@@ -523,15 +523,15 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 y_data_anti.map(num => num * c2 > 0.0005 ? NUC_SCALE * num * c2 + shiftAnti : null),
                 y_data_bond.map(num => num > 0.0005 && time == 0 ? NUC_SCALE * num + h2_ymin : null),
             ],
-        }, [2, 3, 5]);
+        }, [3, 4, 5]);
         
         if (time == 0){
             Plotly.relayout('hydrogen-cation-energy-chart-nuclear', {
-                'annotations[1].showarrow': true, 'annotations[0].showarrow': true,
+                'annotations[1].showarrow': true, 'annotations[0].showarrow': true, 'annotations[2].opacity': 1,
             });
         } else {
             Plotly.relayout('hydrogen-cation-energy-chart-nuclear', {
-                'annotations[1].showarrow': false, 'annotations[0].showarrow': false,
+                'annotations[1].showarrow': false, 'annotations[0].showarrow': false, 'annotations[2].opacity': 0,
             });
         }
 
@@ -700,18 +700,19 @@ fetch('qdata.json').then(response => response.json()).then(data => {
 
     Plotly.react('hydrogen-cation-energy-chart-nuclear', [
         bonding_energy_graph, antibonding_energy_graph,
+        { x: radius, y: h2_energy_y, name: 'Ground Neutral State'},
         { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Bonding State', fill: 'toself', fillcolor: `${bondingColor}4D` },
         { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on Antibonding State', fill: 'toself', fillcolor: `${antibondingColor}4D` },
-        { x: radius, y: h2_energy_y, name: 'H<sub>2</sub> Potential Energy Curve'},
-        { x: nDynamics_bonding_data.wave_data.x, name: 'Nuclear Density on H<sub>2</sub>', fill: 'toself', fillcolor: `${h2Color}4D` },
+        { x: nDynamics_bonding_data.wave_data.x, name: 'Initial Nuclear Density', fill: 'toself', fillcolor: `${h2Color}4D` },
     ], {
         ...layout_energy,
         xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
         yaxis: { ...layout_energy.yaxis, range: [-20, 20] },
         shapes: [],
         annotations: [
-            {x: h2_xmin+arrowDelta/2, y: h2toAnti_y, xref:'x', yref:'y', ax: h2_xmin+arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:antibondingColor},
-            {x: h2_xmin-arrowDelta/2, y: h2toBond_y, xref:'x', yref:'y', ax: h2_xmin-arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:3, arrowcolor:bondingColor},
+            {x: h2_xmin+arrowDelta/2, y: h2toAnti_y, xref:'x', yref:'y', ax: h2_xmin+arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:2, arrowcolor:'black'},
+            {x: h2_xmin-arrowDelta/2, y: h2toBond_y, xref:'x', yref:'y', ax: h2_xmin-arrowDelta/2, ay: h2_ymin, axref:'x', ayref:'y', layer: 'below', showarrow:true,text:'', arrowhead:2, arrowsize:1, arrowwidth:2, arrowcolor:'black'},
+            {x: 2, y: -8.0, xref:'x', yref:'y', showarrow:false, text:'Ionization', font:{size:PLOT_FONT_SIZE+2}, xanchor:'left'},
         ],
     }, config);
 
