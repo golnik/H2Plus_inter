@@ -760,15 +760,6 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         y:fullDynamics_data.x,
         type:'heatmap',
         colorscale: 'Blackbody',
-        colorbar: {
-            orientation: 'h',
-            x: 0.5,
-            xanchor: 'center',
-            y: 1.05,
-            yanchor: 'bottom',
-            len: 0.8,
-            ypad: 0,
-            yblock: 0,
-        },
+        showscale: false,
     }, {x:exprx, y:exprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:exprA, name:'AntibondProton', line:{color:antibondingColor}}, {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:nexprA, name:'AntibondProton', line:{color:antibondingColor}}], time_electron_density_layout, {...config, displayModeBar:false});
 });

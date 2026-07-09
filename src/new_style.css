@@ -772,10 +772,6 @@ button:active {
         grid-row: 1 / span 2;
     }
 
-    .stacked_graph_container.en_dynamic > .graph_container:first-child {
-        max-height: 30%;
-    }
-
     .graph_container.en_dynamic {
         grid-column: 2;
         grid-row: 1;
