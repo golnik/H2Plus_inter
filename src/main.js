@@ -308,17 +308,18 @@ const time_electron_density_layout = {
     showlegend: false,
     font: { size: PLOT_FONT_SIZE },
     xaxis: {
+        range: [0.0, 10],
         title: { text: 'Time [fs]' },
     },
     yaxis: {
-        title: { text: 'Distance [Bohr]' },
+        title: { text: 'r [Bohr]' },
         automargin: false
     },
     shapes: [{
-        type: 'line', line: { color: 'black', dash: 'dash', width:3 },
+        type: 'line', line: { color: 'white', dash: 'dash', width:3 },
         x0: 0, y0: -12.5, x1: 0, y1: 12.5,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 0, pad: 0 },
 }
 
 const config = {
@@ -761,7 +762,11 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         x:time_axis,
         y:fullDynamics_data.x,
         type:'heatmap',
-        colorscale: 'Blackbody',
-        showscale: false,
-    }, {x:exprx, y:exprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:exprA, name:'AntibondProton', line:{color:antibondingColor}}, {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:bondingColor}}, {x:exprx, y:nexprA, name:'AntibondProton', line:{color:antibondingColor}}], time_electron_density_layout, {...config, displayModeBar:false});
+        colorscale: 'Jet',
+        showscale: false,},
+        {x:exprx, y:exprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
+        {x:exprx, y:exprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}}, 
+        {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
+        {x:exprx, y:nexprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}}], 
+        time_electron_density_layout, {...config, displayModeBar:false});
 });
