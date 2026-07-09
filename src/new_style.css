@@ -640,6 +640,20 @@ button:active {
     cursor: help;
 }
 
+.nav-link {
+    display: inline-block;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--color-navy);
+    border-bottom: 1px solid var(--color-gold);
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    color: var(--color-navy-light);
+    border-bottom-color: var(--color-gold-light);
+}
+
 .equation {
     display: inline-block;
     width: 100%;
