@@ -758,7 +758,7 @@ button:active {
     /* -- Nuclear Dynamics (n_dynamic) -- */
     .graph_container.n_dynamic {
         grid-column: 1;
-        grid-row: 1;
+        grid-row: 1 / span 2;
     }
 
     .stacked_graph_container.n_dynamic {
