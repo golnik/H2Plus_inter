@@ -1,0 +1,241 @@
+<h2>Introduction</h2>
+
+<p>Advances in laser technology over the past several decades have revolutionized the study of properties and behavior of matter by enabling direct observation of quantum dynamics in atomic, molecular, and solid state systems with unprecedented temporal and spatial resolution<sup class="citation-group"><a href="#ref-krausz" class="citation"></a></sup>. At the quantum level, this dynamics arises from the formation of coherent superpositions of quantum states and their subsequent evolution governed by interactions among electrons, nuclei, and external electromagnetic fields. The purpose of this interactive demonstration is to introduce the fundamental concepts of quantum dynamics through the example of the hydrogen molecular cation, one of the simplest systems that exhibits coupled electronic and nuclear motion.</p>
+    
+<p>We begin by introducing mathematical formalism required to describe a molecular system at the quantum level, including the construction of the Hamiltonian, the nature of electronic and coupled electron-nuclear dynamics, and the theoretical framework used to describe and solve the quantum dynamics of molecules. These concepts are then illustrated using the hydrogen molecular cation through the <label for="rStatic" class="nav-link">determination of its stationary states</label>, the <label for="re_dynamic" class="nav-link">emergence of purely electronic dynamics from coherent superposition of electronic states</label>, the <label for="rn_dynamic" class="nav-link">formation and propagation of nuclear wave packets</label>, the <label for="ren_dynamic" class="nav-link">role of electronic coherences</label>, and, ultimately, the <label for="rn_dynamic" class="nav-link">full quantum dynamics arising from the coupled evolution of electronic and nuclear degrees of freedom</label>.</p>
+
+<h2>Basic Concepts of Electronic and Electron-Nuclear Dynamics</h2>
+
+<p>To describe the properties and behavior of a molecule, we solve the fundamental quantum mechanical equation of motion, known as the time-dependent Schrödinger equation<sup class="citation-group"><a href="#ref-griffiths" class="citation"></a></sup>:
+\begin{equation}
+\label{eq:TDSE}
+    i \hbar \frac{\partial \Psi(\mathbf{r},\mathbf{R},t)}{\partial t} = 
+    \hat{H}(\mathbf{r},\mathbf{R}) \Psi(\mathbf{r},\mathbf{R},t),
+\end{equation}
+where \(\hbar\) is the reduced Planck constant, \(\mathbf{r}\) and \(\mathbf{R}\) represent the electronic and nuclear coordinates, respectively, and \(\Psi(\mathbf{r},\mathbf{R},t)\) is the time-dependent molecular wavefunction describing the quantum state of the system determined by the Hamiltonian operator \(\hat{H}(\mathbf{r},\mathbf{R})\). For a field-free molecular system, the Hamiltonian operator can be written in the following form
+\begin{equation}
+\label{eq:H}
+    \hat{H}(\mathbf{r},\mathbf{R}) = \hat{T}_n + 
+    \underbrace{\hat{T}_e + V(\mathbf{r})}_{\hat{H}_e(\mathbf{r};\mathbf{R})},
+\end{equation}
+where \(\hat{T}_n\) and \(\hat{T}_e\) are the nuclear and electronic kinetic energy terms, respectively, and \(V(\mathbf{r},\mathbf{R})\) is the potential energy describing the Coulomb interactions among the electrons and nuclei.</p>
+
+<p>In Eq. (\(\ref{eq:H}\)), we introduced the electronic Hamiltonian operator \(\hat{H}_e(\mathbf{r};\mathbf{R})\), which determines the behavior of electrons for a fixed nuclear configuration. In this formulation, the nuclear coordinates \(\mathbf{R}\) enter the electronic Hamiltonian only as parameters, enabling the definition of a separate Schrödinger equation for the electronic subsystem in which the nuclei are treated as stationary:
+\begin{equation}
+\label{eq:TDSE_e}
+    i \hbar \frac{\partial \Phi_{\mathbf{R}}(\mathbf{r},t)}{\partial t} = 
+    \hat{H}_e(\mathbf{r};\mathbf{R}) \Phi_{\mathbf{R}}(\mathbf{r},t),
+\end{equation}
+where \(\Phi_\mathbf{R}(\mathbf{r},t)\) is the time-dependent electronic wavefunction for a given nuclear configuration. To simplify the following discussion, the dependence on the nuclear coordinates \(\mathbf{R}\) will be omitted from the notation where it does not lead to ambiguity. Thus, the electronic wavefunctions and the related quantities will be written in a compact form while retaining their parametric dependence on the nuclear degrees of freedom.</p>
+
+<p>A convenient way to solve Eq. (\(\ref{eq:TDSE_e}\)) is to start with the time-independent Schrödinger equation for the electronic Hamiltonian:
+\begin{equation}
+\label{eq:SE_He}
+    \hat{H}_e(\mathbf{r}) \Phi_I(\mathbf{r}) =
+    E_I \Phi_I(\mathbf{r}).
+\end{equation}
+The obtained set of stationary electronic states, \(\{\Phi_I(\mathbf{r})\}\), and their corresponding energies, \(E_I\), forms a complete basis for representing the time-dependent electronic wavefunction:
+\begin{equation}
+\label{eq:Phi}
+    \Phi(\mathbf{r},t) = \sum_I c_I(t) \Phi_I(\mathbf{r}),
+\end{equation}
+where \(c_I(t)\) are the time-dependent expansion coefficients. Substituting this expansion into the time-dependent electronic Schrödinger equation and exploiting the orthonormality of the stationary states yields
+\begin{equation}
+\label{eq:Phi_sol}
+    \Phi(\mathbf{r},t) = 
+    \sum_I c_I \exp\left({-\frac{i}{\hbar} E_I t}\right) \Phi_I(\mathbf{r}),
+\end{equation}
+where the time-independent coefficients \(c_I\) determine the weights of the electronic eigenstates in the created superposition.</p>
+
+<p>The time-dependent electronic wavefunction, \(\Phi(\mathbf{r},t)\), provides complete information about the electron motion in the system and enables the evaluation of a wide range of electronic properties. In particular, the time-dependent electron density offers an intuitive visualization of how the electronic charge redistributes throughout the molecule over time. It can be obtained by evaluating the expectation value of the electron density operator, \(\hat{\rho}(\mathbf{r})\):
+\begin{equation}
+\label{eq:rho}
+\begin{split}
+    \rho(\mathbf{r},t) & = 
+    \int \Phi^{*}(\mathbf{r},t) \hat{\rho}(\mathbf{r}) \Phi(\mathbf{r},t) d\mathbf{r} \\
+    & = \sum_I |c_I|^2 \rho_{II}(\mathbf{r}) 
+        + \sum_{I,J} c^{*}_I c_J \exp \left[{-\frac{i}{\hbar} 
+            \left( E_J-E_I \right) t}\right] \rho_{IJ}(\mathbf{r}),
+\end{split}
+\end{equation}
+where \(\rho_{IJ}(\mathbf{r})=\int \Phi^{*}_I(\mathbf{r}) \hat{\rho}(\mathbf{r}) \Phi_I(\mathbf{r}) d\mathbf{r}\) are the matrix elements of the electron density operator in the basis of stationary electronic states. The diagonal terms \((I=J)\) correspond to the stationary electron densities associated with individual electronic states, whereas the off-diagonal terms \((I\neq J)\) represent the transition electron densities.
+
+<p>The basis of stationary electronic states, \(\{\Phi_I(\mathbf{r})\}\), also provides a convenient representation for solving the full time-dependent Schrödinger equation. Expanding the total molecular wavefunction as
+\begin{equation}
+\label{eq:fullWF_expansion}
+    \Psi(\mathbf{r},\mathbf{R},t) = \sum_I
+        c_I \chi_I(\mathbf{R},t) \Phi_I(\mathbf{r}),
+\end{equation}
+with \(\chi_I(\mathbf{R},t)\) denoting the time-dependent nuclear wave packets associated with the corresponding electronic states, allows the full time-dependent Schrödinger equation, Eq. (\(\ref{eq:TDSE}\)), to be transformed into a set of coupled equations of motion for the nuclear wave packets.</p>
+
+<p>Recalling that the electronic states and their corresponding energies retain an implicit parametric dependence on the nuclear coordinates, such that \(\Phi_I(\mathbf{r}) \equiv \Phi_I(\mathbf{r};\mathbf{R})\) and \(E_I \equiv E_I(\mathbf{R})\), we now consider the limit in which the dependence of the electronic states on the nuclear geometry is sufficiently weak to approximate the electronic wavefunctions as fixed, while retaining the full dependence of the electronic energies on the nuclear coordinates. Under this approximation, the nonadiabatic couplings between different electronic states can be neglected, and the equations of motion for the nuclear wave packets reduce to
+\begin{equation}
+    i \hbar \frac{\partial \chi_I(\mathbf{R},t)}{\partial t} =
+    \left[ \hat{T}_n + E_I(\mathbf{R}) \right] \chi_I(\mathbf{R},t).
+\end{equation}
+In this context, each nuclear wave packet evolves independently within a single electronic state without transferring population to other states. The electronic energies \(E_I(\mathbf{R})\), viewed as functions of the nuclear coordinates, define the potential energy surfaces (PESs), which determine the forces acting on the nuclei and thereby govern their motion. Consequently, the coupled electron-nuclear problem is reduced to solving the electronic Schrödinger equation to obtain the potential energy surfaces, followed by the propagation of nuclear wave packets on these surfaces. This separation of electronic and nuclear motion forms the basis of the Born–Oppenheimer approximation and underlies much of modern theoretical chemistry and molecular quantum dynamics.</p>
+
+<p>Similarly to the case of purely electronic dynamics, the total molecular wavefunction \(\Psi(\mathbf{r},\mathbf{R},t)\) can be used to calculate time-dependent molecular properties, including the dynamics of the electron density. Evaluating the expectation value of the electron density operator yields:
+\begin{equation}
+\label{eq:rho_full}
+\begin{split}
+    \rho(\mathbf{r},t) & =
+        \int \int \Psi^{*}(\mathbf{r},\mathbf{R},t)
+        \hat{\rho}(\mathbf{r})
+        \Psi(\mathbf{r},\mathbf{R},t) d\mathbf{r} d\mathbf{R} \\ 
+        & = \sum_I |c_I|^2 \rho_{II}(\mathbf{r}) 
+        + \sum_{I,J} c^{*}_I c_J \chi_{IJ}(t) \rho_{IJ}(\mathbf{r}),
+\end{split}
+\end{equation}
+where the quantity \(\chi_{IJ}(t) = \int \chi^{*}_I(\mathbf{R},t) \chi_J(\mathbf{R},t) d\mathbf{R}\) represents the overlap between nuclear wave packets associated with different electronic states and is referred to as the electronic coherence.</p>
+
+<p>In contrast to the purely electronic case, expression Eq. (\(\ref{eq:rho_full}\)) includes an additional integration over the nuclear coordinates and therefore accounts for the influence of nuclear motion on the electronic density. Substituting the expansion of the molecular wavefunction in terms of electronic states and nuclear wave packets yields contributions from both the populations of individual electronic states and the electronic coherences between them, while the time evolution of the nuclear wave packets introduces the effects of nuclear motion. Thus, the time-dependent electron density provides a direct representation of the coupled electron-nuclear dynamics.</p>
+
+<h2>Hydrogen Cation</h2>
+
+<p>In the case of the hydrogen molecular cation, which consists of a single electron and two protons, the molecular Hamiltonian takes the particularly simple form
+\begin{equation}
+\label{eq:H_hydrogen}
+    \hat{H}(r_1,r_2,R) =
+    \overbrace{-\frac{\hbar^2}{2\mu_n}\frac{\partial^2}{\partial R^2}}^{\hat{T}_n}
+    \quad
+    \underbrace{
+        \overbrace{-\frac{\hbar^2}{2m_e}\nabla_e^2}^{\hat{T}_e}
+        \quad
+        \overbrace{-\frac{e^2}{4\pi\varepsilon_0}
+            \left(
+            \frac{1}{r_1}
+            +\frac{1}{r_2}
+            \right)
+            +\frac{e^2}{4\pi\varepsilon_0R}
+        }^{V(r_1,r_2,R)}
+    }_{\hat{H}_e(r_1,r_2;R)},
+\end{equation}
+where \(R\) is the internuclear distance, \(r_1\) and \(r_2\) are the distances between the electron and nuclei \(1\) and \(2\), respectively, \(\mu_n\) is the reduced mass of the two protons, and \(m_e\) is the electron mass. This form of the Hamiltonian results from expressing the three-body problem in terms of the internal coordinates after separating the center-of-mass motion. The electronic Laplacian \(\nabla_e^2\) in these internal coordinates takes a rather complicated form due to the non-orthogonality of the chosen coordinate system and the resulting coupling between the electronic and nuclear degrees of freedom. The explicit form of the Laplacian and its derivation are omitted here for simplicity and can be explored in more detail in Ref.<sup class="citation-group"><a href="#ref-bunker" class="citation"></a></sup>.</p>
+
+<p>To solve the time-independent electronic Schrödinger equation, Eq. \((\ref{eq:SE_He})\), we employ the linear combination of atomic orbitals (LCAO) method, in which the molecular electronic wavefunctions are expanded at each nuclear geometry in a basis of atomic orbitals:
+\begin{equation}
+    \Phi_I(\mathbf{r}) =
+    \sum_\mu c_{\mu}^{I}\phi_\mu(\mathbf{r}),
+\end{equation}
+where \(\phi_\mu(\mathbf{r})\) are the atomic basis functions and \(c_{\mu}^{I}\) are the corresponding expansion coefficients. In this interactive demonstration, we adopt the simplest possible basis consisting of two hydrogen \(1s\) atomic orbitals \(\phi_1(\mathbf{r})\) and \(\phi_2(\mathbf{r})\), each described by a simple exponential function
+\begin{equation}
+    \phi_{1s}(\mathbf{r})=
+    \frac{1}{\sqrt{\pi}}
+    \exp\left(-|\mathbf{r}|\right).
+\end{equation}
+The basis functions are obtained by placing these orbitals on the corresponding nuclei separated by the internuclear distance \(R\). Such a formulation provides a minimal basis for describing the electronic states of the hydrogen molecular cation.</p>
+
+<p>Representing the electronic Hamiltonian, \(\hat{H}_e(r_1,r_2;R)\), in the basis of atomic orbitals and applying the variational principle yields two molecular electronic states. The electronic energies of these states are
+\begin{equation}
+    E_B(R)=\frac{H_{11}(R)+H_{12}(R)}
+    {1+S(R)},
+    \qquad
+    E_A(R)=\frac{H_{11}(R)-H_{12}(R)}
+    {1-S(R)},
+\end{equation}    
+and the corresponding normalized wavefunctions are
+\begin{equation}
+    \Phi_B(\mathbf{r}) =
+        \frac{\phi_1(\mathbf{r})+\phi_2(\mathbf{r})}
+        {\sqrt{2\left(1+S(R)\right)}},
+    \qquad
+    \Phi_A(\mathbf{r}) =
+        \frac{\phi_1(\mathbf{r})-\phi_2(\mathbf{r})}
+        {\sqrt{2\left(1-S(R)\right)}}.
+\end{equation}
+Here, \(H_{ij}(R)=\langle\phi_i|\hat{H}_e|\phi_j\rangle \) are the matrix elements of the electronic Hamiltonian and \(S(R)=\langle\phi_1|\phi_2\rangle\) is the overlap integral between the two atomic orbitals. Explicit expressions for these integrals can be found, for example, in Ref.<sup class="citation-group"><a href="#ref-atkins" class="citation"></a></sup>. The lower-energy PES \(E_B(R)\) and the associated wavefunction \(\Phi_B(\mathbf{r})\) correspond to the bonding (\(B\)) electronic state, while the higher-energy pair of \(E_A(R)\) and \(\Phi_A(\mathbf{r})\) represent the antibonding (\(A\)) electronic state.</p>
+
+<h2>Interactive Demonstrations</h2>
+
+<p>The following interactive demonstrations illustrate the main concepts introduced above using the hydrogen molecular cation as a model system. Starting from its stationary electronic structure, the demonstrations progressively explore electronic motion, nuclear wave packet dynamics, and the fully coupled evolution of electronic and nuclear degrees of freedom.
+</p>
+
+<ul>
+    <li>
+        <label for="rStatic" class="nav-link">Electronic Structure</label>
+        <p>This section explores the stationary electronic states of the hydrogen molecular cation obtained from the electronic Schrödinger equation. Using the LCAO description, it illustrates the formation of bonding and antibonding states and the corresponding dependence of electronic energies on the internuclear distance.</p>
+    </li>
+
+    <li>
+        <label for="re_dynamic" class="nav-link">Electron Dynamics</label>
+        <p>This section illustrates purely electronic motion arising from coherent superpositions of stationary electronic states. The evolution of the electron density reveals how quantum interference between electronic states leads to time-dependent charge redistribution within the molecule.</p>
+    </li>
+
+    <li>
+        <label for="rn_dynamic" class="nav-link">Nuclear Dynamics</label>
+        <p>This section focuses on the quantum evolution of nuclear wave packets on electronic potential energy surfaces. It illustrates how the nuclear motion is governed by the electronic energies as functions of the internuclear coordinate and how molecular vibrations emerge from nuclear wave packet propagation.</p>
+    </li>
+
+    <li>
+        <label for="ren_dynamic" class="nav-link">Full Quantum Dynamics</label>
+        <p>This section combines electronic and nuclear degrees of freedom to illustrate the complete quantum dynamics of the molecule. The resulting electron density evolution includes both electronic coherences and nuclear motion, providing a direct visualization of coupled electron-nuclear dynamics.
+        </p>
+    </li>
+</ul>
+
+<h2>References</h2>
+<ol class="references-list">
+    <li id="ref-krausz">F. Krausz and M. Ivanov, Rev. Mod. Phys. <b>81</b>, 163 (2009).</li>
+    <li id="ref-griffiths">D. J. Griffiths and D. F. Schroeter, <em>Introduction to Quantum Mechanics</em>. (Cambridge University Press, Cambridge; New York, NY, 2018).</li>
+    <li id="ref-bunker">P. R. Bunker and P. Jensen, <em>Molecular Symmetry and Spectroscopy</em>. (NRC Research Press, Ottawa, 2006).</li>
+    <li id="ref-atkins">P. W. Atkins and R. S. Friedman, <em>Molecular Quantum Mechanics</em>. (Oxford University Press, Oxford, 1997).</li>
+</ol>
+
+
+<!--p>This is an interactive tool that explores the ultrafast <span title="How protons and electrons move with respect to time in a bond."><u>quantum bonding dynamics</u></span> in the H<sub>2</sub><sup>+</sup> molecule. This is a system with 2 protons and 1 electron.</p>
+<p>To use this tool you can navigate to different screens at various dynamics from static to full dynamics. For the Static and Electron Dynamics sections you will be able to change the radius by either moving the slider or changing the number in the text box. Doing this will change the radius between the two protons/nuclei in the system. For all dynamics screens you will see a time and superposition block. The two 'c' constants change
+    the superposition state of the molecule. In this system we are assuming that we <span
+        title="Put enough energy into the system to kick out an electron."><u>ionized</u></span> an
+    H<sub>2</sub> molecule to some superposition state between the <span
+        title="See the info button on both probability curves under the Static section"><u>bonding and
+            antibonding</u></span> states of the H<sub>2</sub><sup>+</sup> system. This state of superposition
+    can change having more or less in the bonding state versus the antibonding state. The time slider allows you
+    to explore how the bonding dynamics actually works though time at an ultrafast scale of femtoseconds(10<sup>-15</sup> seconds).</p>
+<p>For this interactive we use the Schrödinger equation: \(i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r}, t) = \hat{H} \Psi(\mathbf{r}, t)\) :to solve for statics and dynamics in the H<sub>2</sub><sup>+</sup> molecule purely quantum mechanically.</p>
+<p>For statics we use the time independent Schrödinger equation: \(\hat{H} \psi(\mathbf{r}) = E \psi(\mathbf{r})\) : Then using the <span title="Description"><u>Born-Oppenheimer approximation</u></span> and making all movement on the one dimensional z-axis we get the following hamiltonian: \(H=-\frac{\hbar^2}{2m_e} \nabla^2-\frac{e^2}{4 \pi \epsilon_0 r_A}-\frac{e^2}{4 \pi \epsilon_0 r_B}+\frac{e^2}{4 \pi \epsilon_0 R}\). Using this hamiltonian and the LCAO approximation technique as seen below we can get the following equation for the potential energy surfaces where <strong>R</strong> is the radius between the two protons/nuclei and r<sub>1</sub> and r<sub>2</sub> are the distance from the electron to proton 1 and two respectively:
+    \[E(\mathbf{R})=\langle \phi (r_1)\vert \hat H\vert\phi (r_1)\rangle\pm\langle\phi (r_1)\vert\hat H\vert\phi (r_2)\rangle\]
+    This then when solved gives us the following:
+    <span class="equation">\[E_1=\frac{q_{el}}{4\pi\epsilon_0R}*\frac{(1+\frac{R}{a_0})e^{-2\frac{R}{a_0}}+(1-\frac{2}{3}(\frac{R}{a_0})^2e^{-\frac{R}{a_0}})}{1+(1+\frac{R}{a_0}+\frac{1}{3}(\frac{R}{a_0})^2)e^{-\frac{R}{a_0}}}\]
+    \[E_2=\frac{q_{el}}{4\pi\epsilon_0R}*\frac{(1+\frac{R}{a_0})e^{-2\frac{R}{a_0}}-(1-\frac{2}{3}(\frac{R}{a_0})^2e^{-\frac{R}{a_0}})}{1-(1+\frac{R}{a_0}+\frac{1}{3}(\frac{R}{a_0})^2)e^{-\frac{R}{a_0}}}\]</span>
+    :where E<sub>1</sub> and E<sub>2</sub> are the potential energy surfaces for the bonding and antibonding states respectively. q<sub>el</sub> is the charge of an electron, ϵ<sub>0</sub> is the vacuum permittivity constant, and a<sub>0</sub> is bohr radius.
+</p>
+<p>We use one more approximation technique called Linear Combination of Atomic Orbitals (LCAO) which says: \[\psi=\sum_{r} c_r \phi_r\]\[\psi_\pm \approx \phi_a \pm \phi_b\] :where \(\phi_a\) is the wavefunction about the nucleus on the first hydrogen, and \(\phi_b\) is the wavefunction about the nucleus of the second hydrogen in the bond. We use the wave function: \[\phi(r)=\frac{1}{\sqrt{\pi}}e^{-\mathbf{r}}=\frac{1}{\sqrt{\pi}}e^{-\sqrt{x^2+y^2+z^2}}\]: where we assume that z=0 is the middle in between the two protons giving us: \(z_a=z-\frac{R}{2}\) and \(z_b=z+\frac{R}{2}\) : Then we can now use: \(P(\mathbf{r})=\vert\psi(\mathbf{r})\vert^2\) :where 'P' is the electronic probability density. Now since we only want one moving axis (z), we must integrate out x and y. We use our LCAO approximation for the bonding and antibonding states (\(\psi_+\) and \(\psi_-\) respectively), with a normalization constant 'N' to make the final function integrate out to 1, allowing us to get the following for the bonding state:
+    <span class="equation">\[P_{bond}(z)=N^2\int_0^{\infty}\int_0^{\infty}\left(\frac{1}{\sqrt{\pi}}\left(e^{-\sqrt{x^2+y^2+\left(z+\frac{R}{2}\right)^2}}+e^{-\sqrt{x^2+y^2+\left(z-\frac{R}{2}\right)^2}}\right)\right)^2\,dxdy\]</span>
+    <span class="equation">\[P_{bond}(z)=\frac{N^2}{\pi}\int_0^{2\pi}\int_0^{\infty}r\left(e^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}}+e^{-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\right)^2\,drd\theta\]</span>
+    <span class="equation">\[P_{bond}(z)=2N^2\left(\int_0^{\infty}re^{-2\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}}\,dr+\int_0^{\infty}re^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr+\int_0^{\infty}re^{-2\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr\right)\]</span>
+    We are going to say \(j=\int_0^{\infty}re^{-\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}-\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}}\,dr\) since it must be solved numerically. Then using a u-sub for the first and last integrals in the step above of \(u=\sqrt{r^2+\left(z+\frac{R}{2}\right)^2}\) where \(u\,du=r\,dr\) and \(v=\sqrt{r^2+\left(z-\frac{R}{2}\right)^2}\) where \(v\,dv=r\,dr\) we get:
+    <span class="equation">\[P_{bond}(z)=2N^2\left(\int_0^{\infty}ue^{-2u}\,du+\int_0^{\infty}ve^{-2v}\,dv+j\right)\]</span>
+    <span class="equation">\[P_{bond}(z)=N^2\left(\frac{1}{2}e^{-2\vert z+\frac{R}{2}\vert}\left(1+2\left\vert z+\frac{R}{2}\right\vert\right)+\frac{1}{2}e^{-2\vert z-\frac{R}{2}\vert}\left(1+2\left\vert z-\frac{R}{2}\right\vert\right)+j\right)\]</span>
+    When we do this for the antibonding state we get:
+    <span class="equation">\[P_{anti}(z)=N^2\left(\frac{1}{2}e^{-2\vert z+\frac{R}{2}\vert}\left(1+2\left\vert z+\frac{R}{2}\right\vert\right)+\frac{1}{2}e^{-2\vert z-\frac{R}{2}\vert}\left(1+2\left\vert z-\frac{R}{2}\right\vert\right)-j\right)\]</span>
+    We can solve for N by integrating from \(-\infty\) to \(\infty\) with respect to z and setting it equal to 1 to solve for N. Doing this we get:
+    <span class="equation">\[N^2_{bond}=\frac{1}{\sqrt{2\left(1+e^{-R}\left(1+R+\frac{R^2}{3}\right)\right)}}\quad\text{and}\quad N^2_{anti}=\frac{1}{\sqrt{2\left(1-e^{-R}\left(1+R+\frac{R^2}{3}\right)\right)}}\]</span>
+    These two equations give the electronic probability densisty graphs seen in the static section where R is the radius between the nuclei.
+</p>
+<p>
+    To find the electronic probability density curve for the Electron Dynamics section we say:
+    \[\Psi = c_1\vert \psi_+ \rangle + c_2\vert \psi_- \rangle\]
+    Then we use the following equation with time dependence to find the curve:
+    \[\langle \Psi \vert p \vert \Psi \rangle\]
+    <span class="equation">\[=c_1^2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_1t}\vert \psi_+\rangle  +  c_1c_2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_2t}\vert \psi_-\rangle  +  c_2c_1\langle \psi_-\vert e^{-iE_2t}pe^{-iE_1t}\vert \psi_+\rangle  +  c_2^2\langle \psi_-\vert e^{-iE_2t}pe^{-iE_2t}\vert \psi_-\rangle\]</span>
+    <span class="equation">\[\text{Because we are working in only the real plane the middle two terms are the same:}\]
+    \[=c_1^2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_1t}\vert \psi_+\rangle  +  2c_1c_2\langle \psi_+\vert e^{-iE_1t}pe^{-iE_2t}\vert \psi_-\rangle  +  c_2^2\langle \psi_-\vert e^{-iE_2t}pe^{-iE_2t}\vert \psi_-\rangle\]</span>
+    <span class="equation">\[=\vert c_1\vert^2 \vert \psi_+\vert^2  +  2c_1c_2\psi_+\psi_-\cos(t(E_1-E_2))  +  \vert c_2\vert^2 \vert \psi_-\vert^2\]</span>
+    \(c_1 \,\text{and}\, c_2\) represent the population in each of the bonding and antibonding states respectively where \(1=c_1^2+c_2^2\). \(E_1\) represents the energy at some radius on the potential energy curve for the bonding state and \(E_2\) for the antibonding state. Notice that we already solved for \(\vert \psi_+\vert^2\ \,\text{and}\, \vert \psi_-\vert^2\) as \(P_{bond}(z) \,\text{and}\, P_{anti}(z)\). This gives us the electronic probability density function for Electron Dynamics, showing how the probability function changes over time in some state of superposition.
+</p>
+<p>
+    To find the nucleat probability density curves for the Nuclear Dynamics section we used the Multi-Configurable Time Dependent Hartree algorrithm (MCTDH) to simulate and pre-generate the nuclear wavepacket data because it would have been too complicated to do it in the browser. We used the command showd1d84 to generate the wavepackets, and the command expect84 to generate the expected radius and momentum.
+</p>
+<p>
+    To get the electronic probability densisty chart for the Full Dynamics section we say:
+    \[\Psi = c_1\vert\chi_+,\psi_+ \rangle + c_2\vert\chi_-,\psi_- \rangle\]
+    Then we again use the following equation (the 'p' terms are the same as above with the time dependent part, but to save space it has been collapsed down to just p):
+    \[\langle \Psi \vert p \vert \Psi \rangle\]
+    <span class="equation">\[=\vert c_1\vert^2\langle\psi_+\vert p\vert\psi_+\rangle\langle\chi_+\vert\chi_+\rangle   +   c_1c_2\langle\psi_+\vert p \vert\psi_-\rangle\langle\chi_+\vert\chi_-\rangle   +   c_2c_1\langle\psi_-\vert p\vert\psi_+\rangle\langle\chi_-\vert\chi_+\rangle   +   \vert c_2\vert^2\langle\psi_-\vert p\vert\psi_-\rangle\langle\chi_-\vert\chi_-\rangle\]</span>
+    <span class="equation">\[\text{Because we are working in only the real plane the middle two terms are the same:}\]
+    \[=c_1^2\langle\psi_+\vert p\vert\psi_+\rangle\langle\chi_+\vert\chi_+\rangle   +   2c_1c_2\langle\psi_+\vert p \vert\psi_-\rangle\langle\chi_+\vert\chi_-\rangle   +   c_2^2\langle\psi_-\vert p\vert\psi_-\rangle\langle\chi_-\vert\chi_-\rangle\]</span>
+    <span class="equation">\[=c_1^2\int_{-\infty}^{\infty}\vert\chi_+\vert^2\vert\psi_+\vert^2\,dR   +   2c_1c_2\int_{-\infty}^{\infty}\chi_+\chi_-\psi_+\psi_-\cos(t(E_1-E_2))\,dR\   +   c_2^2\int_{-\infty}^{\infty}\vert\chi_-\vert^2\vert\psi_-\vert^2\,dR\]</span>
+    Because these integrals are not analytically solvable, we use a summation to get an approximation where \(r^* = (0.1+0.0486328125*k)\text{, and}\,\Delta R = 0.0486328125\)  and t is time:
+    <span class="equation">\[\sum_{k=0}^{512}[c_1^2\vert\chi_+(r^*,t)\vert^2\vert\psi_+(r^*)\vert^2   +   2c_1c_2\chi_+(r^*,t)\chi_-(r^*,t)\psi_+(r^*)\psi_-(r^*)\cos(t[E_1(r^*)-E_2(r^*)]) + c_2^2\vert\chi_-(r^*,t)\vert^2\vert\psi_-(r^*)\vert^2]*\Delta R\]</span>
+</p-->
