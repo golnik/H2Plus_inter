@@ -654,6 +654,29 @@ button:active {
     border-bottom-color: var(--color-gold-light);
 }
 
+.references-list {
+    padding-left: 24px;
+    font-size: 14px;
+    color: var(--color-ink-soft);
+}
+
+.references-list li {
+    margin-bottom: 8px;
+}
+
+.citation-group {
+    color: var(--color-navy);
+}
+
+.citation {
+    color: inherit;
+    text-decoration: none;
+}
+
+.citation:hover {
+    color: var(--color-navy-light);
+}
+
 .equation {
     display: inline-block;
     width: 100%;

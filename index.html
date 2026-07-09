@@ -94,6 +94,16 @@
             xhr.open('GET', 'theory.html', false);
             xhr.send(null);
             document.getElementById('informationSection').innerHTML = xhr.responseText;
+
+            // Number inline citations from the position of their target
+            // in the References list, so the list and citations never
+            // need to be renumbered by hand.
+            document.querySelectorAll('#informationSection .citation').forEach(function (link) {
+                var target = document.querySelector(link.getAttribute('href'));
+                if (!target) return;
+                var index = Array.prototype.indexOf.call(target.parentElement.children, target) + 1;
+                link.textContent = index;
+            });
         })();
     </script>
     <div class="static e_dynamic n_dynamic en_dynamic graph_section_container">
