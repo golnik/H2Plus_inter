@@ -223,7 +223,7 @@ const layout_energy = {
         line: { color: 'black', dash: 'dash' },
         x0: radiusSliderInput.value, y0: -4, x1: radiusSliderInput.value, y1: 300,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
 
 const layout_nPosition = {
@@ -248,7 +248,7 @@ const layout_nPosition = {
         line: { color: 'black', dash: 'dash' },
         x0: 0, y0: 0, x1: 0, y1: 15.5,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
 
 const layout_nMomentum = {
@@ -273,7 +273,7 @@ const layout_nMomentum = {
         line: { color: 'black', dash: 'dash' },
         x0: 0, y0: 0, x1: 0, y1: 34,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
 
 const layout_prob = {
@@ -287,7 +287,7 @@ const layout_prob = {
         range: [-0.1, 0.4],
         title: { text: 'Probability' },
     },
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
 
 const layout_edynamics_prob = {
@@ -320,7 +320,7 @@ const time_electron_density_layout = {
         type: 'line', line: { color: 'white', dash: 'dash', width:3 },
         x0: 0, y0: -12.5, x1: 0, y1: 12.5,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 }
 
 const config = {
@@ -757,7 +757,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
             type: 'line', line: { color: 'black', dash: 'dash' },
             x0: radiusSliderInput.value, y0: -1, x1: radiusSliderInput.value, y1: 1,
         }],
-        margin: { l: 55, r: 15, b: 55, t: 0, pad: 10 },
+        margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
     }, config);
     Plotly.react('time-electron-density-chart', [{
         x:time_axis,

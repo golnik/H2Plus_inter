@@ -275,8 +275,8 @@ input[name="selection"]:focus-visible + .sectionLabel {
     justify-content: center;
     align-items: center;
     position: relative;
-    padding-bottom: 8px;
-    margin-bottom: 6px;
+    padding-bottom: 3px;
+    margin-bottom: 2px;
 }
 
 .title_row .info_icon {
@@ -314,6 +314,14 @@ input[name="selection"]:focus-visible + .sectionLabel {
 
 .time_cs_box:hover {
     box-shadow: var(--shadow-card-hover);
+}
+
+.time_cs_box > .title_row + * {
+    margin-top: auto;
+}
+
+.time_cs_box > *:last-child:not(.title_row) {
+    margin-bottom: auto;
 }
 
 .radius_slider_container {
