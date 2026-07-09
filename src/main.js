@@ -283,7 +283,7 @@ const layout_prob = {
         title: { text: 'r [Bohr]' },
     },
     yaxis: {
-        range: [-0.015, 0.4],
+        range: [-0.1, 0.4],
         title: { text: 'Probability' },
     },
     margin: { l: 55, r: 15, b: 55, t: 25, pad: 10 },
@@ -291,7 +291,7 @@ const layout_prob = {
 
 const layout_edynamics_prob = {
     ...layout_prob,
-    yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.75] },
+    yaxis: { ...layout_prob.yaxis, range: [-0.015, 0.7] },
     annotations: [{
         xref: 'paper', yref: 'paper',
         x: 0.98, y: 1.0,
@@ -416,8 +416,8 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
-                `E<sub>A</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
-                `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
+                `E<sub>B</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
+                `E<sub>A</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
                 `ΔE: ${ (antibondingEnergy - bondingEnergy).toFixed(3) } eV`,
             ],
         }, [2, 3, 4]);
@@ -484,10 +484,9 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
                 [bondingEnergy], [antibondingEnergy], [(bondingEnergy + antibondingEnergy) / 2],
             ],
             name: [
-                'Bonding State', 'Antibonding State',
-                `E<sub>A</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
-                `E<sub>B</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
-                `ΔE: ${dE.toFixed(3)} eV`,
+                `E<sub>B</sub>(R): ${bondingEnergy.toFixed(3)} eV`,
+                `E<sub>A</sub>(R): ${antibondingEnergy.toFixed(3)} eV`,
+                `ΔE: ${ (antibondingEnergy - bondingEnergy).toFixed(3) } eV`,
             ],
         }, [2, 3, 4]);
         Plotly.restyle('hydrogen-cation-electron-dynamics-chart', {
@@ -740,7 +739,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         hovermode: false,
         showlegend: true,
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgba(255,255,255,0.5)' },
-        yaxis: { title: { text: 'Probability' }, range: [-0.225, 0.55] },
+        yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.7] },
     }, config);
 
     Plotly.react('nuclear-overlap-chart', [
