@@ -641,12 +641,14 @@ button:active {
 }
 
 .nav-link {
-    display: inline-block;
     font-family: var(--font-serif);
     font-weight: 600;
     color: var(--color-navy);
-    border-bottom: 1px solid var(--color-gold);
+    /*border-bottom: 1px solid var(--color-gold);*/
     cursor: pointer;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
 }
 
 .nav-link:hover {

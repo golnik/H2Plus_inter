@@ -2,11 +2,11 @@
 
 <p>Advances in laser technology over the past several decades have revolutionized the study of properties and behavior of matter by enabling direct observation of quantum dynamics in atomic, molecular, and solid state systems with unprecedented temporal and spatial resolution<sup class="citation-group"><a href="#ref-krausz" class="citation"></a></sup>. At the quantum level, this dynamics arises from the formation of coherent superpositions of quantum states and their subsequent evolution governed by interactions among electrons, nuclei, and external electromagnetic fields. The purpose of this interactive demonstration is to introduce the fundamental concepts of quantum dynamics through the example of the hydrogen molecular cation, one of the simplest systems that exhibits coupled electronic and nuclear motion.</p>
     
-<p>We begin by introducing mathematical formalism required to describe a molecular system at the quantum level, including the construction of the Hamiltonian, the nature of electronic and coupled electron-nuclear dynamics, and the theoretical framework used to describe and solve the quantum dynamics of molecules. These concepts are then illustrated using the hydrogen molecular cation through the determination of its stationary states, the emergence of purely electronic dynamics from coherent superposition of electronic states, the formation and propagation of nuclear wave packets, the role of electronic coherences, and, ultimately, the full quantum dynamics arising from the coupled evolution of electronic and nuclear degrees of freedom.</p>
+<p>We begin by introducing mathematical formalism required to describe a molecular system at the quantum level, including the construction of the Hamiltonian, the nature of electronic and coupled electron-nuclear dynamics, and the theoretical framework used to describe and solve the quantum dynamics of molecules. These concepts are then illustrated using the hydrogen molecular cation through the <label for="rStatic" class="nav-link">determination of its stationary states</label>, the <label for="re_dynamic" class="nav-link">emergence of purely electronic dynamics from coherent superposition of electronic states</label>, the <label for="rn_dynamic" class="nav-link">formation and propagation of nuclear wave packets</label>, the <label for="ren_dynamic" class="nav-link">role of electronic coherences</label>, and, ultimately, the <label for="rn_dynamic" class="nav-link">full quantum dynamics arising from the coupled evolution of electronic and nuclear degrees of freedom</label>.</p>
 
 <h2>Basic Concepts of Electronic and Electron-Nuclear Dynamics</h2>
 
-<p>To describe the properties and behavior of a molecule, we solve the fundamental quantum mechanical equation of motion, known as the time-dependent Schrödinger equation:
+<p>To describe the properties and behavior of a molecule, we solve the fundamental quantum mechanical equation of motion, known as the time-dependent Schrödinger equation<sup class="citation-group"><a href="#ref-griffiths" class="citation"></a></sup>:
 \begin{equation}
 \label{eq:TDSE}
     i \hbar \frac{\partial \Psi(\mathbf{r},\mathbf{R},t)}{\partial t} = 
@@ -111,7 +111,7 @@ where the quantity \(\chi_{IJ}(t) = \int \chi^{*}_I(\mathbf{R},t) \chi_J(\mathbf
         }^{V(r_1,r_2,R)}
     }_{\hat{H}_e(r_1,r_2;R)},
 \end{equation}
-where \(R\) is the internuclear distance, \(r_1\) and \(r_2\) are the distances between the electron and nuclei \(1\) and \(2\), respectively, \(\mu_n\) is the reduced mass of the two protons, and \(m_e\) is the electron mass. This form of the Hamiltonian results from expressing the three-body problem in terms of the internal coordinates after separating the center-of-mass motion. The electronic Laplacian \(\nabla_e^2\) in these internal coordinates takes a rather complicated form due to the non-orthogonality of the chosen coordinate system and the resulting coupling between the electronic and nuclear degrees of freedom. The explicit form of the Laplacian and its derivation are omitted here for simplicity and can be explored in more detail in Refs.<sup class="citation-group"><a href="#ref-atkins" class="citation"></a>,<a href="#ref-ackland" class="citation"></a></sup>.</p>
+where \(R\) is the internuclear distance, \(r_1\) and \(r_2\) are the distances between the electron and nuclei \(1\) and \(2\), respectively, \(\mu_n\) is the reduced mass of the two protons, and \(m_e\) is the electron mass. This form of the Hamiltonian results from expressing the three-body problem in terms of the internal coordinates after separating the center-of-mass motion. The electronic Laplacian \(\nabla_e^2\) in these internal coordinates takes a rather complicated form due to the non-orthogonality of the chosen coordinate system and the resulting coupling between the electronic and nuclear degrees of freedom. The explicit form of the Laplacian and its derivation are omitted here for simplicity and can be explored in more detail in Ref.<sup class="citation-group"><a href="#ref-bunker" class="citation"></a></sup>.</p>
 
 <p>To solve the time-independent electronic Schrödinger equation, Eq. \((\ref{eq:SE_He})\), we employ the linear combination of atomic orbitals (LCAO) method, in which the molecular electronic wavefunctions are expanded at each nuclear geometry in a basis of atomic orbitals:
 \begin{equation}
@@ -144,21 +144,42 @@ and the corresponding normalized wavefunctions are
         \frac{\phi_1(\mathbf{r})-\phi_2(\mathbf{r})}
         {\sqrt{2\left(1-S(R)\right)}}.
 \end{equation}
-Here, \(H_{ij}(R)=\langle\phi_i|\hat{H}_e|\phi_j\rangle \) are the matrix elements of the electronic Hamiltonian and \(S(R)=\langle\phi_1|\phi_2\rangle\) is the overlap integral between the two atomic orbitals. The lower-energy PES \(E_B(R)\) and the associated wavefunction \(\Phi_B(\mathbf{r})\) correspond to the bonding (\(B\)) electronic state, while the higher-energy pair of \(E_A(R)\) and \(\Phi_A(\mathbf{r})\) represent the antibonding (\(A\)) electronic state.</p>
+Here, \(H_{ij}(R)=\langle\phi_i|\hat{H}_e|\phi_j\rangle \) are the matrix elements of the electronic Hamiltonian and \(S(R)=\langle\phi_1|\phi_2\rangle\) is the overlap integral between the two atomic orbitals. Explicit expressions for these integrals can be found, for example, in Ref.<sup class="citation-group"><a href="#ref-atkins" class="citation"></a></sup>. The lower-energy PES \(E_B(R)\) and the associated wavefunction \(\Phi_B(\mathbf{r})\) correspond to the bonding (\(B\)) electronic state, while the higher-energy pair of \(E_A(R)\) and \(\Phi_A(\mathbf{r})\) represent the antibonding (\(A\)) electronic state.</p>
 
-<p>Continue exploring:</p>
+<h2>Interactive Demonstrations</h2>
+
+<p>The following interactive demonstrations illustrate the main concepts introduced above using the hydrogen molecular cation as a model system. Starting from its stationary electronic structure, the demonstrations progressively explore electronic motion, nuclear wave packet dynamics, and the fully coupled evolution of electronic and nuclear degrees of freedom.
+</p>
+
 <ul>
-    <li><label for="rStatic" class="nav-link">Electronic Structure</label></li>
-    <li><label for="re_dynamic" class="nav-link">Electron Dynamics</label></li>
-    <li><label for="rn_dynamic" class="nav-link">Nuclear Dynamics</label></li>
-    <li><label for="ren_dynamic" class="nav-link">Full Quantum Dynamics</label></li>
+    <li>
+        <label for="rStatic" class="nav-link">Electronic Structure</label>
+        <p>This section explores the stationary electronic states of the hydrogen molecular cation obtained from the electronic Schrödinger equation. Using the LCAO description, it illustrates the formation of bonding and antibonding states and the corresponding dependence of electronic energies on the internuclear distance.</p>
+    </li>
+
+    <li>
+        <label for="re_dynamic" class="nav-link">Electron Dynamics</label>
+        <p>This section illustrates purely electronic motion arising from coherent superpositions of stationary electronic states. The evolution of the electron density reveals how quantum interference between electronic states leads to time-dependent charge redistribution within the molecule.</p>
+    </li>
+
+    <li>
+        <label for="rn_dynamic" class="nav-link">Nuclear Dynamics</label>
+        <p>This section focuses on the quantum evolution of nuclear wave packets on electronic potential energy surfaces. It illustrates how the nuclear motion is governed by the electronic energies as functions of the internuclear coordinate and how molecular vibrations emerge from nuclear wave packet propagation.</p>
+    </li>
+
+    <li>
+        <label for="ren_dynamic" class="nav-link">Full Quantum Dynamics</label>
+        <p>This section combines electronic and nuclear degrees of freedom to illustrate the complete quantum dynamics of the molecule. The resulting electron density evolution includes both electronic coherences and nuclear motion, providing a direct visualization of coupled electron-nuclear dynamics.
+        </p>
+    </li>
 </ul>
 
 <h2>References</h2>
 <ol class="references-list">
     <li id="ref-krausz">F. Krausz and M. Ivanov, Rev. Mod. Phys. <b>81</b>, 163 (2009).</li>
-    <li id="ref-atkins">P. W. Atkins and R. S. Friedman, <em>Molecular Quantum Mechanics</em> (Oxford University Press, Oxford, 1997).</li>
-    <li id="ref-ackland">G. J. Ackland, Hydrogen Ion and Covalent Bonding, Lecture Notes (School of Physics and Astronomy, University of Edinburgh, 2011).</li>
+    <li id="ref-griffiths">D. J. Griffiths and D. F. Schroeter, <em>Introduction to Quantum Mechanics</em>. (Cambridge University Press, Cambridge; New York, NY, 2018).</li>
+    <li id="ref-bunker">P. R. Bunker and P. Jensen, <em>Molecular Symmetry and Spectroscopy</em>. (NRC Research Press, Ottawa, 2006).</li>
+    <li id="ref-atkins">P. W. Atkins and R. S. Friedman, <em>Molecular Quantum Mechanics</em>. (Oxford University Press, Oxford, 1997).</li>
 </ol>
 
 
