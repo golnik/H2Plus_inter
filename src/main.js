@@ -733,7 +733,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: fullDynamics_data.x, name: 'Total Probability', line:{color:probColor_nonSpecific} },
         { x: fullDynamics_data.x, name: '$|c_{\\text{B}}|^2 \\int \\rho_{\\text{B}} |\\chi_{\\text{B}}|^2 dR$', visible: 'legendonly' , line:{color:bondingColor}},
         { x: fullDynamics_data.x, name: '$|c_{\\text{A}}|^2 \\int \\rho_{\\text{A}} |\\chi_{\\text{A}}|^2 dR$', visible: 'legendonly', line:{color:antibondingColor} },
-        { x: fullDynamics_data.x, name: '$|c_{\\text{B}}| |c_{\\text{A}}| \\int \\rho_{\\text{BA}} \\chi^{*}_{\\text{B}} \\chi_{\\text{A}} dR$', visible: 'legendonly', line:{color:'#d62728'} },
+        { x: fullDynamics_data.x, name: '$c_{\\text{B}}^{*} c_{\\text{A}} \\int \\rho_{\\text{BA}} \\chi^{*}_{\\text{B}} \\chi_{\\text{A}} dR$', visible: 'legendonly', line:{color:'#d62728'} },
         { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: bondingColor }, name: 'Protons on Bonding State' },
         { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: antibondingColor }, name: 'Protons on Antibonding State' },
     ], {
@@ -751,7 +751,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     ], {
         font: { size: PLOT_FONT_SIZE },
         xaxis: { range: [0, 10], title: { text: 'Time [fs]' } },
-        yaxis: { title: { text: '$\\langle \\chi_{\\text{B}} \\vert \\chi_{\\text{A}} \\rangle$' } },
+        yaxis: { title: { text: 'Coherence' } },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },
