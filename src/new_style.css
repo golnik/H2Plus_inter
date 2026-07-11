@@ -693,15 +693,16 @@ button:active {
 }
 
 .equation {
-    display: inline-block;
+    display: flow-root;
     width: 100%;
     overflow-x: auto;
-    background: var(--color-card);
+    overflow-y: hidden;
+    /* background: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: 8px;
     box-shadow: var(--shadow-card);
     padding: 14px 18px;
-    margin: 14px 0;
+    margin: 14px 0; */
 }
 
 /* =========================================================================
@@ -739,6 +740,12 @@ button:active {
         height: 100%;
         width: 100%;
         min-width: 0;
+    }
+
+    .stacked_graph_container .graph_container {
+        height: auto;
+        flex: 1 1 0;
+        min-height: 0;
     }
 
     .stacked_graph_container {
@@ -871,7 +878,6 @@ button:active {
     .graph_section_container {
         flex-direction: column;
         width: calc(100vw - 32px);
-        overflow-y: scroll;
     }
 
     .inputs_and_interactives_container {
@@ -897,7 +903,7 @@ button:active {
     .hydrogen-cation-chart {
         width: 100%;
         max-height: 50vh;
-        /* aspect-ratio: 1/1; */
+        aspect-ratio: 1/1;
     }
 
     .half_chart {

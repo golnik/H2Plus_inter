@@ -24,7 +24,7 @@ const antibondingColor = '#ff7f0e';
 const multiUseColor = 'green';
 const protonStandardColor = 'red';
 const h2Color = '#9467bd';
-const arrowDelta = 0.3;
+const arrowDelta = -0.3;
 
 // =============================================================================
 // UI configuration
@@ -83,17 +83,17 @@ let fullDynamics_data;
 // =============================================================================
 
 function bonding_energy(radius) {
-    return ((electron_charge) / (4 * Math.PI * epsilon * radius))
-        * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
-            + (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 + (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
+    const R = radius / bohr_radius;
+    const exp_R = Math.exp(-R);
+    const R_sq_term = (1 / 3) * (R ** 2);
+    return ((electron_charge) / (4 * Math.PI * epsilon * radius)) * ((1 + R) * exp_R**2 + (1 - 2 * R_sq_term) * exp_R) / (1 + (1 + R + R_sq_term) * exp_R);
 }
 
 function antibonding_energy(radius) {
-    return ((electron_charge) / (4 * Math.PI * epsilon * radius))
-        * ((1 + radius / bohr_radius) * Math.exp(-2 * radius / bohr_radius)
-            - (1 - (2 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius))
-        / (1 - (1 + (radius / bohr_radius) + (1 / 3) * (radius / bohr_radius) ** 2) * Math.exp(-radius / bohr_radius));
+    const R = radius / bohr_radius;
+    const exp_R = Math.exp(-R);
+    const R_sq_term = (1 / 3) * (R ** 2);
+    return ((electron_charge) / (4 * Math.PI * epsilon * radius)) * ((1 + R) * exp_R**2 - (1 - 2 * R_sq_term) * exp_R) / (1 - (1 + R + R_sq_term) * exp_R);
 }
 
 function probability_Curve(radius, distance) {
@@ -108,35 +108,44 @@ function probability_Curve(radius, distance) {
     for (let i = 0; i < 15; i += 0.05) {
         const A = Math.sqrt(i ** 2 + (Math.abs(distance + p / 2)) ** 2);
         const B = Math.sqrt(i ** 2 + (Math.abs(p / 2 - distance)) ** 2);
-        sum += 4 * i * Math.exp(-(A + B)) * 0.05;
+        sum += i * Math.exp(-(A + B)) * 0.2;
     }
 
     return [
         (waveFunction1 + waveFunction2 + sum) / normalizeBond,
         (waveFunction1 + waveFunction2 - sum) / normalizeAnti,
+        waveFunction1**2-waveFunction2**2
     ];
 }
 
 function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(0.5), Math.sqrt(0.5)]) {
-    const E1 = bonding_energy(radius * bohr_radius);
-    const E2 = antibonding_energy(radius * bohr_radius);
-    const waveFunction1 = 0.5 * Math.exp(-2 * Math.abs(distance + radius / 2)) * (1 + 2 * Math.abs(distance + radius / 2));
-    const waveFunction2 = 0.5 * Math.exp(-2 * Math.abs(radius / 2 - distance)) * (1 + 2 * Math.abs(radius / 2 - distance));
-    const overlapIntegral = Math.exp(-radius) * (1 + radius + (radius ** 2) / 3);
+    const R = radius * bohr_radius;
+    const E1 = bonding_energy(R);
+    const E2 = antibonding_energy(R);
+    const distPlus = Math.abs(distance + radius / 2);
+    const distMinus = Math.abs(radius / 2 - distance);
+    const distPlusSq = distPlus * distPlus;
+    const distMinusSq = distMinus * distMinus;
+
+    const waveFunction1 = 0.5 * Math.exp(-2 * distPlus) * (1 + 2 * distPlus);
+    const waveFunction2 = 0.5 * Math.exp(-2 * distMinus) * (1 + 2 * distMinus);
+    const overlapIntegral = Math.exp(-radius) * (1 + radius + (radius * radius) / 3);
     const normalizeBond = 2 + 2 * overlapIntegral;
     const normalizeAnti = 2 - 2 * overlapIntegral;
 
     let sum = 0;
     for (let i = 0; i < 15; i += 0.05) {
-        const A = Math.sqrt(i ** 2 + (Math.abs(distance + radius / 2)) ** 2);
-        const B = Math.sqrt(i ** 2 + (Math.abs(radius / 2 - distance)) ** 2);
+        const iSq = i * i;
+        const A = Math.sqrt(iSq + distPlusSq);
+        const B = Math.sqrt(iSq + distMinusSq);
         sum += 4 * i * Math.exp(-(A + B)) * 0.05;
     }
 
-    const pBond = c[0] ** 2 * (waveFunction1 + waveFunction2 + sum) / normalizeBond;
-    const pAnti = c[1] ** 2 * (waveFunction1 + waveFunction2 - sum) / normalizeAnti;
-    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond)
-        * Math.cos((time * (E1 - E2)) / hbar_eVfs);
+    const c0_sq = c[0] * c[0];
+    const c1_sq = c[1] * c[1];
+    const pBond = c0_sq * (waveFunction1 + waveFunction2 + sum) / normalizeBond;
+    const pAnti = c1_sq * (waveFunction1 + waveFunction2 - sum) / normalizeAnti;
+    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond) * Math.cos((time * (E1 - E2)) / hbar_eVfs);
 
     return pBond + pAnti + pCross;
 }
@@ -156,12 +165,14 @@ for (let i = 0; i <= 2667; i++) {
     antibonding_energy_y.push(antibonding_energy(rad * bohr_radius));
     h2_energy_y.push(4.7475*(1-Math.exp(-1.0298*(rad-1.4011)))**2+h_ground_energy-4.7475);
 }
+
+for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
+
 const h2_ymin = Math.min(...h2_energy_y);
 const h2_xmin = radius[h2_energy_y.indexOf(h2_ymin)]+0.03;
 const h2toBond_y = bonding_energy(h2_xmin * bohr_radius)+0.1;
 const h2toAnti_y = antibonding_energy(h2_xmin * bohr_radius)+0.4;
 
-for (let i = 0; i <= 1000; i++) {time_axis.push((i * 0.01).toFixed(2));}
 
 // =============================================================================
 // Chart traces & layouts
@@ -237,7 +248,7 @@ const layout_nPosition = {
         bgcolor: 'rgba(255,255,255,0.5)',
     },
     xaxis: {
-        range: [0, 10],
+        range: [0, 7],
         title: { text: 'Time [fs]' },
     },
     yaxis: {
@@ -246,7 +257,7 @@ const layout_nPosition = {
     shapes: [{
         type: 'line',
         line: { color: 'black', dash: 'dash' },
-        x0: 0, y0: 0, x1: 0, y1: 15.5,
+        x0: 0, y0: 0, x1: 0, y1: 11,
     }],
     margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
@@ -262,7 +273,7 @@ const layout_nMomentum = {
         bgcolor: 'rgba(255,255,255,0.5)',
     },
     xaxis: {
-        range: [0, 10],
+        range: [0, 7],
         title: { text: 'Time [fs]' },
     },
     yaxis: {
@@ -309,16 +320,17 @@ const time_electron_density_layout = {
     showlegend: false,
     font: { size: PLOT_FONT_SIZE },
     xaxis: {
-        range: [0.0, 10],
+        range: [0.0, 7],
         title: { text: 'Time [fs]' },
     },
     yaxis: {
         title: { text: 'r [Bohr]' },
+        range: [-6,6],
         automargin: false
     },
     shapes: [{
         type: 'line', line: { color: 'white', dash: 'dash', width:3 },
-        x0: 0, y0: -12.5, x1: 0, y1: 12.5,
+        x0: 0, y0: -10, x1: 0, y1: 10,
     }],
     margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 }
@@ -353,28 +365,58 @@ function default_values() {
     for (const id of graphs) { document.getElementById(id).querySelector('[data-title="Reset axes"]').click(); }
 }
 
+// function startTime() {
+//     iterate_time = setInterval(() => {
+//         const time = parseFloat(document.getElementById('time_text').value);
+//         let newTime = (time + 0.01).toFixed(2);
+//         if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
+//             newTime = 0.00;
+//         }
+//         document.getElementById('time_text').value = newTime;
+//         throttledUpdate();
+//     }, 15);
+//     document.getElementById('playPauseButton').textContent = 'Pause';
+// }
+
+// function stopTime() {
+//     clearInterval(iterate_time);
+//     iterate_time = undefined;
+//     document.getElementById('playPauseButton').textContent = 'Play';
+// }
+
+let animationFrameId = null;
+let lastTimestamp = null;
+let animationSpeed = 0.5;  //Femtosecond(s) per second
+
 function startTime() {
-    if (iterate_time) return;
-    iterate_time = setInterval(() => {
-        const time = parseFloat(document.getElementById('time_text').value);
-        let newTime = time + 0.01;
+    if (iterate_time) return; 
+    iterate_time = true;
+    document.getElementById('playPauseButton').textContent = 'Pause';
+    lastTimestamp = performance.now();
+    function step(timestamp) {
+        const timeInput = document.getElementById('time_text');
+        if (!iterate_time) return;
+        if (timeInput.value >= 7) stopTime();
+        const deltaTime = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+        const currentTime = parseFloat(timeInput.value) || 0;
+        let newTime = currentTime + (deltaTime / 1000) * animationSpeed;
+
         if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
             newTime = 0.00;
         }
-        document.getElementById('time_text').value = newTime.toFixed(2);
+        timeInput.value = newTime.toFixed(2);
         throttledUpdate();
-    }, 15);
-    document.getElementById('playPauseButton').textContent = 'Pause';
+        animationFrameId = requestAnimationFrame(step);
+    }
+    animationFrameId = requestAnimationFrame(step);
 }
 
 function stopTime() {
-    if (iterate_time) {
-        clearInterval(iterate_time);
-        iterate_time = undefined;
-    } else {
-        document.getElementById('time_text').value = (0.00).toFixed(2);
-        document.getElementById('time_slider').value = 0.00;
-        update_graphs();
+    iterate_time = false;
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
     }
     document.getElementById('playPauseButton').textContent = 'Play';
 }
@@ -427,10 +469,10 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         let antibonding_probability_y = [];
         let transistion_y=[];
         for (const distance of probability_x) {
-            const [bondingProb, antibondingProb] = probability_Curve(newRadius, distance);
+            const [bondingProb, antibondingProb, transistionProb] = probability_Curve(newRadius, distance);
             bonding_probability_y.push(bondingProb);
             antibonding_probability_y.push(antibondingProb);
-            transistion_y.push(bondingProb-antibondingProb);
+            transistion_y.push(transistionProb);
         }
 
         Plotly.restyle('hydrogen-cation-bond-probability-chart', {
@@ -502,7 +544,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
 
     else if (screen == 'n_dynamic') {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2);
-        if (time > 10 || time < 0 || isNaN(time)) return;
+        if (time > 7 || time < 0 || isNaN(time)) return;
 
         const y_data_bond = nDynamics_bonding_data.wave_data.y[time];
         const y_data_anti = nDynamics_antibonding_data.wave_data.y[time];
@@ -547,30 +589,32 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
     }
 
     else if (screen == 'en_dynamic') {
-        const timeTextInput = document.getElementById('time_text');
-        const timeStr = parseFloat(timeTextInput.value).toFixed(2);
-        if (timeStr > 10 || timeStr < 0 || isNaN(timeStr)) return;
+        const timeStr = parseFloat(document.getElementById('time_text').value).toFixed(2);
+        if (timeStr > 7 || timeStr < 0 || isNaN(timeStr)) return;
 
-        const c1Input = document.getElementById('c1');
-        const c2Input = document.getElementById('c2');
-        const c1Val = parseFloat(c1Input.value);
-        const c2Val = parseFloat(c2Input.value);
+        const c1Val = parseFloat(document.getElementById('c1').value);
+        const c2Val = parseFloat(document.getElementById('c2').value);
 
         document.getElementById('time_slider').value = timeStr;
-        document.getElementById('c1Text').value = c1Val.toFixed(2);
-        document.getElementById('c2Text').value = c2Val.toFixed(2);
+        document.getElementById('c1Text').value = c1Val;
+        document.getElementById('c2Text').value = c2Val;
 
         const c12 = Math.sqrt(c1Val) * Math.sqrt(c2Val);
-        const c1_squared = c1Val; 
-        const c2_squared = c2Val; 
-
-        const timeData = fullDynamics_data[timeStr];
-
-        const P1_y = timeData.P1.map(num => num * c1_squared);
-        const P2_y = timeData.P2.map(num => num * c2_squared);
-        const P3_y = timeData.P3.map(num => num * c12);
         
-        const total_y = P1_y.map((num, i) => num + P2_y[i] + P3_y[i]);
+        const timeData = fullDynamics_data[timeStr];
+        const len = timeData.P1.length;
+
+        const P1_y = new Float32Array(len);
+        const P2_y = new Float32Array(len);
+        const P3_y = new Float32Array(len);
+        const total_y = new Float32Array(len);
+
+        for (let i = 0; i < len; i++) {
+            P1_y[i] = timeData.P1[i] * c1Val;
+            P2_y[i] = timeData.P2[i] * c2Val;
+            P3_y[i] = timeData.P3[i] * c12;
+            total_y[i] = P1_y[i] + P2_y[i] + P3_y[i];
+        }
 
         const bondY = nDynamics_bonding_data.wave_data.y[timeStr];
         const antiY = nDynamics_antibonding_data.wave_data.y[timeStr];
@@ -580,9 +624,14 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
             if (bondY[i] > bondY[maxBondIdx]) maxBondIdx = i;
             if (antiY[i] > antiY[maxAntiIdx]) maxAntiIdx = i;
         }
-
+        
         const bondRadius = nDynamics_bonding_data.wave_data.x[maxBondIdx];
         const antiRadius = nDynamics_antibonding_data.wave_data.x[maxAntiIdx];
+
+
+
+        // const bondRadius = nDynamics_bonding_data.wave_data.x[bondY.indexOf(Math.max(...bondY))];
+        // const antiRadius = nDynamics_antibonding_data.wave_data.x[antiY.indexOf(Math.max(...antiY))];
 
         Plotly.restyle('fullDynamics-probability-chart', {
             y: [total_y, P1_y, P2_y, P3_y, [0, 0], [0, 0]],
@@ -590,29 +639,38 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         }, [0, 1, 2, 3, 4, 5]);
         
         Plotly.relayout('nuclear-overlap-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
+        
+        // Alex, we need to find a better solution for this
+        // I returned this line back because it looks better when the time line adjust synchroniously with the time slider
+        // if it influences the performance on tablet/mobile, we need to add it as a special case
         Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
     }
 }
 
 function update_heatmap() {
-    if (screen == 'en_dynamic') {
-        let z_data = [];
-        const c1 = Math.sqrt(document.getElementById('c1').value);
-        const c2 = Math.sqrt(document.getElementById('c2').value);
-        for (const t in time_axis) {
-            z_data[t] = [];
-            const ttime = time_axis[t];
-            const P1 = fullDynamics_data[ttime].P1.map(num => num * c1 ** 2);
-            const P2 = fullDynamics_data[ttime].P2.map(num => num * c2 ** 2);
-            const P3 = fullDynamics_data[ttime].P3.map(num => num * c1 * c2);
-            for (const i in fullDynamics_data.x) {
-                z_data[t][i] = P1[i] + P2[i] + P3[i];
-            }
-        }
-        z_data = z_data[0].map((_, colIndex) => z_data.map(row => row[colIndex]));
-        Plotly.restyle('time-electron-density-chart', {z:[z_data]}, [0]);
+    const c1 = parseFloat(document.getElementById('c1').value);
+    const c2 = parseFloat(document.getElementById('c2').value);
+    const c1_c2 = Math.sqrt(c1 * c2);
+
+    const t_len = time_axis.length;
+    const x_len = fullDynamics_data.x.length;
+    let z_data = new Array(x_len);
+    for (let i = 0; i < x_len; i++) {
+        z_data[i] = new Float32Array(t_len); 
     }
+    for (let t = 0; t < t_len; t++) {
+        const ttime = time_axis[t];
+        const data_t = fullDynamics_data[ttime];
+        const P1 = data_t.P1;
+        const P2 = data_t.P2;
+        const P3 = data_t.P3;
+        for (let i = 0; i < x_len; i++) {
+            z_data[i][t] = (P1[i] * c1) + (P2[i] * c2) + (P3[i] * c1_c2);
+        }
+    }
+    Plotly.restyle('time-electron-density-chart', {z: [z_data]}, [0]);
 }
+
 // =============================================================================
 // Initial chart setup
 // =============================================================================
@@ -626,7 +684,7 @@ Plotly.react('hydrogen-cation-antibond-probability-chart', [
     { x: probability_x, line: { color: antibondingColor }, name: '|<i>ψ</i><sub>A</sub>(R)|<sup>2</sup>' },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
 ], layout_prob, config);
-Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:multiUseColor}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.2, 0.4]}}, config);
+Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:multiUseColor}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.3, 0.3]}}, config);
 Plotly.react('hydrogen-cation-electron-dynamics-chart', [
     { x: probability_x, name: '|<i>ψ</i>(R,t)|<sup>2</sup>', line:{color: probColor_nonSpecific} },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
@@ -652,7 +710,7 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
         for (const i of choices) { document.querySelectorAll('.' + i).forEach(element => { element.style.display = 'none'; }); }
         document.querySelectorAll('.' + screen).forEach(element => { element.style.display = ''; });
         stopTime();
-        document.getElementById('time_slider').max = (screen == 'n_dynamic' || screen == 'en_dynamic') ? 10 : 1.1;
+        document.getElementById('time_slider').max = (screen == 'e_dynamic') ? 1.1 : 7;
         for (const id of graphs) { Plotly.Plots.resize(document.getElementById(id)); }
         info_toggle(infoBoxes, 1);
         screen == 'en_dynamic' ? update_heatmap() : null;
@@ -671,14 +729,24 @@ document.querySelectorAll('input[name="selection"]').forEach((radio) => {
 // =============================================================================
 
 let isDrawing = false;
+let drawingHeat = false;
 
 function throttledUpdate() {
     if (!isDrawing) {
         isDrawing = true;
         requestAnimationFrame(() => {
             update_graphs();
-            if (screen == 'en_dynamic') update_heatmap();
             isDrawing = false;
+        });
+    }
+}
+
+function throttledHeatmap() {
+    if (!drawingHeat) {
+        drawingHeat = true;
+        requestAnimationFrame(() => {
+            update_heatmap();
+            drawingHeat = false;
         });
     }
 }
@@ -707,7 +775,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: nDynamics_bonding_data.wave_data.x, name: 'Initial Nuclear Density', fill: 'toself', fillcolor: `${h2Color}4D` },
     ], {
         ...layout_energy,
-        xaxis: { ...layout_energy.xaxis, range: [0.5, 20] },
+        xaxis: { ...layout_energy.xaxis, range: [0.5, 15] },
         yaxis: { ...layout_energy.yaxis, range: [-20, 20] },
         shapes: [],
         annotations: [
@@ -741,7 +809,8 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         hovermode: false,
         showlegend: true,
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgba(255,255,255,0.5)' },
-        yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.7] },
+        xaxis: {title: { text: 'r [Bohr]' }, range: [-10, 10] },
+        yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.6] },
     }, config);
 
     Plotly.react('nuclear-overlap-chart', [
@@ -750,7 +819,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: nOverlap_Data.time, y: overlap_magnitude, name: 'Magnitude' },
     ], {
         font: { size: PLOT_FONT_SIZE },
-        xaxis: { range: [0, 10], title: { text: 'Time [fs]' } },
+        xaxis: { range: [0, 7], title: { text: 'Time [fs]' } },
         yaxis: { title: { text: 'Coherence' } },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
