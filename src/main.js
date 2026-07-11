@@ -365,25 +365,6 @@ function default_values() {
     for (const id of graphs) { document.getElementById(id).querySelector('[data-title="Reset axes"]').click(); }
 }
 
-// function startTime() {
-//     iterate_time = setInterval(() => {
-//         const time = parseFloat(document.getElementById('time_text').value);
-//         let newTime = (time + 0.01).toFixed(2);
-//         if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
-//             newTime = 0.00;
-//         }
-//         document.getElementById('time_text').value = newTime;
-//         throttledUpdate();
-//     }, 15);
-//     document.getElementById('playPauseButton').textContent = 'Pause';
-// }
-
-// function stopTime() {
-//     clearInterval(iterate_time);
-//     iterate_time = undefined;
-//     document.getElementById('playPauseButton').textContent = 'Play';
-// }
-
 let animationFrameId = null;
 let lastTimestamp = null;
 let animationSpeed = 0.5;  //Femtosecond(s) per second
@@ -544,7 +525,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
 
     else if (screen == 'n_dynamic') {
         const time = parseFloat(document.getElementById('time_text').value).toFixed(2);
-        if (time > 7 || time < 0 || isNaN(time)) return;
+        if (time > 10 || time < 0 || isNaN(time)) return;
 
         const y_data_bond = nDynamics_bonding_data.wave_data.y[time];
         const y_data_anti = nDynamics_antibonding_data.wave_data.y[time];
@@ -590,7 +571,7 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
 
     else if (screen == 'en_dynamic') {
         const timeStr = parseFloat(document.getElementById('time_text').value).toFixed(2);
-        if (timeStr > 7 || timeStr < 0 || isNaN(timeStr)) return;
+        if (timeStr > 10 || timeStr < 0 || isNaN(timeStr)) return;
 
         const c1Val = parseFloat(document.getElementById('c1').value);
         const c2Val = parseFloat(document.getElementById('c2').value);

@@ -273,13 +273,13 @@
                         <span>\(|c_\text{B}|^2\):</span>
                         <input id="c1" type="range" min="0" max="1" step="0.01"
                             oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();screen == 'en_dynamic' ? throttledHeatmap() : null;" onchange="">
-                        <output id="c1Text"></output>
+                        <output id="c1Text" style="width: 31.25px;"></output>
                     </div>
                     <div class="input_row">
                         <span>\(|c_\text{A}|^2\):</span>
                         <input id="c2" type="range" min="0" max="1" step="0.01"
                             oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate(); screen == 'en_dynamic' ? throttledHeatmap() : null;" onchange="">
-                        <output id="c2Text"></output>
+                        <output id="c2Text" style="width: 31.25px;"></output>
                     </div>
                 </div>
                 <div class="time_cs_box">
