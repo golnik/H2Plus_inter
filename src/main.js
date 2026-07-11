@@ -73,6 +73,7 @@ let antibonding_probability_y = [];
 const probability_x = [];
 let fullDynamics_probability_y = [];
 const time_axis =[];
+let P1_y, P2_y, P3_y, total_y
 
 let nDynamics_bonding_data;
 let nDynamics_antibonding_data;
@@ -593,10 +594,12 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const timeData = fullDynamics_data[timeStr];
         const len = timeData.P1.length;
 
-        const P1_y = new Float32Array(len);
-        const P2_y = new Float32Array(len);
-        const P3_y = new Float32Array(len);
-        const total_y = new Float32Array(len);
+        if(!P1_y || P1_y.length !== len) {
+            P1_y = new Float32Array(len);
+            P2_y = new Float32Array(len);
+            P3_y = new Float32Array(len);
+            total_y = new Float32Array(len);
+        }
 
         for (let i = 0; i < len; i++) {
             P1_y[i] = timeData.P1[i] * c1Val;
@@ -617,22 +620,13 @@ function update_graphs(newRadius = parseFloat(radiusTextInput.value)) {
         const bondRadius = nDynamics_bonding_data.wave_data.x[maxBondIdx];
         const antiRadius = nDynamics_antibonding_data.wave_data.x[maxAntiIdx];
 
-
-
-        // const bondRadius = nDynamics_bonding_data.wave_data.x[bondY.indexOf(Math.max(...bondY))];
-        // const antiRadius = nDynamics_antibonding_data.wave_data.x[antiY.indexOf(Math.max(...antiY))];
-
         Plotly.restyle('fullDynamics-probability-chart', {
             y: [total_y, P1_y, P2_y, P3_y, [0, 0], [0, 0]],
             x: [fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x, fullDynamics_data.x, [-bondRadius / 2, bondRadius / 2], [-antiRadius / 2, antiRadius / 2]],
         }, [0, 1, 2, 3, 4, 5]);
         
-        Plotly.relayout('nuclear-overlap-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
-        
-        // Alex, we need to find a better solution for this
-        // I returned this line back because it looks better when the time line adjust synchroniously with the time slider
-        // if it influences the performance on tablet/mobile, we need to add it as a special case
-        Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': timeStr, 'shapes[0].x1': timeStr });
+        Plotly.restyle('nuclear-overlap-chart', { x: [[timeStr, timeStr]] }, [3]);
+        Plotly.restyle('time-electron-density-chart', { x: [[timeStr, timeStr]] }, [5]);
     }
 }
 
@@ -806,15 +800,12 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         { x: nOverlap_Data.time, y: nOverlap_Data.real.map(num => num/3), name: 'Real Part' },
         { x: nOverlap_Data.time, y: nOverlap_Data.imag.map(num => num/3), name: 'Imaginary Part' },
         { x: nOverlap_Data.time, y: overlap_magnitude, name: 'Magnitude' },
+        { x: [0, 0], y: [-1.1, 1.1], mode: 'lines', line: { color: 'black', dash: 'dash' }, showlegend: false, hoverinfo: 'none' },
     ], {
         font: { size: PLOT_FONT_SIZE },
         xaxis: { range: [0, 7], title: { text: 'Time [fs]' } },
         yaxis: { title: { text: 'Coherence' }, range: [-1.05, 1.05] },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: LEGEND_BGCOLOR },
-        shapes: [{
-            type: 'line', line: { color: 'black', dash: 'dash' },
-            x0: radiusSliderInput.value, y0: -1.1, x1: radiusSliderInput.value, y1: 1.1,
-        }],
         margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
     }, config);
     Plotly.react('time-electron-density-chart', [{
@@ -826,6 +817,8 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         {x:exprx, y:exprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
         {x:exprx, y:exprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}}, 
         {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
-        {x:exprx, y:nexprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}}], 
+        {x:exprx, y:nexprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}},
+        {x: [0, 0], y: [-10, 10], mode: 'lines', line: { color: 'white', dash: 'dash', width: 3 }, showlegend: false, hoverinfo: 'none' }
+        ], 
         time_electron_density_layout, {...config, displayModeBar:false});
 });

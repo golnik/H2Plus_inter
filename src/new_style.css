@@ -928,6 +928,7 @@ button:active {
     }
 
     .hydrogen-cation-chart {
+        flex: none;
         width: 100%;
         max-height: 50vh;
         aspect-ratio: 1/1;

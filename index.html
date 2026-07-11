@@ -264,13 +264,13 @@
                     <div class="input_row">
                         <span>\(|c_\text{B}|^2\):</span>
                         <input id="c1" type="range" min="0" max="1" step="0.01"
-                            oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();screen == 'en_dynamic' ? throttledHeatmap() : null;" onchange="">
+                            oninput="document.getElementById('c2').value = 1-this.value; throttledUpdate();screen == 'en_dynamic' ? throttledHeatmap() : null;">
                         <output id="c1Text" style="width: 31.25px;"></output>
                     </div>
                     <div class="input_row">
                         <span>\(|c_\text{A}|^2\):</span>
                         <input id="c2" type="range" min="0" max="1" step="0.01"
-                            oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate(); screen == 'en_dynamic' ? throttledHeatmap() : null;" onchange="">
+                            oninput="document.getElementById('c1').value = 1-this.value; throttledUpdate(); screen == 'en_dynamic' ? throttledHeatmap() : null;">
                         <output id="c2Text" style="width: 31.25px;"></output>
                     </div>
                 </div>
@@ -285,7 +285,7 @@
                     <div class="input_row">
                         <label for="time_text">\(t\):</label>
                         <input id="time_slider" type="range" min="0" max="1.1" step="0.01" value="0"
-                            oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); throttledUpdate();" onchange="screen=='en_dynamic'?Plotly.relayout('time-electron-density-chart', { 'shapes[0].x0': this.value, 'shapes[0].x1': this.value }):null">
+                            oninput="document.getElementById('time_text').value = parseFloat(this.value).toFixed(2); throttledUpdate();">
                         <input id="time_text" class="hide-arrows"
                             style="width: 55px; text-align: center;" type="number"
                             min="0.00" step="0.01" value="0.00"
