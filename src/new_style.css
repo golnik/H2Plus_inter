@@ -81,6 +81,7 @@ body {
     height: 60px;
     display: flex;
     align-items: center;
+    overflow-x: auto;
     z-index: 2;
     background: linear-gradient(120deg, var(--color-navy-dark), var(--color-navy) 55%, var(--color-navy-light));
     box-shadow: 0 3px 12px rgba(11, 28, 46, 0.35);
@@ -312,8 +313,12 @@ input[name="selection"]:focus-visible + .sectionLabel {
     transition: box-shadow 0.25s ease;
 }
 
-.time_cs_box:hover {
-    box-shadow: var(--shadow-card-hover);
+.time_cs_box > .title_row + * {
+    margin-top: auto;
+}
+
+.time_cs_box > *:last-child:not(.title_row) {
+    margin-bottom: auto;
 }
 
 .time_cs_box > .title_row + * {
@@ -807,6 +812,17 @@ button:active {
         min-width: 0;
         height: 100%;
         justify-content: flex-start;
+        background: var(--color-card);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow-card);
+        padding: 12px 14px;
+        overflow: hidden;
+        transition: box-shadow 0.25s ease;
+    }
+
+    .time_cs_box:hover {
+        box-shadow: var(--shadow-card-hover);
     }
 
     .radius_slider_container {
@@ -825,8 +841,11 @@ button:active {
     }
 
     .summary_box {
-        left: 0;
-        width: 320px;
+        position: fixed;
+        top: 60px;
+        left: 16px;
+        width: 50vw;
+        z-index: 3;
     }
 }
 
@@ -838,9 +857,10 @@ button:active {
 
     .navbar {
         position: sticky;
-        height: 70px;
+        height: 60px;
         top: 0;
         left: 0;
+        overflow-y:hidden;
     }
 
     .sectionLabel {
@@ -850,6 +870,8 @@ button:active {
 
     .graph_section_container {
         flex-direction: column;
+        width: calc(100vw - 32px);
+        overflow-y: scroll;
     }
 
     .inputs_and_interactives_container {
@@ -857,6 +879,7 @@ button:active {
         bottom: 0;
         left: 0;
         width: 100%;
+        height: auto;
         flex-direction: column;
         padding: 10px;
         margin: 0;
@@ -866,14 +889,20 @@ button:active {
 
     .graph_container {
         align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 
     .hydrogen-cation-chart {
-        height: 300px;
+        width: 100%;
+        max-height: 50vh;
+        /* aspect-ratio: 1/1; */
     }
 
     .half_chart {
         width: 100%;
+        height: fit-content;
         justify-items: center;
     }
 
@@ -881,19 +910,19 @@ button:active {
         display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 12px;
+        gap: 0px;
     }
 
     .time_panels_row {
         display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 12px;
+        gap: 0px;
     }
 
     .time_cs_box {
         width: 100%;
-        gap: 10px;
+        gap: 0px;
     }
 
     .title_row {
@@ -901,12 +930,15 @@ button:active {
     }
 
     .info_box {
-        left: -10px;
-        width: calc(100% - 5px);
+        left: 0;
+        width: 100%;
     }
 
     .summary_box {
-        left: 0%;
-        width: calc(100% - 12px);
+        position: fixed;
+        top: 60px;
+        left: 5px;
+        width: calc(100vw - 10px);
+        z-index: 3;
     }
 }
