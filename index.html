@@ -52,7 +52,7 @@
             <input id="re_dynamic" type="radio" name="selection" value="e_dynamic">
             <label for="re_dynamic" class="sectionLabel">Electron Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('eDynamics-summary')"></i></label>
             <div class="info_box summary_box" id="eDynamics-summary" style="display: none;">
-                <p>In quantum mechanics a system can be in a "superposition" of states. This means that there is some probability of finding the system in one of multiple states (the system is 'in multiple states at once'). When a molecule is prepared in a superposition of <span title="Energy levels"><u>electronic states</u></span>, the total <span title="Probability density of an electron"><u>electronic density</u></span> is not just the sum of the two state's densities. This is because an interference yields a time dependent density. Here we show this density as a function of time, <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>, and the superposition population of each electronic state.</p>
+                <p>This section explores the coherent evolution of the electronic wavefunction formed by a superposition of the bonding and antibonding electronic states. The time-dependent electron probability density illustrates how quantum interference between stationary electronic states gives rise to oscillatory charge redistribution within the molecule. By varying the composition of the electronic superposition and following its evolution in time, the relationship between the stationary electronic structure and the electron dynamics can be explored interactively.</p>
             </div>
         </div>
         <div class="navSection">
@@ -148,10 +148,7 @@
                 <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                 <div class="info_box" id="eDynamic-info" style="display: none;">
-                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states. This density represents the likelihood that the electron will be found in a particular region of space. The density oscillates across time with a period proportional to the energy difference between the two states.</p>
-                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
-                    <p>We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become each of the respective graphs from the Static screen regardless of time.</p>
+                    <p>This plot displays the time-dependent electron probability density, \(\rho(\mathbf{r},t)\), corresponding to the selected coherent superposition of the bonding and antibonding states. The electron density oscillates between the two sides of the molecule as the relative phase between the stationary electronic states evolves in time, providing a direct visualization of ultrafast electron motion. By adjusting the expansion coefficients, the slider controls the contribution of the bonding and antibonding states to the superposition. When the superposition approaches a purely bonding or purely antibonding state, the electron density converges to the corresponding stationary distributions shown in the static analysis. The red dots indicate the positions of the nuclei (protons) in the H<sub>2</sub><sup>+</sup> molecular ion.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
@@ -270,7 +267,7 @@
                         <span class="graph_title">Expansion Coefficients</span>
                         <i class="fas fa-info-circle info_icon" onclick="info_toggle('expansionCoeff-info')"></i>
                         <div class="info_box" id="expansionCoeff-info" style="display: none;">
-                            <p>TBD text</p>
+                            <p>These sliders control the amplitudes of the bonding and antibonding electronic states in the time-dependent wavefunction. Changing these coefficients modifies the populations of the stationary states and the magnitude of the electronic coherence, thereby determining the strength of the time-dependent charge redistribution. Pure stationary states produce a time-independent electron density, whereas superpositions lead to coherent electron dynamics.</p>
                         </div>
                     </div>
                     <div class="input_row">
@@ -291,7 +288,7 @@
                         <span class="graph_title">Time</span>
                         <i class="fas fa-info-circle info_icon" onclick="info_toggle('timeSlider-info')"></i>
                         <div class="info_box" id="timeSlider-info" style="display: none;">
-                            <p>TBD text</p>
+                            <p>This slider controls the evolution time of the quantum system. Changing this parameter allows the temporal evolution of the corresponding wavefunction and observables to be explored, revealing how electronic and nuclear degrees of freedom evolve and interact over time.</p>
                         </div>
                     </div>
                     <div class="input_row">
