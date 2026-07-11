@@ -377,18 +377,21 @@ function startTime() {
     function step(timestamp) {
         const timeInput = document.getElementById('time_text');
         if (!iterate_time) return;
-        if (timeInput.value >= 7) stopTime();
         const deltaTime = timestamp - lastTimestamp;
         lastTimestamp = timestamp;
         const currentTime = parseFloat(timeInput.value) || 0;
+        const maxTime = parseFloat(document.getElementById('time_slider').max);
         let newTime = currentTime + (deltaTime / 1000) * animationSpeed;
 
-        if (screen === 'e_dynamic' && newTime > parseFloat(document.getElementById('time_slider').max)) {
+        if (screen === 'e_dynamic' && newTime > maxTime) {
             newTime = 0.00;
+        } else if (screen !== 'e_dynamic' && newTime >= maxTime) {
+            newTime = maxTime;
+            stopTime();
         }
         timeInput.value = newTime.toFixed(2);
         throttledUpdate();
-        animationFrameId = requestAnimationFrame(step);
+        if (iterate_time) animationFrameId = requestAnimationFrame(step);
     }
     animationFrameId = requestAnimationFrame(step);
 }
