@@ -352,6 +352,8 @@ function toggle_about() {
     overlay.style.display = overlay.style.display === 'none' ? 'flex' : 'none';
 }
 
+document.getElementById('about-modal-overlay').style.display = 'flex';
+
 function info_toggle(info, close = 0) {
     if (close == 1) return info.forEach(id => document.getElementById(id).style.display = 'none');
     const element = document.getElementById(info);
