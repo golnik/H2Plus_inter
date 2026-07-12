@@ -13,6 +13,7 @@ const hbar_eVfs = 0.6582119569;
 // =============================================================================
 
 const PLOT_FONT_SIZE = 14;
+const LEGEND_BGCOLOR = 'rgba(255,255,255,0.5)';
 
 // =============================================================================
 // Colors
@@ -219,7 +220,7 @@ const layout_energy = {
         y: 1,
         yanchor: 'top',
         xanchor: 'right',
-        bgcolor: 'rgba(255,255,255,0.5)',
+        bgcolor: LEGEND_BGCOLOR,
     },
     xaxis: {
         range: [0.9, 6],
@@ -245,7 +246,7 @@ const layout_nPosition = {
         y: 1,
         yanchor: 'top',
         xanchor: 'left',
-        bgcolor: 'rgba(255,255,255,0.5)',
+        bgcolor: LEGEND_BGCOLOR,
     },
     xaxis: {
         range: [0, 7],
@@ -271,7 +272,7 @@ const layout_nMomentum = {
         x: 1,
         yanchor: 'middle',
         y: 0.6,
-        bgcolor: 'rgba(255,255,255,0.5)',
+        bgcolor: LEGEND_BGCOLOR,
     },
     xaxis: {
         range: [0, 7],
@@ -794,7 +795,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         ...layout_prob,
         hovermode: false,
         showlegend: true,
-        legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgba(255,255,255,0.5)' },
+        legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: LEGEND_BGCOLOR },
         xaxis: {title: { text: 'r [Bohr]' }, range: [-10, 10] },
         yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.6] },
     }, config);
@@ -807,7 +808,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         font: { size: PLOT_FONT_SIZE },
         xaxis: { range: [0, 7], title: { text: 'Time [fs]' } },
         yaxis: { title: { text: 'Coherence' }, range: [-1.05, 1.05] },
-        legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
+        legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: LEGEND_BGCOLOR },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },
             x0: radiusSliderInput.value, y0: -1.1, x1: radiusSliderInput.value, y1: 1.1,
