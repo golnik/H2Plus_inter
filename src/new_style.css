@@ -535,6 +535,9 @@ button:active {
     max-width: calc(100vw - 32px);
     overflow-wrap: break-word;
     overflow-y: auto;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 /* Controls row sits at the bottom of the page, so its info boxes must open
@@ -542,6 +545,10 @@ button:active {
 .time_cs_box .info_box {
     top: auto;
     bottom: 100%;
+}
+
+.summary_box {
+    width: 340px;
 }
 
 .info_box p {
@@ -590,6 +597,9 @@ button:active {
     font-family: var(--font-serif);
     color: var(--color-ink);
     line-height: 1.65;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .about-modal-content p:first-of-type b {
