@@ -66,7 +66,7 @@
             <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
             <label for="ren_dynamic" class="sectionLabel">Full Quantum Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-summary')"></i></label>
             <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">
-                <p>To be able to do full quantum molecular dynamics we must combine electron and nuclear dynamics where they are "coupled".</p>
+                <p>This section explores the coupled evolution of electronic and nuclear degrees of freedom in the hydrogen molecular cation following ionization. The full molecular wavefunction describes the simultaneous dynamics of the electronic state and the nuclear wave packets, capturing the interplay between electronic coherence and nuclear motion.</p>
             </div>
         </div>
         <button class="aboutButton" onclick="toggle_about()">About</button>
@@ -191,7 +191,7 @@
                     <figcaption class="graph_title">Electronic Coherence</figcaption>
                     <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
                     <div class="info_box" id="overlap-info" style="display: none;">
-                        <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
+                        <p>This panel displays the time evolution of the electronic coherence between the bonding and antibonding states, characterized by the overlap of the corresponding nuclear wave packets. The coherence initially enables quantum interference between the electronic states and drives coherent electron motion. As the nuclear wave packets evolve and separate due to the different forces acting on the electronic states, the coherence decreases, leading to the gradual suppression of coherent electronic oscillations.</p>
                     </div>
                 </div>
                 <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
@@ -201,7 +201,7 @@
                     <figcaption class="graph_title">Dynamics of Electron Probability Density</figcaption>
                     <i class="fas fa-info-circle info_icon" onclick="info_toggle('electronicOverlap-info')"></i>
                     <div class="info_box" id="electronicOverlap-info" style="display: none;">
-
+                        This contour plot provides a spatial representation of the time-dependent electron probability density, highlighting the coupled electron-nuclear dynamics of the hydrogen molecular cation. Following ionization, the electron initially undergoes coherent oscillations driven by the superposition of bonding and antibonding electronic states. As the nuclear wave packets evolve and the nuclei move apart, the electronic coherence gradually diminishes, suppressing the oscillatory charge redistribution. At later times, the electron density evolves together with the separating nuclei, illustrating the transition from coherent electron motion to dynamics governed by the nuclear motion.
                     </div>
                 </div>
                 <div id="time-electron-density-chart" class="hydrogen-cation-chart"></div>
@@ -212,11 +212,8 @@
                 <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-info')"></i>
                 <div class="info_box" id="fullDynamics-info" style="display: none;">
-                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states as well as the expected nuclear dynamics. This density represents the likelihood that the electron will be found in a particular region of space. The density changes across time initially similar the pure electron dynamics, then as the two states nuclear overlap/coherence decreases it mostly becomes a combination of the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> and <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> parts.</p>
-                    <p>The purple dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> bonding state. The yellow dots represent the nuclei/protons in the antibonding state </p>
-                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
-                    <p>The orange graph shows the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> part of the total probability chart. This part represents the probability density squared for the bonding electronic state wave function ψ<sub>1</sub> multiplied by the probability density squared of the bonding nuclear state wave function χ<sub>1</sub> radii. The green graph shows the <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> part of the total probability chart. This part represents the probability density squared for the antibonding electronic state wave function ψ<sub>2</sub> multiplied by the probability density squared of the antibonding nuclear state wave function χ<sub>2</sub> across all radii. The red graph shows the 2*<ψ<sub>1</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>1</sub>|χ<sub>2</sub>> part of the total probability graph. This part represents the overlap of the bonding and antibonding state's electronic probability density wave functions ψ<sub>1</sub> and ψ<sub>2</sub> multiplied by the overlap of the bonding and antibonding state's nuclear probability density wave functions χ<sub>1</sub> and χ<sub>2</sub> across all radii</p>
-                    <p>The blue graph shows the true electronic probability density function with respect to time which is the summation of the 3 parts. We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become the respective part.</p>
+                    <p>This panel displays the time-dependent electron probability density, \(\rho(\mathbf{r},t)\), obtained from the full molecular wavefunction by including both electronic and nuclear dynamics. At early times, when the nuclear wave packets associated with the bonding and antibonding states still strongly overlap, the electron density evolves similarly to the purely electronic case, exhibiting coherent charge oscillations driven by interference between the two electronic states. As the nuclear wave packets evolve on their respective potential energy surfaces and their overlap decreases, the electronic coherence gradually diminishes, suppressing the interference-driven oscillations. At later times, the electron density is dominated by the contributions from the individual electronic states, \(\int \rho_A |\chi_A|^2 dR\) and \(\int \rho_B |\chi_B|^2 dR\), and the electronic motion becomes primarily coupled to the ongoing nuclear dynamics.</p>
+                    <p>The blue dots indicate the positions of the protons associated with the bonding-state nuclear wave packet, while the orange dots indicate the positions of the protons associated with the antibonding-state nuclear wave packet. Their separation illustrates the different nuclear evolution pathways on the corresponding electronic states and highlights the coupling between nuclear motion and the evolving electron density.</p>
                 </div>
             </div>
             <div id="fullDynamics-probability-chart" class="hydrogen-cation-chart"></div>
