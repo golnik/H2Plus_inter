@@ -253,11 +253,12 @@ const layout_nPosition = {
     },
     yaxis: {
         title: { text: 'Distance [Bohr]' },
+        range: [0, 12],
     },
     shapes: [{
         type: 'line',
         line: { color: 'black', dash: 'dash' },
-        x0: 0, y0: 0, x1: 0, y1: 11,
+        x0: 0, y0: -1, x1: 0, y1: 18,
     }],
     margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
@@ -278,11 +279,12 @@ const layout_nMomentum = {
     },
     yaxis: {
         title: { text: 'Momentum [Bohr<sup>-1</sup>]' },
+        range: [0, 35],
     },
     shapes: [{
         type: 'line',
         line: { color: 'black', dash: 'dash' },
-        x0: 0, y0: 0, x1: 0, y1: 34,
+        x0: 0, y0: -1, x1: 0, y1: 35,
     }],
     margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
 };
@@ -332,7 +334,7 @@ const time_electron_density_layout = {
         type: 'line', line: { color: 'white', dash: 'dash', width:3 },
         x0: 0, y0: -10, x1: 0, y1: 10,
     }],
-    margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
+    margin: { l: 55, r: 15, b: 55, t: 10, pad: 0 },
 }
 
 const config = {
@@ -804,11 +806,11 @@ fetch('qdata.json').then(response => response.json()).then(data => {
     ], {
         font: { size: PLOT_FONT_SIZE },
         xaxis: { range: [0, 7], title: { text: 'Time [fs]' } },
-        yaxis: { title: { text: 'Coherence' } },
+        yaxis: { title: { text: 'Coherence' }, range: [-1.05, 1.05] },
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: 'rgb(255,255,255,0.5)' },
         shapes: [{
             type: 'line', line: { color: 'black', dash: 'dash' },
-            x0: radiusSliderInput.value, y0: -1, x1: radiusSliderInput.value, y1: 1,
+            x0: radiusSliderInput.value, y0: -1.1, x1: radiusSliderInput.value, y1: 1.1,
         }],
         margin: { l: 55, r: 15, b: 55, t: 10, pad: 10 },
     }, config);
