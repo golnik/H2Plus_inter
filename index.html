@@ -59,7 +59,7 @@
             <input id="rn_dynamic" type="radio" name="selection" value="n_dynamic">
             <label for="rn_dynamic" class="sectionLabel">Nuclear Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('nDynamics-summary')"></i></label>
             <div class="info_box summary_box" id="nDynamics-summary" style="display: none;">
-                <p>In addition to electronic dynamics, molecules have nuclear dynamics defined by the <span title="Slope/steepness of the line"><u>gradient</u></span> of the potential energy curve of the electronic state. Here we simulate the dynamics of the nuclear wavefunction using the Multi-Configurable Time Dependent Hartree algorithm (MCTDH), assuming <span title="The neutral system is ionized at some radius which directly corresponds to the starting radius of the higher electronic states."><u>vertical ionization of the neutral ground state nuclear wavefunction</u></span>. Because the bonding and antibonding electronic state's potential energy surfaces have a different shape, the nuclear wavefunction evolves differently for each, which we then show through tht expectation value for position and momentum.</p>
+                <p>This section explores the quantum motion of the nuclei, which is fully determined by the electronic structure of the molecule. Nuclear dynamics are described by the time evolution of nuclear wave packets propagating on the electronic potential energy surfaces, where the gradients and curvature of the surfaces determine the forces acting on the nuclei and the character of the resulting motion.</p>
             </div>
         </div>
         <div class="navSection">
@@ -106,7 +106,7 @@
                 <figcaption class="graph_title">Hydrogen Cation Bonding and Antibonding PESs</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
                 <div class="info_box" id="energy-info" style="display: none;">
-                    <p>This plot displays the bonding and antibonding potential energy surfaces, \(E_B(R)\) and \(E_A(R)\), as functions of the internuclear distance \(R\). The bonding curve exhibits a minimum corresponding to the equilibrium bond length of the molecule, whereas the antibonding curve is purely repulsive, illustrating the absence of a stable nuclear configuration.</p>
+                    <p>This plot displays the bonding and antibonding potential energy surfaces (PESs), \(E_B(R)\) and \(E_A(R)\), as functions of the internuclear distance \(R\). The bonding curve exhibits a minimum corresponding to the equilibrium bond length of the molecule, whereas the antibonding curve is purely repulsive, illustrating the absence of a stable nuclear configuration.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart" class="hydrogen-cation-chart"></div>
@@ -158,10 +158,7 @@
                 <figcaption class="graph_title">Dynamics of Nuclear Wave Packets</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
                 <div class="info_box" id="nDynamicsMain-info" style="display: none;">
-                    <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
-                    <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule. The Green curve with the blue shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
-                    <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state. The Red curve with the orange shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
-                    <p>As you increase time, the probability density graphs will go from the <span title="The neutral ground state nuclear wavefunction of an H₂ system."><u>initial position, 1.4441 bohr,</u></span> to infinity. For the antibonding state, this is easy to see as the graph will forever be decreasing, so the lowest energy point is infinity. For the bonding state however though there is an energy minimum, because the energy in the system at 1.4441 bohr is greater than 0 it will go through the dip and forever try to reach an energy greater than 0 causing it to also disassociate</p>
+                    <p>This panel displays the time evolution of the nuclear wave packets, \(\chi(\mathbf{R},t)\), in the hydrogen molecular cation following sudden ionization from the neutral hydrogen molecule. The ionization process promotes the nuclear wave packet from the neutral state to the bonding and antibonding electronic states of the cation, which then evolve according to their respective potential energy landscapes. It illustrates how the different shapes of these electronic states influence the subsequent nuclear motion, including wave packet spreading and dissociation dynamics.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart-nuclear" class="hydrogen-cation-chart"></div>
@@ -172,8 +169,7 @@
                     <figcaption class="graph_title">Internuclear Distance</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
                     <div class="info_box" id="nDynamicsPos-info" style="display: none;">
-                        <p>This plot shows the expected internuclear radius of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
-                        <p>The green curve shows the average expected internuclear radius between the two states taking into account how much each state is populated.</p>
+                        <p>This panel displays the time evolution of the expectation value of the internuclear distance for the nuclear wave packets evolving on the bonding and antibonding electronic states. The individual curves show the nuclear motion associated with each electronic state, while their average represents the overall internuclear dynamics resulting from the coherent superposition of the states.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
@@ -183,9 +179,7 @@
                     <figcaption class="graph_title">Nuclear Momentum</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
                     <div class="info_box" id="nDynamicsMom-info" style="display: none;">
-                        <p>This shows the expected nuclear momentum of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
-                        <p>As time increases, the antibonding curve spikes up then levels out due to the initial steep slope of the energy curve then levels off. The blue curve starts by increasing as it moves along the steep curve then after it reaches the energy minimum it will start to slow down to a point as the slope of the energy curve levels off as well</p>
-                        <p>The green curve shows the average expected nuclear momentum between the two states taking into account how much each state is populated.</p>
+                        <p>This panel displays the time evolution of the expectation value of the nuclear momentum for the nuclear wave packets evolving on the bonding and antibonding electronic states. The momentum evolution provides information about the direction and rate of nuclear motion. The average momentum highlights the overall nuclear motion of the molecular system resulting from the combined contribution of the bonding and antibonding states.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
