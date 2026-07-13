@@ -108,7 +108,6 @@ body {
     margin: -1px;
     padding: 0;
     overflow: hidden;
-    /* overflow-x: auto; */
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
@@ -237,7 +236,6 @@ input[name="selection"]:focus-visible + .sectionLabel {
     border-radius: var(--radius);
     box-shadow: var(--shadow-card);
     padding: 12px 14px;
-    /* overflow: hidden; */
     transition: box-shadow 0.25s ease;
 }
 
@@ -253,10 +251,6 @@ input[name="selection"]:focus-visible + .sectionLabel {
     min-height: 0;
 }
 
-.stacked_graph_container .graph_container {
-    flex: 1 1 0;
-    min-height: 0;
-}
 
 .half_chart {
     display: flex;
@@ -307,12 +301,6 @@ input[name="selection"]:focus-visible + .sectionLabel {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-card);
-    padding: 12px 14px;
-    transition: box-shadow 0.25s ease;
 }
 
 .time_cs_box > .title_row + * {
@@ -770,6 +758,7 @@ button:active {
         height: 100%;
         width: 100%;
         min-width: 0;
+        min-height: 0;
     }
 
     .stacked_graph_container .graph_container {
@@ -831,6 +820,7 @@ button:active {
     .time_panels_row {
         grid-column: 2;
         grid-row: 2;
+        min-height: 0;
     }
 
     .radius_panels_row,
