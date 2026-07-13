@@ -815,9 +815,9 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         colorscale: 'Jet',
         showscale: false,},
         {x:exprx, y:exprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
-        {x:exprx, y:exprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}}, 
+        {x:exprx, y:exprA, name:'Antibonding Proton', line:{color:'yellow', dash:'dash'}}, 
         {x:exprx, y:nexprB, name:'Bonding Proton', line:{color:'yellow', dash:'dash'}}, 
-        {x:exprx, y:nexprA, name:'AntibondProton', line:{color:'yellow', dash:'dash'}},
+        {x:exprx, y:nexprA, name:'Antibonding Proton', line:{color:'yellow', dash:'dash'}},
         {x: [0, 0], y: [-10, 10], mode: 'lines', line: { color: 'white', dash: 'dash', width: 3 }, showlegend: false, hoverinfo: 'none' }
         ], 
         time_electron_density_layout, {...config, displayModeBar:false});
