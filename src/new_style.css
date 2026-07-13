@@ -76,7 +76,9 @@ body {
    ========================================================================= */
 
 .navbar {
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 60px;
     display: flex;
@@ -250,7 +252,6 @@ input[name="selection"]:focus-visible + .sectionLabel {
 }
 
 
-
 .half_chart {
     display: flex;
     flex-direction: column;
@@ -271,6 +272,7 @@ input[name="selection"]:focus-visible + .sectionLabel {
     justify-content: center;
     align-items: center;
     position: relative;
+    width: 100%;
     padding-bottom: 3px;
     margin-bottom: 2px;
 }
@@ -516,8 +518,33 @@ button:active {
     font-size: 14px;
     line-height: 1.55;
     color: var(--color-ink-soft);
-    z-index: 1;
+    z-index: 1000;
     animation: fadeIn 0.2s ease;
+    max-width: calc(100vw - 32px);
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+/* Controls row sits at the bottom of the page, so its info boxes must open
+   upward instead of downward or they'd render off the bottom of the viewport. */
+.time_cs_box .info_box {
+    top: auto;
+    bottom: 100%;
+}
+
+.summary_box {
+    width: 340px;
+}
+
+.info_box p {
+    margin: 0 0 8px;
+}
+
+.info_box p:last-child {
+    margin-bottom: 0;
 }
 
 .info_box u {
@@ -558,6 +585,9 @@ button:active {
     font-family: var(--font-serif);
     color: var(--color-ink);
     line-height: 1.65;
+    text-align: justify;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 .about-modal-content p:first-of-type b {
@@ -814,7 +844,6 @@ button:active {
         border-radius: var(--radius);
         box-shadow: var(--shadow-card);
         padding: 12px 14px;
-        overflow: hidden;
         transition: box-shadow 0.25s ease;
     }
 
@@ -835,6 +864,7 @@ button:active {
     .info_box {
         left: 25%;
         width: 75%;
+        max-height: calc(100vh - 140px);
     }
 
     .summary_box {
@@ -842,7 +872,8 @@ button:active {
         top: 60px;
         left: 16px;
         width: 50vw;
-        z-index: 3;
+        max-width: calc(100vw - 32px);
+        max-height: calc(100vh - 80px);
     }
 }
 
@@ -853,11 +884,7 @@ button:active {
     }
 
     .navbar {
-        position: sticky;
-        height: 60px;
-        top: 0;
-        left: 0;
-        overflow-y:hidden;
+        overflow-y: hidden;
     }
 
     .sectionLabel {
@@ -928,6 +955,7 @@ button:active {
     .info_box {
         left: 0;
         width: 100%;
+        max-height: 50vh;
     }
 
     .summary_box {
@@ -935,6 +963,6 @@ button:active {
         top: 60px;
         left: 5px;
         width: calc(100vw - 10px);
-        z-index: 3;
+        max-height: calc(100vh - 80px);
     }
 }

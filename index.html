@@ -44,22 +44,30 @@
         <div class="navSection">
             <input id="rStatic" type="radio" name="selection" value="static">
             <label for="rStatic" class="sectionLabel">Electronic Structure<i class="fas fa-info-circle info_icon" onclick="info_toggle('static-summary')"></i></label>
-            <div class="info_box summary_box" id="static-summary" style="display: none;"><p><strong>Summary:</strong> <span title="Interaction between two or more atoms"><u>In molecular systems</u></span>, the total energy of the system is highly dependent on the distance between the nuclei which make up the molecule. As these nuclei move, the electronic clouds change shape, and the total energy of the system changes. Molecules can have different <span title="Energy levels"><u>electronic "states"</u></span> which correspond to different solutions of the <span title="Describes how a quantum system moves and changes over time"><u>Schrödinger equation</u></span>. Here we show the energy of two states of H<sub>2</sub><sup>+</sup>, the <span title="Diatomic: Two atoms&#013;Cation: Positively charged molecule"><u>diatomic hydrogen cation</u></span>. We also plot the <span title="Probability density of an electron"><u>electronic density</u></span> for each state which tells the probability of finding an electron in space at a given position.</p></div>
+            <div class="info_box summary_box" id="static-summary" style="display: none;">
+                <p>This section explores the stationary electronic states of the hydrogen molecular cation obtained by solving the electronic Schrödinger equation within the linear combination of atomic orbitals (LCAO) framework. It illustrates the formation of bonding and antibonding electronic states, their corresponding potential energy surfaces, and the associated electron probability densities.</p>
+            </div>
         </div>
         <div class="navSection">
             <input id="re_dynamic" type="radio" name="selection" value="e_dynamic">
             <label for="re_dynamic" class="sectionLabel">Electron Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('eDynamics-summary')"></i></label>
-            <div class="info_box summary_box" id="eDynamics-summary" style="display: none;">In quantum mechanics a system can be in a "superposition" of states. This means that there is some probability of finding the system in one of multiple states (the system is 'in multiple states at once'). When a molecule is prepared in a superposition of <span title="Energy levels"><u>electronic states</u></span>, the total <span title="Probability density of an electron"><u>electronic density</u></span> is not just the sum of the two state's densities. This is because an interference yields a time dependent density. Here we show this density as a function of time, <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>, and the superposition population of each electronic state.</div>
+            <div class="info_box summary_box" id="eDynamics-summary" style="display: none;">
+                <p>This section explores the coherent evolution of the electronic wavefunction formed by a superposition of the bonding and antibonding electronic states. The time-dependent electron probability density illustrates how quantum interference between stationary electronic states gives rise to oscillatory charge redistribution within the molecule. By varying the composition of the electronic superposition and following its evolution in time, the relationship between the stationary electronic structure and the electron dynamics can be explored interactively.</p>
+            </div>
         </div>
         <div class="navSection">
             <input id="rn_dynamic" type="radio" name="selection" value="n_dynamic">
             <label for="rn_dynamic" class="sectionLabel">Nuclear Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('nDynamics-summary')"></i></label>
-            <div class="info_box summary_box" id="nDynamics-summary" style="display: none;">In addition to electronic dynamics, molecules have nuclear dynamics defined by the <span title="Slope/steepness of the line"><u>gradient</u></span> of the potential energy curve of the electronic state. Here we simulate the dynamics of the nuclear wavefunction using the Multi-Configurable Time Dependent Hartree algorithm (MCTDH), assuming <span title="The neutral system is ionized at some radius which directly corresponds to the starting radius of the higher electronic states."><u>vertical ionization of the neutral ground state nuclear wavefunction</u></span>. Because the bonding and antibonding electronic state's potential energy surfaces have a different shape, the nuclear wavefunction evolves differently for each, which we then show through tht expectation value for position and momentum.</div>
+            <div class="info_box summary_box" id="nDynamics-summary" style="display: none;">
+                <p>This section explores the quantum motion of the nuclei, which is fully determined by the electronic structure of the molecule. Nuclear dynamics are described by the time evolution of nuclear wave packets propagating on the electronic potential energy surfaces, where the gradients and curvature of the surfaces determine the forces acting on the nuclei and the character of the resulting motion.</p>
+            </div>
         </div>
         <div class="navSection">
             <input id="ren_dynamic" type="radio" name="selection" value="en_dynamic">
             <label for="ren_dynamic" class="sectionLabel">Full Quantum Dynamics<i class="fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-summary')"></i></label>
-            <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">To be able to do full quantum molecular dynamics we must combine electron and nuclear dynamics where they are "coupled".</div>
+            <div class="info_box summary_box" id="fullDynamics-summary" style="display: none;">
+                <p>This section explores the coupled evolution of electronic and nuclear degrees of freedom in the hydrogen molecular cation following ionization. The full molecular wavefunction describes the simultaneous dynamics of the electronic state and the nuclear wave packets, capturing the interplay between electronic coherence and nuclear motion.</p>
+            </div>
         </div>
         <button class="aboutButton" onclick="toggle_about()">About</button>
     </div>
@@ -98,9 +106,7 @@
                 <figcaption class="graph_title">Hydrogen Cation Bonding and Antibonding PESs</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('energy-info')"></i>
                 <div class="info_box" id="energy-info" style="display: none;">
-                    <p>This plot shows the energy difference between the ground state energy of a hydrogen atom and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
-                    <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule.</p>
-                    <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state.</p>
+                    <p>This plot displays the bonding and antibonding potential energy surfaces (PESs), \(E_B(R)\) and \(E_A(R)\), as functions of the internuclear distance \(R\). The bonding curve exhibits a minimum corresponding to the equilibrium bond length of the molecule, whereas the antibonding curve is purely repulsive, illustrating the absence of a stable nuclear configuration.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart" class="hydrogen-cation-chart"></div>
@@ -111,8 +117,7 @@
                     <figcaption class="graph_title">Electron Probability Density of Bonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('bondProb-info')"></i>
                     <div class="info_box" id="bondProb-info" style="display: none;">
-                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the bonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty is concentrated in between the nuclei because the two atomic orbitals of hydrogen constructively interfere in this state</p>
-                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                        <p>This plot shows the electron probability density, \(\rho_{BB}(\mathbf{r})=|\Phi_B(\mathbf{r})|^2\), of the bonding electronic state for the selected internuclear distance. The constructive interference of the atomic orbitals leads to an increased electron density between the two nuclei, giving rise to the chemical bond. The red dots indicate the positions of the nuclei (protons) in the H<sub>2</sub><sup>+</sup> molecular ion.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-bond-probability-chart" class="hydrogen-cation-chart"></div>
@@ -122,8 +127,7 @@
                     <figcaption class="graph_title">Electron Probability Density of Antibonding State</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('antiBondProb-info')"></i>
                     <div class="info_box" id="antiBondProb-info" style="display: none;">
-                        <p>This plot shows the probability density of the electronic wavefunction corresponding to the antibonding state. This density represents the likelihood that the electron will be found in a particular region of space. The densty in between the nuclei is 0 because the two atomic orbitals of hydrogen destructively interfere in this state. The point at which the probability is 0 is called a bonding "node".</p>
-                        <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
+                        <p>This plot displays the electron probability density, \(\rho_{AA}(\mathbf{r})=|\Phi_A(\mathbf{r})|^2\), of the antibonding electronic state. Destructive interference between the atomic orbitals produces a nodal region between the nuclei, reducing the electron density in the bonding region and resulting in a repulsive interaction.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-antibond-probability-chart" class="hydrogen-cation-chart"></div>
@@ -133,7 +137,7 @@
                     <figcaption class="graph_title">Transition Electron Density</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('transition-info')"></i>
                     <div class="info_box" id="transition-info" style="display: none;">
-
+                        <p>This plot illustrates the transition electron density, \(\rho_{BA}(\mathbf{r})=\Phi^{*}_B(\mathbf{r})\Phi_A(\mathbf{r})\), corresponding to the off-diagonal element of the electronic density matrix. Unlike the electron densities of the states, the transition density describes the redistribution of electronic charge associated with a transition between two quantum states. It reveals where the excitation originates, where electron density is transferred, and how strongly different regions of the molecule participate in processes such as optical excitation, charge migration, and light-matter interaction. This quantity therefore plays an important role in the ultrafast quantum dynamics discussed in the following sections.</p>
                     </div>
                 </div>
                 <div id="transition-probability-chart" class="hydrogen-cation-chart"></div>
@@ -144,10 +148,7 @@
                 <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('eDynamic-info')"></i>
                 <div class="info_box" id="eDynamic-info" style="display: none;">
-                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states. This density represents the likelihood that the electron will be found in a particular region of space. The density oscillates across time with a period proportional to the energy difference between the two states.</p>
-                    <p>The red dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> system.</p>
-                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
-                    <p>We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become each of the respective graphs from the Static screen regardless of time.</p>
+                    <p>This plot displays the time-dependent electron probability density, \(\rho(\mathbf{r},t)\), corresponding to the selected coherent superposition of the bonding and antibonding states. The electron density oscillates between the two sides of the molecule as the relative phase between the stationary electronic states evolves in time, providing a direct visualization of ultrafast electron motion. By adjusting the expansion coefficients, the slider controls the contribution of the bonding and antibonding states to the superposition. When the superposition approaches a purely bonding or purely antibonding state, the electron density converges to the corresponding stationary distributions shown in the static analysis. The red dots indicate the positions of the nuclei (protons) in the H<sub>2</sub><sup>+</sup> molecular ion.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-electron-dynamics-chart" class="hydrogen-cation-chart"></div>
@@ -157,10 +158,7 @@
                 <figcaption class="graph_title">Dynamics of Nuclear Wave Packets</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMain-info')"></i>
                 <div class="info_box" id="nDynamicsMain-info" style="display: none;">
-                    <p>This plot shows the energy difference between the ground state and the first excited state of H<sub>2</sub><sup>+</sup>, diatomic hydrogen cation. The energy is dependent on the <span title="Radius between the two protons/hydrogen atoms"><u>internuclear distance</u></span>(R)</p>
-                    <p>The blue curve shows the energy of the molecule in a 'bonding' electronic state. This curve shows that at some radius R<sub>0</sub> the energy is minimized, showing a stable equilibrium. This internuclear distance is the chemical bond distance of the molecule. The Green curve with the blue shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
-                    <p>The orange curve shows the energy of the molecule in an 'antibonding' electronic state. The curve shows that there is no internuclear distance at which the energy is minimized; instead, the energy forever decreases as the internuclear distance increases, showing a dissociative state. The Red curve with the orange shaded region represents the probability density of the internuclear distance with respect to time for the bonding state.</p>
-                    <p>As you increase time, the probability density graphs will go from the <span title="The neutral ground state nuclear wavefunction of an H₂ system."><u>initial position, 1.4441 bohr,</u></span> to infinity. For the antibonding state, this is easy to see as the graph will forever be decreasing, so the lowest energy point is infinity. For the bonding state however though there is an energy minimum, because the energy in the system at 1.4441 bohr is greater than 0 it will go through the dip and forever try to reach an energy greater than 0 causing it to also disassociate</p>
+                    <p>This panel displays the time evolution of the nuclear wave packets, \(\chi(\mathbf{R},t)\), in the hydrogen molecular cation following sudden ionization from the neutral hydrogen molecule. The ionization process promotes the nuclear wave packet from the neutral state to the bonding and antibonding electronic states of the cation, which then evolve according to their respective potential energy landscapes. It illustrates how the different shapes of these electronic states influence the subsequent nuclear motion, including wave packet spreading and dissociation dynamics.</p>
                 </div>
             </div>
             <div id="hydrogen-cation-energy-chart-nuclear" class="hydrogen-cation-chart"></div>
@@ -171,8 +169,7 @@
                     <figcaption class="graph_title">Internuclear Distance</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsPos-info')"></i>
                     <div class="info_box" id="nDynamicsPos-info" style="display: none;">
-                        <p>This plot shows the expected internuclear radius of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
-                        <p>The green curve shows the average expected internuclear radius between the two states taking into account how much each state is populated.</p>
+                        <p>This panel displays the time evolution of the expectation value of the internuclear distance for the nuclear wave packets evolving on the bonding and antibonding electronic states. The individual curves show the nuclear motion associated with each electronic state, while their average represents the overall internuclear dynamics resulting from the coherent superposition of the states.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-position-chart" class="hydrogen-cation-chart"></div>
@@ -182,9 +179,7 @@
                     <figcaption class="graph_title">Nuclear Momentum</figcaption>
                     <i class=" fas fa-info-circle info_icon" onclick="info_toggle('nDynamicsMom-info')"></i>
                     <div class="info_box" id="nDynamicsMom-info" style="display: none;">
-                        <p>This shows the expected nuclear momentum of the two states with respect to time. The blue graph (lower) represents the bonding state, and the orange graph (upper) represents the antibonding state.</p>
-                        <p>As time increases, the antibonding curve spikes up then levels out due to the initial steep slope of the energy curve then levels off. The blue curve starts by increasing as it moves along the steep curve then after it reaches the energy minimum it will start to slow down to a point as the slope of the energy curve levels off as well</p>
-                        <p>The green curve shows the average expected nuclear momentum between the two states taking into account how much each state is populated.</p>
+                        <p>This panel displays the time evolution of the expectation value of the nuclear momentum for the nuclear wave packets evolving on the bonding and antibonding electronic states. The momentum evolution provides information about the direction and rate of nuclear motion. The average momentum highlights the overall nuclear motion of the molecular system resulting from the combined contribution of the bonding and antibonding states.</p>
                     </div>
                 </div>
                 <div id="hydrogen-cation-nuclear-momentum-chart" class="hydrogen-cation-chart"></div>
@@ -196,7 +191,7 @@
                     <figcaption class="graph_title">Electronic Coherence</figcaption>
                     <i class="fas fa-info-circle info_icon" onclick="info_toggle('overlap-info')"></i>
                     <div class="info_box" id="overlap-info" style="display: none;">
-                        <p>This graph shows the nuclear coherence between the bonding and antibonding states. The imaginary and real component of the coherence come from the complex nuclear wave function. The phase represents the interference between the two wavefunctions phases. We can see how the magnitude directly correlates to the maximum of the 2*<ψ1|p|ψ2><χ1|χ2> part of the total probability graph.</p>
+                        <p>This panel displays the time evolution of the electronic coherence between the bonding and antibonding states, characterized by the overlap of the corresponding nuclear wave packets. The coherence initially enables quantum interference between the electronic states and drives coherent electron motion. As the nuclear wave packets evolve and separate due to the different forces acting on the electronic states, the coherence decreases, leading to the gradual suppression of coherent electronic oscillations.</p>
                     </div>
                 </div>
                 <div id="nuclear-overlap-chart" class="hydrogen-cation-chart"></div>
@@ -206,7 +201,7 @@
                     <figcaption class="graph_title">Dynamics of Electron Probability Density</figcaption>
                     <i class="fas fa-info-circle info_icon" onclick="info_toggle('electronicOverlap-info')"></i>
                     <div class="info_box" id="electronicOverlap-info" style="display: none;">
-
+                        This contour plot provides a spatial representation of the time-dependent electron probability density, highlighting the coupled electron-nuclear dynamics of the hydrogen molecular cation. Following ionization, the electron initially undergoes coherent oscillations driven by the superposition of bonding and antibonding electronic states. As the nuclear wave packets evolve and the nuclei move apart, the electronic coherence gradually diminishes, suppressing the oscillatory charge redistribution. At later times, the electron density evolves together with the separating nuclei, illustrating the transition from coherent electron motion to dynamics governed by the nuclear motion.
                     </div>
                 </div>
                 <div id="time-electron-density-chart" class="hydrogen-cation-chart"></div>
@@ -217,11 +212,8 @@
                 <figcaption class="graph_title">Time-Dependent Electron Probability Density</figcaption>
                 <i class=" fas fa-info-circle info_icon" onclick="info_toggle('fullDynamics-info')"></i>
                 <div class="info_box" id="fullDynamics-info" style="display: none;">
-                    <p>This plot shows the probability density of the electronic wavefunction corresponding to the superposition of the bonding and antibonding states as well as the expected nuclear dynamics. This density represents the likelihood that the electron will be found in a particular region of space. The density changes across time initially similar the pure electron dynamics, then as the two states nuclear overlap/coherence decreases it mostly becomes a combination of the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> and <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> parts.</p>
-                    <p>The purple dots represent the nuclei/protons in the H<sub>2</sub><sup>+</sup> bonding state. The yellow dots represent the nuclei/protons in the antibonding state </p>
-                    <p>The two constants c1 and c2 represent the states of superposition where c1 represents the bonding state and c2 represents the antibonding state.</p>
-                    <p>The orange graph shows the <ψ<sub>1</sub>|<i>p</i>|ψ<sub>1</sub>><χ<sub>1</sub>|χ<sub>1</sub>> part of the total probability chart. This part represents the probability density squared for the bonding electronic state wave function ψ<sub>1</sub> multiplied by the probability density squared of the bonding nuclear state wave function χ<sub>1</sub> radii. The green graph shows the <ψ<sub>2</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>2</sub>|χ<sub>2</sub>> part of the total probability chart. This part represents the probability density squared for the antibonding electronic state wave function ψ<sub>2</sub> multiplied by the probability density squared of the antibonding nuclear state wave function χ<sub>2</sub> across all radii. The red graph shows the 2*<ψ<sub>1</sub>|<i>p</i>|ψ<sub>2</sub>><χ<sub>1</sub>|χ<sub>2</sub>> part of the total probability graph. This part represents the overlap of the bonding and antibonding state's electronic probability density wave functions ψ<sub>1</sub> and ψ<sub>2</sub> multiplied by the overlap of the bonding and antibonding state's nuclear probability density wave functions χ<sub>1</sub> and χ<sub>2</sub> across all radii</p>
-                    <p>The blue graph shows the true electronic probability density function with respect to time which is the summation of the 3 parts. We can see that as the superposition states go to either 100% bonding or 100% antibonding that the probability density will become the respective part.</p>
+                    <p>This panel displays the time-dependent electron probability density, \(\rho(\mathbf{r},t)\), obtained from the full molecular wavefunction by including both electronic and nuclear dynamics. At early times, when the nuclear wave packets associated with the bonding and antibonding states still strongly overlap, the electron density evolves similarly to the purely electronic case, exhibiting coherent charge oscillations driven by interference between the two electronic states. As the nuclear wave packets evolve on their respective potential energy surfaces and their overlap decreases, the electronic coherence gradually diminishes, suppressing the interference-driven oscillations. At later times, the electron density is dominated by the contributions from the individual electronic states, \(\int \rho_A |\chi_A|^2 dR\) and \(\int \rho_B |\chi_B|^2 dR\), and the electronic motion becomes primarily coupled to the ongoing nuclear dynamics.</p>
+                    <p>The blue dots indicate the positions of the protons associated with the bonding-state nuclear wave packet, while the orange dots indicate the positions of the protons associated with the antibonding-state nuclear wave packet. Their separation illustrates the different nuclear evolution pathways on the corresponding electronic states and highlights the coupling between nuclear motion and the evolving electron density.</p>
                 </div>
             </div>
             <div id="fullDynamics-probability-chart" class="hydrogen-cation-chart"></div>
@@ -233,7 +225,7 @@
                         <span class="graph_title">Internuclear Distance</span>
                         <i class="fas fa-info-circle info_icon" onclick="info_toggle('radiusSlider-info')"></i>
                         <div class="info_box" id="radiusSlider-info" style="display: none;">
-                            <p>TBD text</p>
+                            <p>This slider controls the separation \(R\) between the two nuclei. Adjusting this parameter updates the position of the nuclei and all electron density plots in real time, allowing the changes in the molecular electronic structure with bond length to be explored interactively.</p>
                         </div>
                     </div>
                     <div class="radius_slider_container">
@@ -266,7 +258,7 @@
                         <span class="graph_title">Expansion Coefficients</span>
                         <i class="fas fa-info-circle info_icon" onclick="info_toggle('expansionCoeff-info')"></i>
                         <div class="info_box" id="expansionCoeff-info" style="display: none;">
-                            <p>TBD text</p>
+                            <p>These sliders control the amplitudes of the bonding and antibonding electronic states in the time-dependent wavefunction. Changing these coefficients modifies the populations of the stationary states and the magnitude of the electronic coherence, thereby determining the strength of the time-dependent charge redistribution. Pure stationary states produce a time-independent electron density, whereas superpositions lead to coherent electron dynamics.</p>
                         </div>
                     </div>
                     <div class="input_row">
@@ -287,7 +279,7 @@
                         <span class="graph_title">Time</span>
                         <i class="fas fa-info-circle info_icon" onclick="info_toggle('timeSlider-info')"></i>
                         <div class="info_box" id="timeSlider-info" style="display: none;">
-                            <p>TBD text</p>
+                            <p>This slider controls the evolution time of the quantum system. Changing this parameter allows the temporal evolution of the corresponding wavefunction and observables to be explored, revealing how electronic and nuclear degrees of freedom evolve and interact over time.</p>
                         </div>
                     </div>
                     <div class="input_row">
