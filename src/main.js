@@ -332,10 +332,6 @@ const time_electron_density_layout = {
         range: [-6,6],
         automargin: false
     },
-    shapes: [{
-        type: 'line', line: { color: 'white', dash: 'dash', width:3 },
-        x0: 0, y0: -10, x1: 0, y1: 10,
-    }],
     margin: { l: 55, r: 15, b: 55, t: 10, pad: 0 },
 }
 
