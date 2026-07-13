@@ -744,7 +744,7 @@ button:active {
     .graph_section_container {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-template-rows: 4fr 1fr;
+        grid-template-rows: 1fr auto;
         align-items: stretch;
         gap: 12px;
         height: calc(100vh - 60px - 20px);
@@ -820,7 +820,6 @@ button:active {
     .time_panels_row {
         grid-column: 2;
         grid-row: 2;
-        min-height: 0;
     }
 
     .radius_panels_row,
