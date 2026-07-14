@@ -369,7 +369,7 @@ function default_values() {
 
 let animationFrameId = null;
 let lastTimestamp = null;
-let animationSpeed = 0.5;  //Femtosecond(s) per second
+let animationSpeed = 0.25;  //Femtosecond(s) per second
 
 function startTime() {
     if (iterate_time) return; 
