@@ -147,7 +147,7 @@ function eDynamics_probability_Curve(radius, distance, time = 0, c = [Math.sqrt(
     const c1_sq = c[1] * c[1];
     const pBond = c0_sq * (waveFunction1 + waveFunction2 + sum) / normalizeBond;
     const pAnti = c1_sq * (waveFunction1 + waveFunction2 - sum) / normalizeAnti;
-    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (normalizeAnti * normalizeBond) * Math.cos((time * (E1 - E2)) / hbar_eVfs);
+    const pCross = 2 * c[0] * c[1] * (waveFunction1 - waveFunction2) / (Math.sqrt(normalizeAnti * normalizeBond)) * Math.cos((time * (E1 - E2)) / hbar_eVfs);
 
     return pBond + pAnti + pCross;
 }
@@ -663,7 +663,7 @@ Plotly.react('hydrogen-cation-antibond-probability-chart', [
     { x: probability_x, line: { color: antibondingColor }, name: '|<i>ψ</i><sub>A</sub>(R)|<sup>2</sup>' },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
 ], layout_prob, config);
-Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:multiUseColor}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.3, 0.3]}}, config);
+Plotly.react('transition-probability-chart', [{x: probability_x, line: {color:multiUseColor}, name:'ψ</i><sub>A</sub>(R)ψ</i><sub>B</sub>(R)'},{ y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: 'red' }, name: 'proton' }], {...layout_prob, yaxis:{...layout_prob.yaxis, range:[-0.3, 0.3], title:{text:'Amplitude'}}}, config);
 Plotly.react('hydrogen-cation-electron-dynamics-chart', [
     { x: probability_x, name: '|<i>ψ</i>(R,t)|<sup>2</sup>', line:{color: probColor_nonSpecific} },
     { y: [0, 0], mode: 'markers', type: 'scatter', marker: { size: 12, color: protonStandardColor }, name: 'proton' },
@@ -789,7 +789,7 @@ fetch('qdata.json').then(response => response.json()).then(data => {
         showlegend: true,
         legend: { x: 1, y: 1, xanchor: 'right', yanchor: 'top', bgcolor: LEGEND_BGCOLOR },
         xaxis: {title: { text: 'r [Bohr]' }, range: [-10, 10] },
-        yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.6] },
+        yaxis: { title: { text: 'Probability' }, range: [-0.3, 0.65] },
     }, config);
 
     Plotly.react('nuclear-overlap-chart', [
